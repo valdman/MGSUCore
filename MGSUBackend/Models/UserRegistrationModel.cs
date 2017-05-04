@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson;
 
 namespace MGSUBackend.Models
 {
@@ -7,8 +6,10 @@ namespace MGSUBackend.Models
     {
         [Required]
         public string FirstName { get; set; }
+
         [Required]
         public string MiddleName { get; set; }
+
         [Required]
         public string LastName { get; set; }
 

@@ -11,6 +11,13 @@ namespace UserManagment
 {
     public class UserManager : IUserManager
     {
+        private readonly IRepository<User> _userRepository;
+
+        public UserManager(IRepository<User> userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
         public User GetUserById(ObjectId id)
         {
             Require.NotNull(id, nameof(id));
@@ -42,13 +49,6 @@ namespace UserManagment
             Require.NotNull(userId, nameof(userId));
 
             _userRepository.Delete(userId);
-        }
-
-        private readonly IRepository<User> _userRepository;
-
-        public UserManager(IRepository<User> userRepository)
-        {
-            _userRepository = userRepository;
         }
     }
 }

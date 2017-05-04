@@ -112,6 +112,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ImageModel.cs" />
+    <Compile Include="Models\Mappers\ObjectMapper.cs" />
     <Compile Include="Models\Mappers\PostMapper.cs" />
     <Compile Include="Models\Mappers\UserMapper.cs" />
     <Compile Include="Models\PostModel.cs" />

@@ -18,10 +18,8 @@ namespace Common
 
                 var sBuilder = new StringBuilder();
 
-                foreach (byte t in data)
-                {
+                foreach (var t in data)
                     sBuilder.Append(t.ToString("x2"));
-                }
 
                 // Return the hexadecimal string.
                 Hash = sBuilder.ToString();
@@ -41,7 +39,7 @@ namespace Common
         public static Password FromPlainString(string value)
         {
             Require.NotEmpty(value, nameof(value));
-            return new Password { Hash = value };
+            return new Password {Hash = value};
         }
 
         public Password GetHashed()
@@ -58,13 +56,13 @@ namespace Common
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Password)obj);
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Password) obj);
         }
 
         public override int GetHashCode()
         {
-            return (Hash != null ? Hash.GetHashCode() : 0);
+            return Hash != null ? Hash.GetHashCode() : 0;
         }
 
         public static bool IsStringCorrectPassword(string passwordToCheck)

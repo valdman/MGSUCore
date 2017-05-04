@@ -1,5 +1,4 @@
-﻿using System.Net.Mail;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using UserManagment.Entities;
 
 namespace MGSUBackend.Models.Mappers

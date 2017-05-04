@@ -10,6 +10,13 @@ namespace PostManagment
 {
     public class PostManager : IPostManager
     {
+        private readonly IRepository<Post> _postRepository;
+
+        public PostManager(IRepository<Post> postRepository)
+        {
+            _postRepository = postRepository;
+        }
+
         public Post GetPostById(ObjectId postId)
         {
             Require.NotNull(postId, nameof(postId));
@@ -48,13 +55,6 @@ namespace PostManagment
             Require.NotNull(postId, nameof(postId));
 
             _postRepository.Delete(postId);
-        }
-
-        private readonly IRepository<Post> _postRepository;
-
-        public PostManager(IRepository<Post> postRepository)
-        {
-            _postRepository = postRepository;
         }
     }
 }

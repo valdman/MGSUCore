@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.Mail;
 using DataAccess;
 using DataAccess.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +12,8 @@ namespace MGSUBackend.Tests
     [TestClass]
     public class DBConnectionTest
     {
+        private Stack<ObjectId> _userIdsToDelete;
+
         [TestInitialize]
         public void Setup()
         {
@@ -77,11 +78,7 @@ namespace MGSUBackend.Tests
             var userRepo = new Repository<User>(sessionProvider);
 
             while (_userIdsToDelete.Count > 0)
-            {
                 userRepo.Delete(_userIdsToDelete.Pop());
-            }
         }
-
-        private Stack<ObjectId> _userIdsToDelete;
     }
 }

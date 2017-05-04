@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Web.Http;
-using FileManagment.Entities;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
 using MongoDB.Bson;
@@ -16,6 +13,13 @@ namespace MGSUBackend.Controllers
 {
     public class PostController : ApiController
     {
+        private readonly IPostManager _postManager;
+
+        public PostController(IPostManager postManager)
+        {
+            _postManager = postManager;
+        }
+
         // GET: api/Post?one=value&two=secondValue
         public IEnumerable<PostModel> Get()
         {
@@ -34,71 +38,40 @@ namespace MGSUBackend.Controllers
         }
 
         // GET: api/Post/5
-        public PostModel Get(string id)
+        public IHttpActionResult Get(string id)
         {
             if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    ReasonPhrase = ModelState.ToString()
-                });
-            }
+                return BadRequest(ModelState);
 
             var postToReturn = _postManager.GetPostById(new ObjectId(id));
 
             if (postToReturn == null)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    ReasonPhrase = "Post not found"
-                });
-            }
+                return NotFound();
 
-            return
-                PostMapper.PostToPostModel(postToReturn);
+            return Ok(PostMapper.PostToPostModel(postToReturn));
         }
-     
+
         // POST: api/Post
-        public string Post([FromBody]PostModel postModel)
+        public IHttpActionResult Post([FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    ReasonPhrase = ModelState.ToString()
-                });
-            }
+                return BadRequest(ModelState);
 
             var postToCreate = PostMapper.PostModelToPost(postModel);
 
-            return _postManager.CreatePost(postToCreate).ToString();
+            return Ok(_postManager.CreatePost(postToCreate).ToString());
         }
 
         // PUT: api/Post/5
-        public void Put(string id, [FromBody]PostModel postModel)
+        public IHttpActionResult Put(string id, [FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    ReasonPhrase = ModelState.ToString()
-                });
-            }
+                return BadRequest(ModelState);
 
             var oldPost = _postManager.GetPostById(new ObjectId(id));
 
             if (oldPost == null)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    ReasonPhrase = "Post with this id not found"
-                });
-            }
+                return NotFound();
 
             var postToUpdate = new Post
             {
@@ -111,30 +84,19 @@ namespace MGSUBackend.Controllers
             };
 
             _postManager.UpdatePost(postToUpdate);
+            return Ok();
         }
 
         // DELETE: api/Post/5
-        public void Delete(string id)
+        public IHttpActionResult Delete(string id)
         {
             var oldPost = _postManager.GetPostById(new ObjectId(id));
 
             if (oldPost == null)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    ReasonPhrase = "Post with this id not found"
-                });
-            }
+                return NotFound();
 
             _postManager.DeletePost(new ObjectId(id));
-        }
-
-        private readonly IPostManager _postManager;
-
-        public PostController(IPostManager postManager)
-        {
-            _postManager = postManager;
+            return Ok();
         }
     }
 }

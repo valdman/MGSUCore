@@ -7,8 +7,8 @@
     <ProjectGuid>{8B53A506-B4DF-4D26-9CB6-AF329CFEDC6D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PostManager</RootNamespace>
-    <AssemblyName>PostManager</AssemblyName>
+    <RootNamespace>PostManagment</RootNamespace>
+    <AssemblyName>PostManagment</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

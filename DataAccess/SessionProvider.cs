@@ -1,6 +1,7 @@
 ﻿using DataAccess.Application;
 using Journalist;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Configuration;
 
 namespace DataAccess
 {
@@ -13,7 +14,7 @@ namespace DataAccess
         {
             Require.NotEmpty(connectionString, nameof(connectionString));
 
-            var connectionStringValidated = new MongoDB.Driver.Core.Configuration.ConnectionString(connectionString);
+            var connectionStringValidated = new ConnectionString(connectionString);
 
             _client = new MongoClient(connectionStringValidated.ToString());
             _database = _client.GetDatabase(connectionStringValidated.DatabaseName);

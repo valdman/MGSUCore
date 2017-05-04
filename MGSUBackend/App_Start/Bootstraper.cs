@@ -3,12 +3,10 @@ using System.Web.Http;
 using DataAccess;
 using DataAccess.Application;
 using DataAccess.Repositories;
-using MongoDB.Driver;
 using PostManagment;
 using SimpleInjector;
 using UserManagment;
 using UserManagment.Application;
-using UserManagment.Entities;
 
 namespace MGSUBackend
 {
@@ -16,7 +14,7 @@ namespace MGSUBackend
     {
         public Container Configure()
         {
-            var container  = new Container();
+            var container = new Container();
             container.Register(GetSessionProvider, Lifestyle.Singleton);
             container.Register<ISessionProvider>(() => container.GetInstance<SessionProvider>(), Lifestyle.Singleton);
             container.Register(typeof(IRepository<>), typeof(Repository<>), Lifestyle.Singleton);

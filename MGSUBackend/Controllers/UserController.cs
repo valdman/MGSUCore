@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using Common;
-using DataAccess.Application;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
 using MongoDB.Bson;
@@ -17,6 +13,13 @@ namespace MGSUBackend.Controllers
 {
     public class UserController : ApiController
     {
+        private readonly IUserManager _userManager;
+
+        public UserController(IUserManager userManager)
+        {
+            _userManager = userManager;
+        }
+
         // GET: User
         public IEnumerable<UserModel> Get()
         {
@@ -25,41 +28,26 @@ namespace MGSUBackend.Controllers
         }
 
         // GET: User/5
-        public UserModel Get(string id)
+        public IHttpActionResult Get(string id)
         {
             if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    ReasonPhrase = ModelState.ToString()
-                });
-            }
+                return BadRequest(ModelState);
 
             var user = _userManager.GetUserById(new ObjectId(id));
             if (user == null)
-            {
-                throw new HttpResponseException(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.NotFound
-                });
-            }
+                return NotFound();
 
-            return UserMapper.UserToUserModel(user);
+            return Ok(UserMapper.UserToUserModel(user));
         }
 
         // POST: User
-        public IHttpActionResult Post([FromBody]UserRegistrationModel userModel)
+        public IHttpActionResult Post([FromBody] UserRegistrationModel userModel)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             if (!Password.IsStringCorrectPassword(userModel.Password))
-            {
                 return BadRequest("Password is not satisfy security requirements");
-            }
 
             var userToCreate = new User
             {
@@ -80,17 +68,13 @@ namespace MGSUBackend.Controllers
         }
 
         // PUT: User/5
-        public IHttpActionResult Put(string id, [FromBody]UserModel userModel)
+        public IHttpActionResult Put(string id, [FromBody] UserModel userModel)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             if (_userManager.GetUserById(new ObjectId(id)) == null)
-            {
                 return NotFound();
-            }
 
             var userToUpdateNew = UserMapper.UserModelToUser(userModel);
             _userManager.UpdateUser(userToUpdateNew);
@@ -102,25 +86,14 @@ namespace MGSUBackend.Controllers
         public IHttpActionResult Delete(string id)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             if (_userManager.GetUserById(new ObjectId(id)) == null)
-            {
                 return NotFound();
-            }
 
             _userManager.DeleteUser(new ObjectId(id));
 
             return Ok();
-        }
-
-        private readonly IUserManager _userManager;
-
-        public UserController(IUserManager userManager)
-        {
-            _userManager = userManager;
         }
     }
 }

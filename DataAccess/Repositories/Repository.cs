@@ -12,6 +12,13 @@ namespace DataAccess.Repositories
 {
     public class Repository<T> : IRepository<T> where T : PersistentEntity
     {
+        private readonly IMongoCollection<T> _collection;
+
+        public Repository(SessionProvider sessionProvider)
+        {
+            _collection = sessionProvider.GetCollection<T>();
+        }
+
         public T GetById(ObjectId id)
         {
             Require.NotNull(id, nameof(id));
@@ -24,8 +31,8 @@ namespace DataAccess.Repositories
         public IEnumerable<T> GetByPredicate(Expression<Func<T, bool>> predicate = null)
         {
             return predicate == null
-                ? _collection.AsQueryable().ToList()
-                : _collection.AsQueryable().OfType<T>().Where(predicate).Where(_ => !_.IsDeleted).ToList();
+                ? _collection.AsQueryable()
+                : _collection.AsQueryable().OfType<T>().Where(predicate).Where(_ => !_.IsDeleted);
         }
 
         public ObjectId Create(T @object)
@@ -41,10 +48,10 @@ namespace DataAccess.Repositories
         {
             Require.NotNull(@object, nameof(@object));
 
-            var eq = Builders<T>.Filter.And(Builders<T>.Filter.Eq("Id", @object.Id), Builders<T>.Filter.Eq("IsDeleted", false));
+            var eq = Builders<T>.Filter.And(Builders<T>.Filter.Eq("Id", @object.Id),
+                Builders<T>.Filter.Eq("IsDeleted", false));
 
             _collection.ReplaceOne(eq, @object);
-
         }
 
         public void Delete(ObjectId id)
@@ -56,13 +63,6 @@ namespace DataAccess.Repositories
             objToDelete.IsDeleted = true;
 
             Update(objToDelete);
-        }
-
-        private readonly IMongoCollection<T> _collection;
-
-        public Repository(SessionProvider sessionProvider)
-        {
-            _collection = sessionProvider.GetCollection<T>();
         }
     }
 }
