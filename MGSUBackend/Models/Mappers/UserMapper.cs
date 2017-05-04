@@ -1,4 +1,5 @@
 ﻿using System.Net.Mail;
+using MongoDB.Bson;
 using UserManagment.Entities;
 
 namespace MGSUBackend.Models.Mappers
@@ -9,10 +10,11 @@ namespace MGSUBackend.Models.Mappers
         {
             return new UserModel
             {
+                Id = user.Id.ToString(),
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
-                Email = user.Email.Address
+                Email = user.Email
             };
         }
 
@@ -20,10 +22,11 @@ namespace MGSUBackend.Models.Mappers
         {
             return new User
             {
+                Id = new ObjectId(userModel.Id),
                 FirstName = userModel.FirstName,
                 MiddleName = userModel.MiddleName,
                 LastName = userModel.LastName,
-                Email = new MailAddress(userModel.Email)
+                Email = userModel.Email
             };
         }
     }

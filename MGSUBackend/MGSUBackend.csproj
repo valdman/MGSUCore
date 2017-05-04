@@ -106,12 +106,17 @@
   <ItemGroup>
     <Compile Include="App_Start\Bootstraper.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ImageModel.cs" />
+    <Compile Include="Models\Mappers\PostMapper.cs" />
     <Compile Include="Models\Mappers\UserMapper.cs" />
+    <Compile Include="Models\PostModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\UserRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +142,14 @@
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{6ea54f2d-4da5-48f1-9b3f-880f8a86eb1e}</Project>
       <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileManagment\FileManagment.csproj">
+      <Project>{41df816a-cb31-40d6-baaf-f3afeb2c9493}</Project>
+      <Name>FileManagment</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostManager\PostManagment.csproj">
+      <Project>{8B53A506-B4DF-4D26-9CB6-AF329CFEDC6D}</Project>
+      <Name>PostManagment</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserManagment\UserManagment.csproj">
       <Project>{4DC13334-7B8E-49F5-93F0-F49AFBDB2ED6}</Project>

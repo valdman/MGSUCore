@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
+using Common;
 using DataAccess.Application;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
 using MongoDB.Bson;
+using UserManagment.Application;
 using UserManagment.Entities;
 
 namespace MGSUBackend.Controllers
@@ -16,7 +20,7 @@ namespace MGSUBackend.Controllers
         // GET: User
         public IEnumerable<UserModel> Get()
         {
-            return _userRepository.GetByPredicate()
+            return _userManager.GetUserByPredicate()
                 .Select(UserMapper.UserToUserModel);
         }
 
@@ -32,7 +36,7 @@ namespace MGSUBackend.Controllers
                 });
             }
 
-            var user = _userRepository.GetById(new ObjectId(id));
+            var user = _userManager.GetUserById(new ObjectId(id));
             if (user == null)
             {
                 throw new HttpResponseException(new HttpResponseMessage
@@ -45,15 +49,32 @@ namespace MGSUBackend.Controllers
         }
 
         // POST: User
-        public IHttpActionResult Post([FromBody]UserModel userModel)
+        public IHttpActionResult Post([FromBody]UserRegistrationModel userModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userToCreate = UserMapper.UserModelToUser(userModel);
-            var id = _userRepository.Create(userToCreate);
+            if (!Password.IsStringCorrectPassword(userModel.Password))
+            {
+                return BadRequest("Password is not satisfy security requirements");
+            }
+
+            var userToCreate = new User
+            {
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                MiddleName = userModel.MiddleName,
+                CreationTime = new BsonDateTime(DateTime.UtcNow),
+                Email = userModel.Email,
+                IsConfirmed = false,
+                Phone = userModel.Phone,
+                Password = new Password(userModel.Password),
+                Role = UserRole.User
+            };
+
+            var id = _userManager.CreateUser(userToCreate);
 
             return Ok(id);
         }
@@ -66,13 +87,13 @@ namespace MGSUBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (_userRepository.GetById(new ObjectId(id)) == null)
+            if (_userManager.GetUserById(new ObjectId(id)) == null)
             {
                 return NotFound();
             }
 
             var userToUpdateNew = UserMapper.UserModelToUser(userModel);
-            _userRepository.Update(userToUpdateNew);
+            _userManager.UpdateUser(userToUpdateNew);
 
             return Ok();
         }
@@ -85,21 +106,21 @@ namespace MGSUBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (_userRepository.GetById(new ObjectId(id)) == null)
+            if (_userManager.GetUserById(new ObjectId(id)) == null)
             {
                 return NotFound();
             }
 
-            _userRepository.Delete(new ObjectId(id));
+            _userManager.DeleteUser(new ObjectId(id));
 
             return Ok();
         }
 
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserManager _userManager;
 
-        public UserController(IRepository<User> userRepository)
+        public UserController(IUserManager userManager)
         {
-            _userRepository = userRepository;
+            _userManager = userManager;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace MGSUBackend.Tests
 
             var usr = new User
             {
-                Email = new MailAddress("boris@mail.ru"),
+                Email = "boris@mail.ru",
                 FirstName = "Boris",
                 LastName = "Valdman"
             };
@@ -60,7 +60,7 @@ namespace MGSUBackend.Tests
 
             var usr = new User
             {
-                Email = new MailAddress("boris@mail.ru"),
+                Email = "boris@mail.ru",
                 FirstName = "Boris",
                 LastName = "Valdman"
             };

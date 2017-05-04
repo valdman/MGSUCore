@@ -10,13 +10,13 @@ using MongoDB.Driver.Linq;
 
 namespace DataAccess.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : Identifyable
+    public class Repository<T> : IRepository<T> where T : PersistentEntity
     {
         public T GetById(ObjectId id)
         {
             Require.NotNull(id, nameof(id));
 
-            var eq = Builders<T>.Filter.Eq("Id", id);
+            var eq = Builders<T>.Filter.And(Builders<T>.Filter.Eq("Id", id), Builders<T>.Filter.Eq("IsDeleted", false));
 
             return _collection.Find(eq).SingleOrDefault();
         }
@@ -25,7 +25,7 @@ namespace DataAccess.Repositories
         {
             return predicate == null
                 ? _collection.AsQueryable().ToList()
-                : _collection.AsQueryable().Where(predicate).ToList();
+                : _collection.AsQueryable().OfType<T>().Where(predicate).Where(_ => !_.IsDeleted).ToList();
         }
 
         public ObjectId Create(T @object)
@@ -41,8 +41,8 @@ namespace DataAccess.Repositories
         {
             Require.NotNull(@object, nameof(@object));
 
-            var eq = Builders<T>.Filter.Eq("Id", @object.Id);
-            
+            var eq = Builders<T>.Filter.And(Builders<T>.Filter.Eq("Id", @object.Id), Builders<T>.Filter.Eq("IsDeleted", false));
+
             _collection.ReplaceOne(eq, @object);
 
         }
@@ -51,9 +51,11 @@ namespace DataAccess.Repositories
         {
             Require.NotNull(id, nameof(id));
 
-            var eq = Builders<T>.Filter.Eq("Id", id);
+            var objToDelete = GetById(id);
 
-            _collection.DeleteOne(eq);
+            objToDelete.IsDeleted = true;
+
+            Update(objToDelete);
         }
 
         private readonly IMongoCollection<T> _collection;

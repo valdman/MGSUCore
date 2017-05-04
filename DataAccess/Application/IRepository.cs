@@ -6,7 +6,7 @@ using MongoDB.Bson;
 
 namespace DataAccess.Application
 {
-    public interface IRepository<T> where T : Identifyable
+    public interface IRepository<T> where T : PersistentEntity
     {
         T GetById(ObjectId id);
         IEnumerable<T> GetByPredicate(Expression<Func<T, bool>> predicate = null);
