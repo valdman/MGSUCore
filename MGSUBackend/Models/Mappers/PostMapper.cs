@@ -18,12 +18,14 @@ namespace MGSUBackend.Models.Mappers
                 CreatingTime = post.CreatingTime.ToString(),
                 Date = post.Date?.AsString,
                 Description = post.Description,
-                Img = new ImageModel
-                {
-                    Original = post.Img.Original,
-                    Small = post.Img.Small,
-                    Role = post.Img.Role
-                }
+                Img = post.Img == null
+                    ? null
+                    : new ImageModel
+                    {
+                        Original = post.Img.Original,
+                        Small = post.Img.Small,
+                        Role = post.Img.Role
+                    }
             };
         }
 
@@ -37,12 +39,14 @@ namespace MGSUBackend.Models.Mappers
                 CreatingTime = BsonDateTime.Create(DateTime.UtcNow),
                 Date = postModel.Date == null ? null : BsonDateTime.Create(postModel.Date),
                 Description = postModel.Description,
-                Img = new Image
-                {
-                    Original = postModel.Img?.Original,
-                    Small = postModel.Img?.Small,
-                    Role = postModel.Img?.Role
-                }
+                Img = postModel.Img == null
+                    ? null
+                    : new Image
+                    {
+                        Original = postModel.Img.Original,
+                        Small = postModel.Img.Small,
+                        Role = postModel.Img.Role
+                    }
             };
         }
     }

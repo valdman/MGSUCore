@@ -10,6 +10,8 @@ namespace MGSUBackend.Models
         public string Content { get; set; }
 
         public ImageModel Img { get; set; }
+
+        [Required]
         public string Category { get; set; }
 
         [DataType(DataType.DateTime)]

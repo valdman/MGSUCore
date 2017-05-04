@@ -30,9 +30,10 @@ namespace DataAccess.Repositories
 
         public IEnumerable<T> GetByPredicate(Expression<Func<T, bool>> predicate = null)
         {
+            var undeletedItems = _collection.AsQueryable().Where(_ => !_.IsDeleted);
             return predicate == null
-                ? _collection.AsQueryable()
-                : _collection.AsQueryable().OfType<T>().Where(predicate).Where(_ => !_.IsDeleted);
+                ? undeletedItems
+                : undeletedItems.Where(predicate);
         }
 
         public ObjectId Create(T @object)
