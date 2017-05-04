@@ -11,16 +11,16 @@ using PostManagment.Entities;
 
 namespace MGSUBackend.Controllers
 {
-    public class PostController : ApiController
+    public class PostsController : ApiController
     {
         private readonly IPostManager _postManager;
 
-        public PostController(IPostManager postManager)
+        public PostsController(IPostManager postManager)
         {
             _postManager = postManager;
         }
 
-        // GET: api/Post?one=value&two=secondValue
+        // GET: api/Posts?one=value&two=secondValue
         public IEnumerable<PostModel> Get()
         {
             var allUrlKeyValues = ControllerContext.Request.GetQueryNameValuePairs();
@@ -37,7 +37,7 @@ namespace MGSUBackend.Controllers
             return _postManager.GetPostsByPredicate().Select(PostMapper.PostToPostModel);
         }
 
-        // GET: api/Post/5
+        // GET: api/Posts/5
         public IHttpActionResult Get(string id)
         {
             if (!ModelState.IsValid)
@@ -51,7 +51,7 @@ namespace MGSUBackend.Controllers
             return Ok(PostMapper.PostToPostModel(postToReturn));
         }
 
-        // POST: api/Post
+        // POST: api/Posts
         public IHttpActionResult Post([FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -62,7 +62,7 @@ namespace MGSUBackend.Controllers
             return Ok(_postManager.CreatePost(postToCreate).ToString());
         }
 
-        // PUT: api/Post/5
+        // PUT: api/Posts/5
         public IHttpActionResult Put(string id, [FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -87,7 +87,7 @@ namespace MGSUBackend.Controllers
             return Ok();
         }
 
-        // DELETE: api/Post/5
+        // DELETE: api/Posts/5
         public IHttpActionResult Delete(string id)
         {
             var oldPost = _postManager.GetPostById(new ObjectId(id));

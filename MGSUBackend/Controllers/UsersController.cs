@@ -11,23 +11,23 @@ using UserManagment.Entities;
 
 namespace MGSUBackend.Controllers
 {
-    public class UserController : ApiController
+    public class UsersController : ApiController
     {
         private readonly IUserManager _userManager;
 
-        public UserController(IUserManager userManager)
+        public UsersController(IUserManager userManager)
         {
             _userManager = userManager;
         }
 
-        // GET: User
+        // GET: Users
         public IEnumerable<UserModel> Get()
         {
             return _userManager.GetUserByPredicate()
                 .Select(UserMapper.UserToUserModel);
         }
 
-        // GET: User/5
+        // GET: Users/5
         public IHttpActionResult Get(string id)
         {
             if (!ModelState.IsValid)
@@ -40,7 +40,7 @@ namespace MGSUBackend.Controllers
             return Ok(UserMapper.UserToUserModel(user));
         }
 
-        // POST: User
+        // POST: Users
         public IHttpActionResult Post([FromBody] UserRegistrationModel userModel)
         {
             if (!ModelState.IsValid)
@@ -67,7 +67,7 @@ namespace MGSUBackend.Controllers
             return Ok(id);
         }
 
-        // PUT: User/5
+        // PUT: Users/5
         public IHttpActionResult Put(string id, [FromBody] UserModel userModel)
         {
             if (!ModelState.IsValid)
@@ -82,7 +82,7 @@ namespace MGSUBackend.Controllers
             return Ok();
         }
 
-        // DELETE: User/5
+        // DELETE: Users/5
         public IHttpActionResult Delete(string id)
         {
             if (!ModelState.IsValid)
