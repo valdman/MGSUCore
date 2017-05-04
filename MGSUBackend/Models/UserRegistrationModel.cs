@@ -20,7 +20,7 @@ namespace MGSUBackend.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        
+
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
     }

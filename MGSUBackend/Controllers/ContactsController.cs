@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using MongoDB.Bson;
 using UserManagment.Application;
@@ -31,38 +27,30 @@ namespace MGSUBackend.Controllers
             var contact = _contactManager.GetContactById(new ObjectId(id));
 
             if (contact == null)
-            {
                 return NotFound();
-            }
 
             return Ok(contact);
         }
 
         // POST: api/Contacts
-        public IHttpActionResult Post([FromBody]Contact contactToCreate)
+        public IHttpActionResult Post([FromBody] Contact contactToCreate)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             return Ok(_contactManager.CreateContact(contactToCreate));
         }
 
         // PUT: api/Contacts/5
-        public IHttpActionResult Put(string id, [FromBody]Contact contactToUpdate)
+        public IHttpActionResult Put(string id, [FromBody] Contact contactToUpdate)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             var oldContact = _contactManager.GetContactById(new ObjectId(id));
 
             if (oldContact == null)
-            {
                 return NotFound();
-            }
 
             _contactManager.UpdateContact(contactToUpdate);
             return Ok();
@@ -74,9 +62,7 @@ namespace MGSUBackend.Controllers
             var oldContact = _contactManager.GetContactById(new ObjectId(id));
 
             if (oldContact == null)
-            {
                 return NotFound();
-            }
 
             _contactManager.DeleteContact(new ObjectId(id));
 
