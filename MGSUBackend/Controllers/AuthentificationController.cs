@@ -33,8 +33,8 @@ namespace MGSUBackend.Controllers
             if (userWhoIntented == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            if (userWhoIntented.Password.Equals(Password.FromPlainString(authModel.Password)))
-                return Request.CreateResponse(HttpStatusCode.Gone);
+            if (!userWhoIntented.Password.Equals(new Password(authModel.Password)))
+                return Request.CreateResponse(HttpStatusCode.Unauthorized);
 
             var currentSession = _sessionManager.GetSessionForUser(userWhoIntented.Id);
 

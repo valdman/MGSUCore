@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using FileManagment.Entities;
 
 namespace UserManagment.Entities
 {
@@ -10,6 +11,6 @@ namespace UserManagment.Entities
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string Description { get; set; }
-        public Uri Img { get; set; }
+        public Image Img { get; set; }
     }
 }

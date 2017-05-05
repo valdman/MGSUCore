@@ -40,6 +40,8 @@ namespace DataAccess.Repositories
         {
             Require.NotNull(@object, nameof(@object));
 
+            @object.CreatingTime = BsonDateTime.Create(DateTimeOffset.Now);
+
             _collection.InsertOne(@object);
 
             return @object.Id;

@@ -45,23 +45,28 @@ namespace MGSUBackend.Authentification
             if (sessionInfo == null)
             {
                 Debug.WriteLine("Null sesh info");
-                context.ErrorResult = new UnauthorizedResult(
-                    new AuthenticationHeaderValue[] { },
-                    context.Request);
-                await context.ErrorResult.ExecuteAsync(cancellationToken);
+                //todo: бросать ли ошибку? вопрос философский: не уверен - не показывай SID
+                //context.ErrorResult = new UnauthorizedResult(
+                //    new AuthenticationHeaderValue[] { },
+                //    context.Request);
+                //await context.ErrorResult.ExecuteAsync(cancellationToken);
                 SetupUnauthenticated();
                 return;
             }
 
             var currentUser = _userManager.GetUserById(sessionInfo.UserId);
 
-            var identity = new Identitiy(sessionInfo.UserId, true);
-            var principal = new Principal(currentUser.Role, identity);
+            if (currentUser != null)
+            {
 
-            Thread.CurrentPrincipal = principal;
-            Debug.WriteLine("Principal given: ");
-            Debug.WriteLine(principal.ToJson());
-            context.Principal = principal;
+                var identity = new Identitiy(sessionInfo.UserId, true);
+                var principal = new Principal(currentUser.Role, identity);
+
+                Thread.CurrentPrincipal = principal;
+                Debug.WriteLine("Principal given: ");
+                Debug.WriteLine(principal.ToJson());
+                context.Principal = principal;
+            }
         }
 
         public Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Policy;
 using DataAccess.Application;
 using Journalist;
 using MongoDB.Bson;
@@ -34,12 +36,22 @@ namespace UserManagment
         {
             Require.NotNull(userToCreate, nameof(userToCreate));
 
+            if (_userRepository.GetByPredicate(user => user.Email == userToCreate.Email).Any())
+            {
+                throw new PolicyException("User with this email already registered");
+            }
+
             return _userRepository.Create(userToCreate);
         }
 
         public void UpdateUser(User userToUpdate)
         {
             Require.NotNull(userToUpdate, nameof(userToUpdate));
+
+            if (_userRepository.GetByPredicate(user => user.Email == userToUpdate.Email && !user.Id.Equals(userToUpdate.Id)).Any())
+            {
+                throw new PolicyException("User with this email already exists");
+            }
 
             _userRepository.Update(userToUpdate);
         }
