@@ -52,7 +52,7 @@ namespace MGSUBackend.Authentification
                 SetupUnauthenticated();
                 return;
             }
-            
+
             var currentUser = _userManager.GetUserById(sessionInfo.UserId);
 
             var identity = new Identitiy(sessionInfo.UserId, true);

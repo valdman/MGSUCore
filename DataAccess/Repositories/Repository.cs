@@ -61,8 +61,8 @@ namespace DataAccess.Repositories
 
             var objToDelete = GetById(id);
 
-            if(objToDelete == null) return;
-            
+            if (objToDelete == null) return;
+
             objToDelete.IsDeleted = true;
 
             Update(objToDelete);

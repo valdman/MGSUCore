@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Common;
+using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
 using MongoDB.Bson;
@@ -68,10 +69,15 @@ namespace MGSUBackend.Controllers
         }
 
         // PUT: Users/5
+        [Authorization(UserRole.User)]
         public IHttpActionResult Put(string id, [FromBody] UserModel userModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (User.Identity.GetId().ToString() != id)
+                return Unauthorized();
+
 
             if (_userManager.GetUserById(new ObjectId(id)) == null)
                 return NotFound();
@@ -83,8 +89,11 @@ namespace MGSUBackend.Controllers
         }
 
         // DELETE: Users/5
+        [Authorization(UserRole.User)]
         public IHttpActionResult Delete(string id)
         {
+            if (User.Identity.GetId().ToString() != id)
+                return Unauthorized();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

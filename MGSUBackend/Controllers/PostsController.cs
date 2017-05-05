@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
 using MongoDB.Bson;
 using PostManagment;
 using PostManagment.Entities;
+using UserManagment.Entities;
 
 namespace MGSUBackend.Controllers
 {
@@ -52,6 +54,7 @@ namespace MGSUBackend.Controllers
         }
 
         // POST: api/Posts
+        [Authorization(UserRole.Admin)]
         public IHttpActionResult Post([FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -63,6 +66,7 @@ namespace MGSUBackend.Controllers
         }
 
         // PUT: api/Posts/5
+        [Authorization(UserRole.Admin)]
         public IHttpActionResult Put(string id, [FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -88,6 +92,7 @@ namespace MGSUBackend.Controllers
         }
 
         // DELETE: api/Posts/5
+        [Authorization(UserRole.Admin)]
         public IHttpActionResult Delete(string id)
         {
             var oldPost = _postManager.GetPostById(new ObjectId(id));

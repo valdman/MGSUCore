@@ -17,9 +17,7 @@ namespace MGSUBackend.Authentification
         {
             var lodIdentity = identity as Identitiy;
             if (lodIdentity != null)
-            {
                 return lodIdentity.UserId;
-            }
 
             throw new ArgumentException("Identity is not valid identity");
         }
@@ -28,18 +26,14 @@ namespace MGSUBackend.Authentification
         {
             var lodPrincipal = principal as Principal;
             if (lodPrincipal?.Identity.GetId() != identityId && !principal.IsInRole(UserRole.Admin))
-            {
                 throw new UnauthorizedAccessException();
-            }
         }
 
         public static void AssertResourceOwner(this IPrincipal principal, ObjectId identityId)
         {
             var lodPrincipal = principal as Principal;
             if (lodPrincipal?.Identity.GetId() != identityId)
-            {
                 throw new UnauthorizedAccessException();
-            }
         }
     }
 }

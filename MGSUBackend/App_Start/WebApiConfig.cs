@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Filters;
-using MGSUBackend.Authentification;
 
 namespace MGSUBackend
 {

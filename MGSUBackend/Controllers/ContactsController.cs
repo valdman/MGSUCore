@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using MGSUBackend.Authentification;
 using MongoDB.Bson;
 using UserManagment.Application;
 using UserManagment.Entities;
@@ -33,6 +34,7 @@ namespace MGSUBackend.Controllers
         }
 
         // POST: api/Contacts
+        [Authorization(UserRole.Admin)]
         public IHttpActionResult Post([FromBody] Contact contactToCreate)
         {
             if (!ModelState.IsValid)
@@ -42,6 +44,7 @@ namespace MGSUBackend.Controllers
         }
 
         // PUT: api/Contacts/5
+        [Authorization(UserRole.Admin)]
         public IHttpActionResult Put(string id, [FromBody] Contact contactToUpdate)
         {
             if (!ModelState.IsValid)
@@ -57,6 +60,7 @@ namespace MGSUBackend.Controllers
         }
 
         // DELETE: api/Contacts/5
+        [Authorization(UserRole.Admin)]
         public IHttpActionResult Delete(string id)
         {
             var oldContact = _contactManager.GetContactById(new ObjectId(id));

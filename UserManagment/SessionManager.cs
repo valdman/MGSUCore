@@ -10,6 +10,13 @@ namespace UserManagment
 {
     public class SessionManager : ISessionManager
     {
+        private readonly IRepository<Session> _sessionRepository;
+
+        public SessionManager(IRepository<Session> sessionRepository)
+        {
+            _sessionRepository = sessionRepository;
+        }
+
         public Session GetSessionForUser(ObjectId userId)
         {
             Require.NotNull(userId, nameof(userId));
@@ -37,7 +44,7 @@ namespace UserManagment
 
             var currentSession = GetSessionForUser(userId);
 
-            if(currentSession == null) return;
+            if (currentSession == null) return;
 
             _sessionRepository.Delete(currentSession.Id);
         }
@@ -64,13 +71,6 @@ namespace UserManagment
             Require.NotNull(sid, nameof(sid));
 
             return _sessionRepository.GetByPredicate(sesh => sesh.Sid == sid).FirstOrDefault();
-        }
-
-        private readonly IRepository<Session> _sessionRepository;
-
-        public SessionManager(IRepository<Session> sessionRepository)
-        {
-            _sessionRepository = sessionRepository;
         }
     }
 }

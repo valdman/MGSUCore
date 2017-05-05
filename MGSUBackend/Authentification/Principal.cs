@@ -19,7 +19,7 @@ namespace MGSUBackend.Authentification
         public bool IsEmpty { get; private set; }
 
         public static IPrincipal EmptyPrincipal
-            => new Principal(UserRole.User, Identitiy.EmptyIdentity) { IsEmpty = true };
+            => new Principal(UserRole.User, Identitiy.EmptyIdentity) {IsEmpty = true};
 
         public bool IsInRole(string role)
         {

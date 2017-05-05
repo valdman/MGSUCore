@@ -15,20 +15,26 @@ namespace MGSUBackend.Controllers
 {
     public class AuthentificationController : ApiController
     {
+        private readonly ISessionManager _sessionManager;
+        private readonly IUserManager _userManager;
+
+        public AuthentificationController(ISessionManager sessionManager, IUserManager userManager)
+        {
+            _sessionManager = sessionManager;
+            _userManager = userManager;
+        }
+
         [HttpPost]
         [Route("login")]
-        public HttpResponseMessage Login([FromBody]UserAuthModel authModel)
+        public HttpResponseMessage Login([FromBody] UserAuthModel authModel)
         {
-            var userWhoIntented = _userManager.GetUserByPredicate(user => user.Email == authModel.Email).SingleOrDefault(); //todo: to special domain method
+            var userWhoIntented = _userManager.GetUserByPredicate(user => user.Email == authModel.Email)
+                .SingleOrDefault(); //todo: to special domain method
             if (userWhoIntented == null)
-            {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
-            }
 
             if (userWhoIntented.Password.Equals(Password.FromPlainString(authModel.Password)))
-            {
                 return Request.CreateResponse(HttpStatusCode.Gone);
-            }
 
             var currentSession = _sessionManager.GetSessionForUser(userWhoIntented.Id);
 
@@ -37,10 +43,10 @@ namespace MGSUBackend.Controllers
                 Expires = currentSession.ExpireTime,
                 Domain = Request.RequestUri.Host,
                 Path = "/"
-            }; 
+            };
 
             var response = Request.CreateResponse(HttpStatusCode.OK, currentSession.UserId.ToString());
-            response.Headers.AddCookies(new[] { cookie });
+            response.Headers.AddCookies(new[] {cookie});
             return response;
         }
 
@@ -49,12 +55,13 @@ namespace MGSUBackend.Controllers
         [Authorization(UserRole.User)]
         public HttpResponseMessage Logout()
         {
-            var sessionId = Request.Headers.GetCookies(Session.CookieName).FirstOrDefault()?.Cookies.FirstOrDefault()?.Value;
+            var sessionId = Request.Headers.GetCookies(Session.CookieName)
+                .FirstOrDefault()
+                ?.Cookies.FirstOrDefault()
+                ?.Value;
 
             if (sessionId == null)
-            {
                 return Request.CreateResponse(HttpStatusCode.Unauthorized);
-            }
 
             _sessionManager.EndSessionbyId(Guid.Parse(sessionId));
             return Request.CreateResponse(HttpStatusCode.OK);
@@ -72,15 +79,6 @@ namespace MGSUBackend.Controllers
             return currentUser == null
                 ? Request.CreateResponse(HttpStatusCode.Unauthorized)
                 : Request.CreateResponse(HttpStatusCode.OK, UserMapper.UserToUserModel(currentUser));
-        }
-
-        private readonly ISessionManager _sessionManager;
-        private readonly IUserManager _userManager;
-
-        public AuthentificationController(ISessionManager sessionManager, IUserManager userManager)
-        {
-            _sessionManager = sessionManager;
-            _userManager = userManager;
         }
     }
 }
