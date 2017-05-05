@@ -11,5 +11,6 @@ namespace UserManagment.Application
         void EndSessionbyId(Guid sessionId);
 
         ObjectId GetUserIdBySessionId(Guid sessionId);
+        Session GetSessionBySid(Guid sid);
     }
 }

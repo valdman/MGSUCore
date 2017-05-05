@@ -35,7 +35,7 @@ namespace UserManagment
         {
             Require.NotNull(userId, nameof(userId));
 
-            var currentSession = _sessionRepository.GetByPredicate(sesh => sesh.UserId == userId).SingleOrDefault();
+            var currentSession = GetSessionForUser(userId);
 
             if(currentSession == null) return;
 
@@ -46,7 +46,7 @@ namespace UserManagment
         {
             Require.NotNull(sessionId, nameof(sessionId));
 
-            var session = _sessionRepository.GetByPredicate(sesh => sesh.Sid == sessionId).FirstOrDefault();
+            var session = GetSessionBySid(sessionId);
 
             _sessionRepository.Delete(session?.Id ?? ObjectId.Empty);
         }
@@ -55,9 +55,15 @@ namespace UserManagment
         {
             Require.NotNull(sessionId, nameof(sessionId));
 
-            return _sessionRepository.GetByPredicate(sesh => sesh.Sid == sessionId)
-                       .FirstOrDefault()
+            return GetSessionBySid(sessionId)
                        ?.UserId ?? ObjectId.Empty;
+        }
+
+        public Session GetSessionBySid(Guid sid)
+        {
+            Require.NotNull(sid, nameof(sid));
+
+            return _sessionRepository.GetByPredicate(sesh => sesh.Sid == sid).FirstOrDefault();
         }
 
         private readonly IRepository<Session> _sessionRepository;

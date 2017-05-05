@@ -1,8 +1,10 @@
 ﻿using System.Web.Configuration;
 using System.Web.Http;
+using System.Web.Http.Filters;
 using DataAccess;
 using DataAccess.Application;
 using DataAccess.Repositories;
+using MGSUBackend.Authentification;
 using PostManagment;
 using SimpleInjector;
 using UserManagment;
@@ -23,7 +25,7 @@ namespace MGSUBackend
             container.Register<IContactManager, ContactManager>(Lifestyle.Singleton);
             container.Register<ISessionManager, SessionManager>(Lifestyle.Singleton);
 
-
+            container.Register<IAuthenticationFilter, AuthenticationFilter>(Lifestyle.Singleton);
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
             container.Verify();
             return container;

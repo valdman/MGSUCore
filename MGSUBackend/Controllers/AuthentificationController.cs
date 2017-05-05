@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using Common;
+using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
 using UserManagment.Application;
@@ -45,6 +46,7 @@ namespace MGSUBackend.Controllers
 
         [HttpPost]
         [Route("logout")]
+        [Authorization(UserRole.User)]
         public HttpResponseMessage Logout()
         {
             var sessionId = Request.Headers.GetCookies(Session.CookieName).FirstOrDefault()?.Cookies.FirstOrDefault()?.Value;
@@ -60,16 +62,10 @@ namespace MGSUBackend.Controllers
 
         [HttpGet]
         [Route("current")]
+        [Authorization(UserRole.User)]
         public HttpResponseMessage Current()
         {
-            var sessionId = Request.Headers.GetCookies(Session.CookieName).FirstOrDefault()?.Cookies.FirstOrDefault()?.Value;
-
-            if (sessionId == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized);
-            }
-
-            var currentUserId = _sessionManager.GetUserIdBySessionId(Guid.Parse(sessionId));
+            var currentUserId = User.Identity.GetId();
 
             var currentUser = _userManager.GetUserById(currentUserId);
 

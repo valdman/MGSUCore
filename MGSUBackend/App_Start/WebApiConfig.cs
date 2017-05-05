@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Filters;
+using MGSUBackend.Authentification;
 
 namespace MGSUBackend
 {
@@ -16,6 +18,10 @@ namespace MGSUBackend
                 "{controller}/{id}",
                 new {id = RouteParameter.Optional}
             );
+
+            var authFilter =
+                config.DependencyResolver.GetService(typeof(IAuthenticationFilter)) as IAuthenticationFilter;
+            config.Filters.Add(authFilter);
         }
     }
 }
