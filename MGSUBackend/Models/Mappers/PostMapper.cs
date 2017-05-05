@@ -9,6 +9,8 @@ namespace MGSUBackend.Models.Mappers
     {
         public static PostModel PostToPostModel(Post post)
         {
+            if (post == null) return null;
+
             return new PostModel
             {
                 Id = post.Id.ToString(),
@@ -31,6 +33,8 @@ namespace MGSUBackend.Models.Mappers
 
         public static Post PostModelToPost(PostModel postModel)
         {
+            if (postModel == null) return null;
+
             return new Post
             {
                 Title = postModel.Title,

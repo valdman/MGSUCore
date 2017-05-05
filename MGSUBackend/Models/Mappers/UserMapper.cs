@@ -7,6 +7,8 @@ namespace MGSUBackend.Models.Mappers
     {
         public static UserModel UserToUserModel(User user)
         {
+            if (user == null) return null;
+
             return new UserModel
             {
                 Id = user.Id.ToString(),
@@ -19,6 +21,8 @@ namespace MGSUBackend.Models.Mappers
 
         public static User UserModelToUser(UserModel userModel)
         {
+            if (userModel == null) return null;
+
             return new User
             {
                 Id = new ObjectId(userModel.Id),

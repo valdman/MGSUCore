@@ -8,6 +8,8 @@ namespace MGSUBackend.Models.Mappers
     {
         public static HttpResponseMessage ObjectToHttpResponseMessage<T>(T @object)
         {
+            if (@object == null) return null;
+
             return new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,

@@ -21,6 +21,7 @@ namespace MGSUBackend
             container.Register<IUserManager, UserManager>(Lifestyle.Singleton);
             container.Register<IPostManager, PostManager>(Lifestyle.Singleton);
             container.Register<IContactManager, ContactManager>(Lifestyle.Singleton);
+            container.Register<ISessionManager, SessionManager>(Lifestyle.Singleton);
 
 
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);

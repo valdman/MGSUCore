@@ -47,12 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ISessionManager.cs" />
     <Compile Include="Application\IContactManager.cs" />
     <Compile Include="Application\IUserManager.cs" />
     <Compile Include="ContactManager.cs" />
     <Compile Include="Entities\Contact.cs" />
+    <Compile Include="Entities\Session.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\UserRole.cs" />
+    <Compile Include="SessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserManager.cs" />
   </ItemGroup>
