@@ -26,14 +26,14 @@ namespace MGSUBackend.Controllers
 
         [HttpPost]
         [Route("login")]
-        public HttpResponseMessage Login([FromBody] UserAuthModel authModel)
+        public HttpResponseMessage Login([FromBody] Credentials credentials)
         {
-            var userWhoIntented = _userManager.GetUserByPredicate(user => user.Email == authModel.Email)
+            var userWhoIntented = _userManager.GetUserByPredicate(user => user.Email == credentials.Email)
                 .SingleOrDefault(); //todo: to special domain method
             if (userWhoIntented == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
-            if (!userWhoIntented.Password.Equals(new Password(authModel.Password)))
+            if (!userWhoIntented.Password.Equals(new Password(credentials.Password)))
                 return Request.CreateResponse(HttpStatusCode.Unauthorized);
 
             var currentSession = _sessionManager.GetSessionForUser(userWhoIntented.Id);

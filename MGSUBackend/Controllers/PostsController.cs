@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using Journalist.Extensions;
 using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
@@ -77,17 +78,13 @@ namespace MGSUBackend.Controllers
             if (oldPost == null)
                 return NotFound();
 
-            var postToUpdate = new Post
-            {
-                Title = postModel.Title,
-                Category = postModel.Category,
-                Content = postModel.Content,
-                CreatingTime = BsonDateTime.Create(DateTime.UtcNow),
-                Date = BsonDateTime.Create(postModel.Date),
-                Description = postModel.Description
-            };
+            oldPost.Title = postModel.Title ?? oldPost.Title;
+            oldPost.Category = postModel.Category ?? oldPost.Category;
+            oldPost.Content = postModel.Content ?? oldPost.Content;
+            oldPost.Date = postModel.Date.IsEmpty() ? oldPost.Date : BsonDateTime.Create(postModel.Date);
+            oldPost.Description = postModel.Description ?? oldPost.Description;
 
-            _postManager.UpdatePost(postToUpdate);
+            _postManager.UpdatePost(oldPost);
             return Ok();
         }
 

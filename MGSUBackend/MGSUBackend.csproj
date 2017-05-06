@@ -126,7 +126,7 @@
     <Compile Include="Models\Mappers\PostMapper.cs" />
     <Compile Include="Models\Mappers\UserMapper.cs" />
     <Compile Include="Models\PostModel.cs" />
-    <Compile Include="Models\UserAuthModel.cs" />
+    <Compile Include="Models\Credentials.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

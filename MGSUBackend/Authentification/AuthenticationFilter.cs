@@ -54,6 +54,12 @@ namespace MGSUBackend.Authentification
                 return;
             }
 
+            if (sessionInfo.ExpireTime < DateTimeOffset.Now)
+            {
+                _sessionManager.EndSessionForUser(sessionInfo.UserId);
+                sessionInfo = _sessionManager.GetSessionForUser(sessionInfo.UserId);
+            }
+
             var currentUser = _userManager.GetUserById(sessionInfo.UserId);
 
             if (currentUser != null)
@@ -64,7 +70,7 @@ namespace MGSUBackend.Authentification
 
                 Thread.CurrentPrincipal = principal;
                 Debug.WriteLine("Principal given: ");
-                Debug.WriteLine(principal.ToJson());
+                Debug.WriteLine(principal.Identity.ToJson());
                 context.Principal = principal;
             }
         }

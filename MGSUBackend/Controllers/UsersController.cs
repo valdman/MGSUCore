@@ -75,12 +75,15 @@ namespace MGSUBackend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (User.Identity.GetId().ToString() != id)
+            var userId = User.Identity.GetId();
+
+            if (userId.ToString() != id)
                 return Unauthorized();
-
-
+            
             if (_userManager.GetUserById(new ObjectId(id)) == null)
                 return NotFound();
+
+            userModel.Id = userId.ToString();
 
             var userToUpdateNew = UserMapper.UserModelToUser(userModel);
             _userManager.UpdateUser(userToUpdateNew);

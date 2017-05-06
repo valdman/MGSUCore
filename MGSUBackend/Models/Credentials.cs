@@ -2,7 +2,7 @@
 
 namespace MGSUBackend.Models
 {
-    public class UserAuthModel
+    public class Credentials
     {
         [Required]
         [DataType(DataType.EmailAddress)]

@@ -55,7 +55,14 @@ namespace MGSUBackend.Controllers
             if (oldContact == null)
                 return NotFound();
 
-            _contactManager.UpdateContact(contactToUpdate);
+            oldContact.Description = contactToUpdate.Description ?? oldContact.Description;
+            oldContact.FirstName = contactToUpdate.FirstName ?? oldContact.FirstName;
+            oldContact.LastName = contactToUpdate.LastName ?? oldContact.LastName;
+            oldContact.MiddleName = contactToUpdate.MiddleName ?? oldContact.MiddleName;
+            oldContact.Img = contactToUpdate.Img ?? oldContact.Img;
+            oldContact.Team = contactToUpdate.Team ?? oldContact.Team;
+
+            _contactManager.UpdateContact(oldContact);
             return Ok();
         }
 
