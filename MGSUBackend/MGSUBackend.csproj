@@ -117,6 +117,7 @@
     <Compile Include="Controllers\AuthentificationController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -167,6 +168,9 @@
       <Project>{4DC13334-7B8E-49F5-93F0-F49AFBDB2ED6}</Project>
       <Name>UserManagment</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

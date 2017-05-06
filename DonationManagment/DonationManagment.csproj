@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Journalist.LanguageExtensions, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Journalist.LanguageExtensions.0.16.0\lib\net451\Journalist.LanguageExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.4.3\lib\net45\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -44,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\IDonationManager.cs" />
+    <Compile Include="DonationManager.cs" />
     <Compile Include="Entities\Donation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,8 +57,17 @@
       <Project>{BE75B5F3-6204-4D59-8036-DEBF9DF777F9}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{6EA54F2D-4DA5-48F1-9B3F-880F8A86EB1E}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectManagment\ProjectManagment.csproj">
+      <Project>{462a4353-ac16-4854-a66a-9206fc956951}</Project>
+      <Name>ProjectManagment</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
