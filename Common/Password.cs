@@ -14,7 +14,7 @@ namespace Common
             {
                 var md5Hasher = MD5.Create();
 
-                var data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(pass));
+                var data = md5Hasher.ComputeHash(Encoding.Unicode.GetBytes(pass));
 
                 var sBuilder = new StringBuilder();
 
