@@ -26,54 +26,51 @@ namespace MGSUCore.Controllers
 
         [HttpPost]
         [Route("login")]
-        public HttpResponseMessage Login([FromBody] Credentials credentials)
+        public IActionResult Login([FromBody] Credentials credentials)
         {
             var userWhoIntented = _userManager.GetUserByPredicate(user => user.Email == credentials.Email)
                 .SingleOrDefault(); //todo: to special domain method
             if (userWhoIntented == null)
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return NotFound();
 
             if (!userWhoIntented.Password.Equals(new Password(credentials.Password)))
-                return Request.CreateResponse(HttpStatusCode.Unauthorized);
+                return Unauthorized();
 
             var currentSession = _sessionManager.GetSessionForUser(userWhoIntented.Id);
 
-            var cookie = new CookieHeaderValue(Session.CookieName, currentSession.Sid.ToString());
-
-            var response = Request.CreateResponse(HttpStatusCode.OK, currentSession.UserId.ToString());
-            response.Headers.AddCookies(new[] {cookie});
-            return response;
+            Response.Cookies.Append(Session.CookieName, currentSession.Sid.ToString());
+            return Ok();
         }
 
         [HttpPost]
         [Route("logout")]
         [Authorization(UserRole.User)]
-        public HttpResponseMessage Logout()
+        public IActionResult Logout()
         {
-            var sessionId = Request.Headers.GetCookies(Session.CookieName)
-                .FirstOrDefault()
-                ?.Cookies.FirstOrDefault()
-                ?.Value;
-
-            if (sessionId == null)
-                return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            if (!Request.Cookies.TryGetValue(Session.CookieName, out string sessionId) || sessionId == string.Empty)
+            {
+                return Unauthorized();
+            }
 
             _sessionManager.EndSessionbyId(Guid.Parse(sessionId));
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Ok();
         }
 
         [HttpGet]
         [Route("current")]
         [Authorization(UserRole.User)]
-        public HttpResponseMessage Current()
+        public IActionResult Current()
         {
             var currentUserId = User.Identity.GetId();
 
             var currentUser = _userManager.GetUserById(currentUserId);
 
-            return currentUser == null
-                ? Request.CreateResponse(HttpStatusCode.Unauthorized)
-                : Request.CreateResponse(HttpStatusCode.OK, UserMapper.UserToUserModel(currentUser));
+            if (currentUser == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(UserMapper.UserToUserModel(currentUser));
         }
     }
 }

@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
+using MGSUCore.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using MongoDB.Bson;
 using PostManagment;
 using UserManagment.Entities;
 
-namespace MGSUBackend.Controllers
+namespace MGSUCore.Controllers
 {
+    [CustomExceptionFilter]
     public class PostsController : Controller
     {
         private readonly IPostManager _postManager;
@@ -21,24 +23,28 @@ namespace MGSUBackend.Controllers
         }
 
         // GET: api/Posts?one=value&two=secondValue
-        public IEnumerable<PostModel> Get()
+        public IActionResult Get()
         {
-            var allUrlKeyValues = ControllerContext.Request.GetQueryNameValuePairs();
-            var urlKeyValues = allUrlKeyValues as KeyValuePair<string, string>[] ?? allUrlKeyValues.ToArray();
-
-            if (urlKeyValues.Any(pair => pair.Key == "category"))
+            if (!Request.Query.TryGetValue("category", out StringValues value))
             {
-                var categoryName = urlKeyValues.Single(pair => pair.Key == "category").Value;
-
-                return
-                    _postManager.GetPostsByCategory(categoryName).Select(PostMapper.PostToPostModel);
+                return Ok(_postManager.GetPostsByPredicate().Select(PostMapper.PostToPostModel));
             }
 
-            return _postManager.GetPostsByPredicate().Select(PostMapper.PostToPostModel);
+            if (value.Count > 1)
+            {
+                return BadRequest("Query bad");
+            }
+
+            var category = value.Single();
+
+            return
+                Ok(_postManager.GetPostsByCategory(category).Select(PostMapper.PostToPostModel));
+
+
         }
 
         // GET: api/Posts/5
-        public IHttpActionResult Get(string id)
+        public IActionResult Get(string id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -53,7 +59,7 @@ namespace MGSUBackend.Controllers
 
         // POST: api/Posts
         [Authorization(UserRole.Admin)]
-        public IHttpActionResult Post([FromBody] PostModel postModel)
+        public IActionResult Post([FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,7 +71,7 @@ namespace MGSUBackend.Controllers
 
         // PUT: api/Posts/5
         [Authorization(UserRole.Admin)]
-        public IHttpActionResult Put(string id, [FromBody] PostModel postModel)
+        public IActionResult Put(string id, [FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -78,7 +84,7 @@ namespace MGSUBackend.Controllers
             oldPost.Title = postModel.Title ?? oldPost.Title;
             oldPost.Category = postModel.Category ?? oldPost.Category;
             oldPost.Content = postModel.Content ?? oldPost.Content;
-            oldPost.Date = postModel.Date.IsEmpty() ? oldPost.Date : BsonDateTime.Create(postModel.Date);
+            oldPost.Date = postModel.Date == string.Empty ? oldPost.Date : BsonDateTime.Create(postModel.Date);
             oldPost.Description = postModel.Description ?? oldPost.Description;
 
             _postManager.UpdatePost(oldPost);
@@ -87,7 +93,7 @@ namespace MGSUBackend.Controllers
 
         // DELETE: api/Posts/5
         [Authorization(UserRole.Admin)]
-        public IHttpActionResult Delete(string id)
+        public IActionResult Delete(string id)
         {
             var oldPost = _postManager.GetPostById(new ObjectId(id));
 

@@ -23,7 +23,7 @@ namespace MGSUCore.Controllers
         }
 
         // GET: api/Contacts/5
-        public IHttpActionResult Get(string id)
+        public IActionResult Get(string id)
         {
             var contact = _contactManager.GetContactById(new ObjectId(id));
 
@@ -35,7 +35,7 @@ namespace MGSUCore.Controllers
 
         // POST: api/Contacts
         [Authorization(UserRole.Admin)]
-        public IHttpActionResult Post([FromBody] Contact contactToCreate)
+        public IActionResult Post([FromBody] Contact contactToCreate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -45,7 +45,7 @@ namespace MGSUCore.Controllers
 
         // PUT: api/Contacts/5
         [Authorization(UserRole.Admin)]
-        public IHttpActionResult Put(string id, [FromBody] Contact contactToUpdate)
+        public IActionResult Put(string id, [FromBody] Contact contactToUpdate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -68,7 +68,7 @@ namespace MGSUCore.Controllers
 
         // DELETE: api/Contacts/5
         [Authorization(UserRole.Admin)]
-        public IHttpActionResult Delete(string id)
+        public IActionResult Delete(string id)
         {
             var oldContact = _contactManager.GetContactById(new ObjectId(id));
 

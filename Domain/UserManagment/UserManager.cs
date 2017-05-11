@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using DataAccess.Application;
 using Journalist;
 using MongoDB.Bson;
 using UserManagment.Application;
 using UserManagment.Entities;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace UserManagment
 {

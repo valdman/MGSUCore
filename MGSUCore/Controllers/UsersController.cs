@@ -10,7 +10,7 @@ using MongoDB.Bson;
 using UserManagment.Application;
 using UserManagment.Entities;
 
-namespace MGSUBackend.Controllers
+namespace MGSUCore.Controllers
 {
     public class UsersController : Controller
     {
@@ -29,7 +29,7 @@ namespace MGSUBackend.Controllers
         }
 
         // GET: Users/5
-        public IHttpActionResult Get(string id)
+        public IActionResult Get(string id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -42,7 +42,7 @@ namespace MGSUBackend.Controllers
         }
 
         // POST: Users
-        public IHttpActionResult Post([FromBody] UserRegistrationModel userModel)
+        public IActionResult Post([FromBody] UserRegistrationModel userModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -70,7 +70,7 @@ namespace MGSUBackend.Controllers
 
         // PUT: Users/5
         [Authorization(UserRole.User)]
-        public IHttpActionResult Put(string id, [FromBody] UserModel userModel)
+        public IActionResult Put(string id, [FromBody] UserModel userModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -93,7 +93,7 @@ namespace MGSUBackend.Controllers
 
         // DELETE: Users/5
         [Authorization(UserRole.User)]
-        public IHttpActionResult Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (User.Identity.GetId().ToString() != id)
                 return Unauthorized();

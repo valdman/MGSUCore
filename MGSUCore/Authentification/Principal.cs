@@ -1,8 +1,9 @@
 ﻿using System.Security.Principal;
 using Journalist;
+using MGSUBackend.Authentification;
 using UserManagment.Entities;
 
-namespace MGSUBackend.Authentification
+namespace MGSUCore.Authentification
 {
     public class Principal : IPrincipal
     {

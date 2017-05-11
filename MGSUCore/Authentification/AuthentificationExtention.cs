@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
+using MGSUCore.Authentification;
 using MongoDB.Bson;
 using UserManagment.Entities;
 

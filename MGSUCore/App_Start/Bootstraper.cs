@@ -1,16 +1,13 @@
-﻿using System.Web.Configuration;
-using System.Web.Http;
-using System.Web.Http.Filters;
-using DataAccess;
+﻿using DataAccess;
 using DataAccess.Application;
-using DataAccess.Repositories;
-using MGSUBackend.Authentification;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using PostManagment;
 using SimpleInjector;
 using UserManagment;
 using UserManagment.Application;
 
-namespace MGSUBackend
+namespace MGSUCore
 {
     public class Bootstraper
     {
@@ -24,18 +21,26 @@ namespace MGSUBackend
             container.Register<IPostManager, PostManager>(Lifestyle.Singleton);
             container.Register<IContactManager, ContactManager>(Lifestyle.Singleton);
             container.Register<ISessionManager, SessionManager>(Lifestyle.Singleton);
-
-            container.Register<IAuthenticationFilter, AuthenticationFilter>(Lifestyle.Singleton);
-            container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
+            
             container.Verify();
             return container;
         }
 
         private SessionProvider GetSessionProvider()
         {
-            return new SessionProvider(WebConfigurationManager
-                .ConnectionStrings["MongoConnectionString"]
-                .ConnectionString);
+            //todo: avoid hardcode
+            return new SessionProvider("mongodb://mgsu:mgsuForJambul@127.0.0.1:27017/mgsu");
         }
+    }
+
+    public sealed class SimpleInjectorControllerActivator : IControllerActivator
+    {
+        private readonly Container container;
+        public SimpleInjectorControllerActivator(Container c) { container = c; }
+
+        public object Create(ControllerContext c) =>
+            container.GetInstance(c.ActionDescriptor.ControllerTypeInfo.AsType());
+
+        public void Release(ControllerContext c, object controller) { }
     }
 }

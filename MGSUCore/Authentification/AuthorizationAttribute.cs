@@ -1,6 +1,5 @@
-﻿using System.Threading;
-using System.Web.Http;
-using System.Web.Http.Controllers;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Internal;
 using UserManagment.Entities;
 
 namespace MGSUBackend.Authentification
@@ -12,11 +11,6 @@ namespace MGSUBackend.Authentification
         public AuthorizationAttribute(UserRole accountRole)
         {
             _accountRole = accountRole;
-        }
-
-        protected override bool IsAuthorized(HttpActionContext actionContext)
-        {
-            return Thread.CurrentPrincipal.IsInRole(_accountRole);
         }
     }
 }
