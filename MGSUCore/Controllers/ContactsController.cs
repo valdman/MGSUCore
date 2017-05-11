@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using MGSUBackend.Authentification;
 using Microsoft.AspNetCore.Mvc;
+using MGSUCore.Filters;
 using MongoDB.Bson;
 using UserManagment.Application;
 using UserManagment.Entities;
 
 namespace MGSUCore.Controllers
 {
+    [CustomExceptionFilter]
+    [Route("[controller]")]
     public class ContactsController : Controller
     {
         private readonly IContactManager _contactManager;
@@ -17,12 +20,14 @@ namespace MGSUCore.Controllers
         }
 
         // GET: api/Contacts
+        [HttpGet]
         public IEnumerable<Contact> Get()
         {
             return _contactManager.GetContactByPredicate();
         }
 
         // GET: api/Contacts/5
+        [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
             var contact = _contactManager.GetContactById(new ObjectId(id));
@@ -35,6 +40,7 @@ namespace MGSUCore.Controllers
 
         // POST: api/Contacts
         [Authorization(UserRole.Admin)]
+        [HttpPost]
         public IActionResult Post([FromBody] Contact contactToCreate)
         {
             if (!ModelState.IsValid)
@@ -45,6 +51,7 @@ namespace MGSUCore.Controllers
 
         // PUT: api/Contacts/5
         [Authorization(UserRole.Admin)]
+        [HttpPut]
         public IActionResult Put(string id, [FromBody] Contact contactToUpdate)
         {
             if (!ModelState.IsValid)
@@ -68,6 +75,7 @@ namespace MGSUCore.Controllers
 
         // DELETE: api/Contacts/5
         [Authorization(UserRole.Admin)]
+        [HttpDelete]
         public IActionResult Delete(string id)
         {
             var oldContact = _contactManager.GetContactById(new ObjectId(id));

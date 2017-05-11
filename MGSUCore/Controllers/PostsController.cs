@@ -13,6 +13,7 @@ using UserManagment.Entities;
 namespace MGSUCore.Controllers
 {
     [CustomExceptionFilter]
+    [Route("[controller]")]
     public class PostsController : Controller
     {
         private readonly IPostManager _postManager;
@@ -23,6 +24,7 @@ namespace MGSUCore.Controllers
         }
 
         // GET: api/Posts?one=value&two=secondValue
+        [HttpGet]
         public IActionResult Get()
         {
             if (!Request.Query.TryGetValue("category", out StringValues value))
@@ -44,6 +46,7 @@ namespace MGSUCore.Controllers
         }
 
         // GET: api/Posts/5
+        [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
             if (!ModelState.IsValid)
@@ -59,6 +62,7 @@ namespace MGSUCore.Controllers
 
         // POST: api/Posts
         [Authorization(UserRole.Admin)]
+        [HttpPost]
         public IActionResult Post([FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -71,6 +75,7 @@ namespace MGSUCore.Controllers
 
         // PUT: api/Posts/5
         [Authorization(UserRole.Admin)]
+        [HttpPut]
         public IActionResult Put(string id, [FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -93,6 +98,7 @@ namespace MGSUCore.Controllers
 
         // DELETE: api/Posts/5
         [Authorization(UserRole.Admin)]
+        [HttpDelete]
         public IActionResult Delete(string id)
         {
             var oldPost = _postManager.GetPostById(new ObjectId(id));

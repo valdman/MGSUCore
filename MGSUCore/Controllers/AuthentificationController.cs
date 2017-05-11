@@ -13,6 +13,7 @@ using UserManagment.Entities;
 
 namespace MGSUCore.Controllers
 {
+    [Route("[controller]")]
     public class AuthentificationController : Controller
     {
         private readonly ISessionManager _sessionManager;

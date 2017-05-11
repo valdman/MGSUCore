@@ -9,9 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using UserManagment.Application;
 using UserManagment.Entities;
+using MGSUCore.Filters;
 
 namespace MGSUCore.Controllers
 {
+    [CustomExceptionFilter]
+    [Route("[controller]")]
     public class UsersController : Controller
     {
         private readonly IUserManager _userManager;
@@ -22,6 +25,7 @@ namespace MGSUCore.Controllers
         }
 
         // GET: Users
+        [HttpGet]
         public IEnumerable<UserModel> Get()
         {
             return _userManager.GetUserByPredicate()
@@ -29,6 +33,7 @@ namespace MGSUCore.Controllers
         }
 
         // GET: Users/5
+        [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
             if (!ModelState.IsValid)
@@ -42,6 +47,7 @@ namespace MGSUCore.Controllers
         }
 
         // POST: Users
+        [HttpPost]
         public IActionResult Post([FromBody] UserRegistrationModel userModel)
         {
             if (!ModelState.IsValid)
@@ -70,6 +76,7 @@ namespace MGSUCore.Controllers
 
         // PUT: Users/5
         [Authorization(UserRole.User)]
+        [HttpPut]
         public IActionResult Put(string id, [FromBody] UserModel userModel)
         {
             if (!ModelState.IsValid)
@@ -93,6 +100,7 @@ namespace MGSUCore.Controllers
 
         // DELETE: Users/5
         [Authorization(UserRole.User)]
+        [HttpDelete]
         public IActionResult Delete(string id)
         {
             if (User.Identity.GetId().ToString() != id)
