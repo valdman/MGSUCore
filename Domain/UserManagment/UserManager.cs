@@ -7,10 +7,12 @@ using UserManagment.Entities;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Common;
 
 namespace UserManagment
 {
-    public class UserManager : IUserManager
+    public class UserManager : IUserManager, IAuthorizer
     {
         private readonly IRepository<User> _userRepository;
 
@@ -60,6 +62,26 @@ namespace UserManagment
             Require.NotNull(userId, nameof(userId));
 
             _userRepository.Delete(userId);
+        }
+
+        public User FindAsync(string email, string plainPassword)
+        {
+            Require.NotEmpty(email, nameof(email));
+            Require.NotEmpty(plainPassword, nameof(plainPassword));
+
+            var hash = new Password(plainPassword).Hash;
+
+            return GetUserByPredicate(User => User.Email == email && User.Password.Hash == hash).Single();
+        }
+
+        public void SignInAsync(User user, bool isPersistent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SignOut()
+        {
+            throw new NotImplementedException();
         }
     }
 }

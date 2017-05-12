@@ -1,11 +1,11 @@
-﻿using DataAccess;
-using DataAccess.Application;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using PostManagment;
 using SimpleInjector;
 using UserManagment;
 using UserManagment.Application;
+using DataAccess.Application;
+using DataAccess;
 
 namespace MGSUCore
 {
@@ -29,7 +29,7 @@ namespace MGSUCore
         private SessionProvider GetSessionProvider()
         {
             //todo: avoid hardcode
-            return new SessionProvider("mongodb://mgsu:mgsuForJambul@127.0.0.1:27017/mgsu");
+            return new SessionProvider("mongodb://mgsu:mgsuForJambul@127.0.0.1:27017/mgsu"); 
         }
     }
 

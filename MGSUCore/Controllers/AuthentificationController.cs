@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using Common;
 using MGSUBackend.Authentification;
 using MGSUBackend.Models;
@@ -29,19 +30,17 @@ namespace MGSUCore.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
-            var userWhoIntented = _userManager.GetUserByPredicate(user => user.Email == credentials.Email)
-                .SingleOrDefault(); //todo: to special domain method
-            if (userWhoIntented == null)
-                return NotFound();
-
-            if (!userWhoIntented.Password.Equals(new Password(credentials.Password)))
-                return Unauthorized();
-
-            var currentSession = _sessionManager.GetSessionForUser(userWhoIntented.Id);
-
-            Response.Cookies.Append(Session.CookieName, currentSession.Sid.ToString());
-            return Ok();
-        }
+			if (_accountManager.Authenticate(credentials))
+			{
+				var identity = new ClaimsIdentity("password");
+				identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
+				HttpContext.Authentication.SignInAsync("ApiAuth", new ClaimsPrincipal(identity)).Wait();
+			}
+			else
+			{
+				return Unauthorized();
+			}
+			return Ok(_accountManager.Authenticate(credentials));
 
         [HttpPost]
         [Route("logout")]
