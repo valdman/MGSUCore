@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MGSUBackend;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SimpleInjector;
-using SimpleInjector.Lifestyles;
 
 namespace MGSUCore
 {
@@ -21,8 +15,8 @@ namespace MGSUCore
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+              //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true
+              //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -53,7 +47,15 @@ namespace MGSUCore
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //todo: use cookie auth middleware
+			//todo: use cookie auth middleware
+			app.UseCookieAuthentication(new CookieAuthenticationOptions()
+			{
+				AuthenticationScheme = "ApiAuth",
+                CookieName = "sid",
+                ExpireTimeSpan = TimeSpan.FromDays(14),
+				AutomaticAuthenticate = true,
+				AutomaticChallenge = false
+			});
 
             app.UseMvc();
         }
