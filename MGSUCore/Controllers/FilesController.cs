@@ -7,12 +7,13 @@ using FileManagment;
 using FileManagment.Entities;
 using Journalist;
 using MGSUBackend.Models;
+using MGSUCore.Filters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MGSUCore.Controllers
 {
+    [CustomExceptionFilter]
     public class FilesController : Controller
     {
         private readonly IFileManager _fileManager;
@@ -25,56 +26,48 @@ namespace MGSUCore.Controllers
         }
 
         [HttpGet("{filename}")]
-        [Route("file/{fileName}")]
-        public IActionResult GetFile(string fileName)
+        [Route("file/{filename}")]
+        public IActionResult GetFile([FromRoute]string fileName)
         {
             return GetAnyFile(() => _fileManager.GetFile(fileName));
         }
 
         [HttpGet("{imageName}")]
         [Route("image/{imageName}")]
-        public IActionResult GetImage(string imageName)
+        public IActionResult GetImage([FromRoute]string imageName)
         {
             return GetAnyFile(() => _fileManager.GetImage(imageName));
         }
 
         [HttpPost]
         [Route("file")]
-        public async Task<IActionResult> UploadFile()
+        public async Task<IActionResult> UploadFile(IFormFile file)
         {
-            try
-            {
-                return Ok(await _fileManager.UploadFileAsync(Request.Body));
-            }
-            catch (NotSupportedException)
-            {
-                return BadRequest();
-            }
+			if (file.Length <= 0)
+			{
+				return BadRequest();
+			}
+
+			var createdFileName = await _fileManager.UploadFileAsync(file);
+            return Ok(createdFileName);
         }
 
         [HttpPost]
         [Route("image")]
-        public async Task<IActionResult> UploadImage()
+        public async Task<IActionResult> UploadImage(IFormFile image)
         {
-            try
-            {
-                var image = await _fileManager.UploadImageAsync(Request.Body);
-
-                return Ok(new ImageModel
-                {
-                    Original = Path.GetFileName(image.Original.LocalPath),
-                    Small = Path.GetFileName(image.Small.LocalPath),
-                    Role = image.Role
-                });
-            }
-            catch (NotSupportedException)
-            {
+			if (image.Length <= 0)
+			{
                 return BadRequest();
-            }
-            catch (InvalidDataException)
-            {
-                return NoContent();
-            }
+			}
+
+            var createdImage = await _fileManager.UploadImageAsync(image);
+            var imageModel = new ImageModel{
+                  Original = createdImage.Original.Name,
+                  Small = createdImage.Small.Name,
+                  Role = createdImage.Role
+                };
+            return Ok(imageModel);
         }
 
         private IActionResult GetAnyFile(Func<Stream> getStream)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using FileManagment.Entities;
 using MongoDB.Bson;
 using PostManagment.Entities;
@@ -24,8 +25,8 @@ namespace MGSUBackend.Models.Mappers
                     ? null
                     : new ImageModel
                     {
-                        Original = post.Img.Original,
-                        Small = post.Img.Small,
+                        Original = post.Img.Original.ToString(),
+                        Small = post.Img.Small.ToString(),
                         Role = post.Img.Role
                     }
             };
@@ -47,8 +48,8 @@ namespace MGSUBackend.Models.Mappers
                     ? null
                     : new Image
                     {
-                        Original = postModel.Img.Original,
-                        Small = postModel.Img.Small,
+                        Original = new FileInfo(postModel.Img.Original),
+                        Small = new FileInfo(postModel.Img.Small),
                         Role = postModel.Img.Role
                     }
             };

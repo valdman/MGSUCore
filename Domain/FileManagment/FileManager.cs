@@ -1,16 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
+using ImageSharp;
 using System.Threading.Tasks;
-using FileManagment.Entities;
+using Image = FileManagment.Entities.Image;
 using Journalist;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace FileManagment
 {
     public class FileManager : IFileManager
     {
-
         public Stream GetFile(string fileName)
         {
             return GetAnyFile(_fileStorageSettings.FileStorageFolder, fileName);
@@ -21,36 +22,20 @@ namespace FileManagment
             return GetAnyFile(_fileStorageSettings.ImageStorageFolder, imageName);
         }
 
-        public Task<string> UploadFileAsync(Stream content)
+        public Task<string> UploadFileAsync(IFormFile content)
         {
-			Require.NotNull(content, nameof(content));
-			var filePath = await UploadAnyFileAsync(
-				content,
-				_fileStorageSettings.AllowedFileExtensions,
-				_fileStorageSettings.FileStorageFolder);
-			var fileName = Path.GetFileName(filePath);
-			var newFileName = SaltFileNameWithCurrentDate(fileName);
-			var newFilePath = Path.Combine(_fileStorageSettings.FileStorageFolder, newFileName);
-			RenameFile(filePath, newFilePath);
-			return newFileName;
+            throw new NotImplementedException();
         }
 
-        public Task<Image> UploadImageAsync(Stream content)
+        public async Task<Image> UploadImageAsync(IFormFile content)
         {
-			Require.NotNull(content, nameof(content));
-			var bigFilePath = await UploadAnyFileAsync(
-				content,
-				_fileStorageSettings.AllowedImageExtensions,
-				_fileStorageSettings.ImageStorageFolder);
+            var bigImageInfo = await UploadAnyFileAsync(content,
+                                                        _fileStorageSettings.AllowedImageExtensions,
+                                                        _fileStorageSettings.ImageStorageFolder);
 
-			var smallFilePath = _imageResizer.ResizeImageByLengthOfLongestSide(new Uri(bigFilePath));
+            var smallImageInfo = _imageResizer.ResizeImageByLengthOfLongestSide(bigImageInfo);
 
-			var bigFileName = Path.GetFileName(bigFilePath);
-			var newBigFileName = GenerateRandomFileName(bigFileName);
-			var newBigFilePath = Path.Combine(_fileStorageSettings.ImageStorageFolder, newBigFileName);
-			RenameFile(bigFilePath, newBigFilePath);
-
-			return new Image(new Uri(newBigFilePath), smallFilePath);
+            return new Image(bigImageInfo, smallImageInfo);
         }
 
 		private Stream GetAnyFile(string folderPath, string fileName)
@@ -65,27 +50,27 @@ namespace FileManagment
 			return new FileStream(fullPath, FileMode.Open, FileAccess.Read);
 		}
 
-		private async Task<string> UploadAnyFileAsync(
-			HttpContent httpContent,
+		private async Task<FileInfo> UploadAnyFileAsync(
+            IFormFile content,
 			string[] allowedExtensions,
 			string folderPath)
 		{
-			if (!httpContent.IsMime("form-data"))
-			{
-				throw new NotSupportedException();
+            var newName = SaltFileNameWithCurrentDate(Path.GetRandomFileName());
+			var extension = GetFileExtension(content.FileName);
+            var fullFileName = Path.Combine(folderPath, newName) + $".{extension}";
+
+            using (var fileStream = new FileStream(fullFileName,FileMode.CreateNew, FileAccess.Write))	
+            {
+                await content.CopyToAsync(fileStream);
 			}
 
-			var provider = new CustomMultipartStreamProvider(folderPath);
-			await httpContent.ReadAsMultipartAsync(provider);
-			var fullFileName = provider.FileData.First().LocalFileName;
-			var extension = GetFileExtension(fullFileName);
 			if (!allowedExtensions.Contains(extension))
 			{
 				await Task.Factory.StartNew(() => File.Delete(fullFileName));
                 throw new InvalidDataException($"Extension {extension} is not allowed");
 			}
 
-			return fullFileName;
+			return new FileInfo(fullFileName);
 		}
 
 		private string GetFileExtension(string fileName)
@@ -116,6 +101,7 @@ namespace FileManagment
 		{
 			var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
 			var newFileName = fileNameWithoutExtension
+			    + "_"
 				+ DateTime.Now.ToString("s").Replace(":", string.Empty)
 				+ Path.GetExtension(fileName);
 			return newFileName;
@@ -125,5 +111,16 @@ namespace FileManagment
 		{
 			File.Move(originalFullName, newFileFullName);
 		}
+
+		private readonly FileStorageSettings _fileStorageSettings;
+		private readonly IImageResizer _imageResizer;
+
+        public FileManager(IOptions<FileStorageSettings> fileStorageSettings, IImageResizer imageResizer)
+        {
+            _fileStorageSettings = fileStorageSettings.Value;
+            _imageResizer = imageResizer;
+
+            CreateFoldersIfNeeded();
+        }
     }
 }

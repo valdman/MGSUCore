@@ -1,17 +1,20 @@
 ﻿using System;
+using System.IO;
 
 namespace FileManagment.Entities
 {
     public class Image
     {
-        public Image(Uri bigPhotoUri, Uri smallPhotoUri)
+        public Image(){}
+
+        public Image(FileInfo bigPhotoUri, FileInfo smallPhotoUri)
         {
             Original = bigPhotoUri;
             Small = smallPhotoUri;
         }
 
-        public Uri Original { get; set; }
-        public Uri Small { get; set; }
+        public FileInfo Original { get; set; }
+        public FileInfo Small { get; set; }
 
         public string Role { get; set; }
     }

@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using FileManagment.Entities;
 
 namespace FileManagment
@@ -11,8 +11,8 @@ namespace FileManagment
 
 		Stream GetImage(string imageName);
 
-        Task<string> UploadFileAsync(Stream content);
+        Task<string> UploadFileAsync(IFormFile content);
 
-        Task<Image> UploadImageAsync(Stream content);
+        Task<Image> UploadImageAsync(IFormFile content);
     }
 }
