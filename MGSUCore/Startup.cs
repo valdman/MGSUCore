@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SimpleInjector;
 
 namespace MGSUCore
 {
@@ -15,8 +15,8 @@ namespace MGSUCore
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-              //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true
-              //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -28,11 +28,9 @@ namespace MGSUCore
         {
             // Add framework services.
             services.AddMvc();
-            
+
             //Add DI starter
-            var container = new Bootstraper().Configure();
-            services.AddSingleton<IControllerActivator>(new SimpleInjectorControllerActivator(container));
-            services.UseSimpleInjectorAspNetRequestScoping(container);
+            new Bootstraper(services, Configuration).Configure();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +45,7 @@ namespace MGSUCore
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            
 			//todo: use cookie auth middleware
 			app.UseCookieAuthentication(new CookieAuthenticationOptions()
 			{
@@ -57,7 +56,11 @@ namespace MGSUCore
 				AutomaticChallenge = false
 			});
 
+            //CORS
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
             app.UseMvc();
         }
     }
 }
+
