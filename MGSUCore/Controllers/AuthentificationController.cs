@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -7,6 +8,7 @@ using Common;
 using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using UserManagment.Application;
@@ -14,7 +16,6 @@ using UserManagment.Entities;
 
 namespace MGSUCore.Controllers
 {
-    [Route("[controller]")]
     public class AuthentificationController : Controller
     {
         private readonly ISessionManager _sessionManager;
@@ -30,29 +31,46 @@ namespace MGSUCore.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
-            throw new NotImplementedException();
+            var intentedUser = _userManager.GetUserByPredicate(user => user.Email == credentials.Email).Single();
+            if(intentedUser == null)
+            {
+                return NotFound();
+            }
+
+            if(!intentedUser.Password.Equals(new Password(credentials.Password)))
+            {
+                return Unauthorized();
+            }
+            
+            var myclaims = new List<Claim>(new Claim[] 
+            { 
+                new Claim(ClaimTypes.NameIdentifier, intentedUser.Id.ToString()),
+                new Claim(ClaimTypes.Role, intentedUser.Role.ToString())
+            });
+
+
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(myclaims, "WebCookieAuthMiddleware"));
+
+            HttpContext.Authentication.SignInAsync("WebCookieAuthMiddleware", claimsPrincipal).Wait();
+
+            return Ok();
         }
 
         [HttpPost]
         [Route("logout")]
-        [Authorization(UserRole.User)]
+        [Authorize("User")]
         public IActionResult Logout()
         {
-            if (!Request.Cookies.TryGetValue(Session.CookieName, out string sessionId) || sessionId == string.Empty)
-            {
-                return Unauthorized();
-            }
-
-            _sessionManager.EndSessionbyId(Guid.Parse(sessionId));
+            HttpContext.Authentication.SignOutAsync("WebCookieAuthMiddleware");
             return Ok();
         }
 
         [HttpGet]
         [Route("current")]
-        [Authorization(UserRole.User)]
+        [Authorize("User")]
         public IActionResult Current()
         {
-            var currentUserId = User.Identity.GetId();
+            var currentUserId = User.GetId();
 
             var currentUser = _userManager.GetUserById(currentUserId);
 

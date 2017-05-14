@@ -8,6 +8,7 @@ using FileManagment.Entities;
 using Journalist;
 using MGSUBackend.Models;
 using MGSUCore.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,7 @@ namespace MGSUCore.Controllers
 
         [HttpPost]
         [Route("file")]
+        [Authorize("Admin")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
 			if (file.Length <= 0)

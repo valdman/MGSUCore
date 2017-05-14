@@ -1,11 +1,15 @@
 ﻿using System;
+using MGSUBackend.Authentification;
+using MGSUCore.Authentification;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using UserManagment.Entities;
 
 namespace MGSUCore
 {
@@ -29,6 +33,18 @@ namespace MGSUCore
             // Add framework services.
             services.AddMvc();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    "Admin",
+                    policyBuilder => policyBuilder.AddRequirements(
+                        new IsInRole(UserRole.Admin)));
+                options.AddPolicy(
+                    "User",
+                    policyBuilder => policyBuilder.AddRequirements(
+                        new IsAuthentificated()));
+            });
+
             //Add DI starter
             new Bootstraper(services, Configuration).Configure();
         }
@@ -47,14 +63,15 @@ namespace MGSUCore
 
             
 			//todo: use cookie auth middleware
-			app.UseCookieAuthentication(new CookieAuthenticationOptions()
-			{
-				AuthenticationScheme = "ApiAuth",
-                CookieName = "sid",
-                ExpireTimeSpan = TimeSpan.FromDays(14),
-				AutomaticAuthenticate = true,
-				AutomaticChallenge = false
-			});
+			app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "WebCookieAuthMiddleware",
+                //todo: remove magic 302 bug
+                LoginPath = PathString.Empty,
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
+            
 
             //CORS
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());

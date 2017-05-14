@@ -4,6 +4,7 @@ using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
 using MGSUCore.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using MongoDB.Bson;
@@ -61,8 +62,8 @@ namespace MGSUCore.Controllers
         }
 
         // POST: api/Posts
-        [Authorization(UserRole.Admin)]
         [HttpPost]
+        [Authorize("Admin")]
         public IActionResult Post([FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -74,8 +75,8 @@ namespace MGSUCore.Controllers
         }
 
         // PUT: api/Posts/5
-        [Authorization(UserRole.Admin)]
         [HttpPut]
+        [Authorize("Admin")]
         public IActionResult Put(string id, [FromBody] PostModel postModel)
         {
             if (!ModelState.IsValid)
@@ -97,8 +98,8 @@ namespace MGSUCore.Controllers
         }
 
         // DELETE: api/Posts/5
-        [Authorization(UserRole.Admin)]
         [HttpDelete]
+        [Authorize("Admin")]
         public IActionResult Delete(string id)
         {
             var oldPost = _postManager.GetPostById(new ObjectId(id));

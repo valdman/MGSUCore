@@ -6,6 +6,8 @@ using DataAccess;
 using FileManagment;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
+using MGSUCore.Authentification;
 
 namespace MGSUCore
 {
@@ -30,11 +32,16 @@ namespace MGSUCore
 			_services.AddSingleton<IFileManager, FileManager>();
 			_services.AddSingleton<IImageResizer, ImageResizer>();
 
+            //Register auth middleware
+            _services.AddSingleton<IAuthorizationHandler, IsAuthentificatedAuthHandler>();
+            _services.AddSingleton<IAuthorizationHandler, IsInRoleRoleAuthHandler>();
+
             //Register Settings
             var test = _configuration.GetSection("Storage");
             _services.Configure<FileStorageSettings>(_configuration.GetSection("FileStorageSettings"));
             _services.AddSingleton<ISessionProvider, SessionProvider>(
                 (arg) => new SessionProvider(_configuration["ConnectionStrings:Mongo"]));
+                
 
 
         }

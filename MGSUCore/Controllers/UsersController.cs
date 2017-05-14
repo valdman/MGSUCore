@@ -10,6 +10,7 @@ using MongoDB.Bson;
 using UserManagment.Application;
 using UserManagment.Entities;
 using MGSUCore.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MGSUCore.Controllers
 {
@@ -75,14 +76,14 @@ namespace MGSUCore.Controllers
         }
 
         // PUT: Users/5
-        [Authorization(UserRole.User)]
+        [Authorize("User")]
         [HttpPut]
         public IActionResult Put(string id, [FromBody] UserModel userModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var userId = User.Identity.GetId();
+            var userId = User.GetId();
 
             if (userId.ToString() != id)
                 return Unauthorized();
@@ -99,11 +100,11 @@ namespace MGSUCore.Controllers
         }
 
         // DELETE: Users/5
-        [Authorization(UserRole.User)]
+        [Authorize("User")]
         [HttpDelete]
         public IActionResult Delete(string id)
         {
-            if (User.Identity.GetId().ToString() != id)
+            if (User.GetId().ToString() != id)
                 return Unauthorized();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

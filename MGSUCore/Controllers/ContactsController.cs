@@ -5,6 +5,7 @@ using MGSUCore.Filters;
 using MongoDB.Bson;
 using UserManagment.Application;
 using UserManagment.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MGSUCore.Controllers
 {
@@ -39,8 +40,8 @@ namespace MGSUCore.Controllers
         }
 
         // POST: api/Contacts
-        [Authorization(UserRole.Admin)]
         [HttpPost]
+        [Authorize("Admin")]
         public IActionResult Post([FromBody] Contact contactToCreate)
         {
             if (!ModelState.IsValid)
@@ -50,8 +51,8 @@ namespace MGSUCore.Controllers
         }
 
         // PUT: api/Contacts/5
-        [Authorization(UserRole.Admin)]
         [HttpPut]
+        [Authorize("Admin")]
         public IActionResult Put(string id, [FromBody] Contact contactToUpdate)
         {
             if (!ModelState.IsValid)
@@ -74,8 +75,8 @@ namespace MGSUCore.Controllers
         }
 
         // DELETE: api/Contacts/5
-        [Authorization(UserRole.Admin)]
         [HttpDelete]
+        [Authorize("Admin")]
         public IActionResult Delete(string id)
         {
             var oldContact = _contactManager.GetContactById(new ObjectId(id));
