@@ -10,6 +10,7 @@ namespace MGSUCore
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls("http://localhost:5000")
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();
