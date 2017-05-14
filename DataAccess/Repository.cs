@@ -14,7 +14,7 @@ namespace DataAccess
     {
         private readonly IMongoCollection<T> _collection;
 
-        public Repository(SessionProvider sessionProvider)
+        public Repository(ISessionProvider sessionProvider)
         {
             _collection = sessionProvider.GetCollection<T>();
         }

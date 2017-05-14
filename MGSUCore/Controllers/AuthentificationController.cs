@@ -30,17 +30,8 @@ namespace MGSUCore.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
-			if (_accountManager.Authenticate(credentials))
-			{
-				var identity = new ClaimsIdentity("password");
-				identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
-				HttpContext.Authentication.SignInAsync("ApiAuth", new ClaimsPrincipal(identity)).Wait();
-			}
-			else
-			{
-				return Unauthorized();
-			}
-			return Ok(_accountManager.Authenticate(credentials));
+            return Ok();
+        }
 
         [HttpPost]
         [Route("logout")]
