@@ -22,9 +22,13 @@ namespace FileManagment
             return GetAnyFile(_fileStorageSettings.ImageStorageFolder, imageName);
         }
 
-        public Task<string> UploadFileAsync(IFormFile content)
+        public async Task<string> UploadFileAsync(IFormFile content)
         {
-            throw new NotImplementedException();
+            var fileInfo = await UploadAnyFileAsync(content,
+                                                        _fileStorageSettings.AllowedFileExtensions,
+                                                        _fileStorageSettings.FileStorageFolder);
+
+            return fileInfo.Name;
         }
 
         public async Task<Image> UploadImageAsync(IFormFile content)
