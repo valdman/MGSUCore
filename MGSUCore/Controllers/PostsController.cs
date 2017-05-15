@@ -64,8 +64,15 @@ namespace MGSUCore.Controllers
         // POST: api/Posts
         [HttpPost]
         [Authorize("Admin")]
-        public IActionResult Post([FromBody] PostModel postModel)
+        public IActionResult Post([FromBody] PostModel postModel, string category)
         {
+            if(category != null)
+            {
+                var categoryName = nameof(postModel.Category);
+                postModel.Category = category;
+                ModelState.ClearError(categoryName);
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

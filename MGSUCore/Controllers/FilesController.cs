@@ -56,14 +56,14 @@ namespace MGSUCore.Controllers
 
         [HttpPost]
         [Route("image")]
-        public async Task<IActionResult> UploadImage(IFormFile image)
+        public async Task<IActionResult> UploadImage(IFormFile file)
         {
-			if (image.Length <= 0)
+			if (file.Length <= 0)
 			{
                 return BadRequest();
 			}
 
-            var createdImage = await _fileManager.UploadImageAsync(image);
+            var createdImage = await _fileManager.UploadImageAsync(file);
             var imageModel = new ImageModel{
                   Original = createdImage.Original.Name,
                   Small = createdImage.Small.Name,
