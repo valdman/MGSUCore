@@ -4,7 +4,9 @@ using MGSUCore.Authentification;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,7 @@ namespace MGSUCore
         {
             // Add framework services.
             services.AddMvc();
+            services.AddCors();
 
             services.AddAuthorization(options =>
             {
@@ -52,12 +55,6 @@ namespace MGSUCore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //var container = app.
-            //container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-            //// Add application presentation components:
-            //container.RegisterMvcControllers(app);
-
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
