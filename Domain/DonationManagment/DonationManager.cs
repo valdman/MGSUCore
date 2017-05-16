@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using DataAccess.Application;
 using DonationManagment.Application;
-using DonationManagment.Entities;
+using Common.Entities;
 using Journalist;
 using MongoDB.Bson;
 using ProjectManagment.Application;

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using UserManagment.Entities;
+using Common.Entities;
 
 namespace MGSUCore
 {

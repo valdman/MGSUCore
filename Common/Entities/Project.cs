@@ -1,15 +1,16 @@
-﻿using MongoDB.Bson;
+﻿using Common;
+using MongoDB.Bson;
 
-namespace ProjectManagment.Entities
+namespace Common.Entities
 {
-    public class Project
+    public class Project : PersistentEntity
     {
         public string Name { get; private set; }
         public string Direction { get; set; }
         public string Content { get; set; }
         public string ShortDescription { get; set; }
 
-        public BsonDateTime CreatingDate { get; set; }
+        public Image Img {get; set;}
 
         public decimal Need { get; set; }
 

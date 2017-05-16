@@ -3,17 +3,17 @@ using System.Linq;
 using MGSUBackend.Authentification;
 using MGSUBackend.Models;
 using MGSUBackend.Models.Mappers;
-using MGSUCore.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using MongoDB.Bson;
 using PostManagment;
-using UserManagment.Entities;
+using Common.Entities;
+using MGSUCore.Filters;
 
 namespace MGSUCore.Controllers
 {
-    [CustomExceptionFilter]
+    [CustomExceptionFilterAttribute]
     [Route("[controller]")]
     public class PostsController : Controller
     {

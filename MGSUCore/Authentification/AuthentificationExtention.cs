@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using MGSUCore.Authentification;
 using MongoDB.Bson;
-using UserManagment.Entities;
+using Common.Entities;
 
 namespace MGSUBackend.Authentification
 {

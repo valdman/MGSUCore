@@ -2,7 +2,7 @@
 
 namespace UserManagment
 {
-    internal class PolicyException : Exception
+    public class PolicyException : Exception
     {
         public PolicyException()
         {

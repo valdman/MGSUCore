@@ -2,7 +2,7 @@
 using MGSUCore.Authentification;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
-using UserManagment.Entities;
+using Common.Entities;
 
 namespace MGSUBackend.Authentification
 {

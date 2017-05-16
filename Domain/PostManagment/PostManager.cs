@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using DataAccess.Application;
 using Journalist;
 using MongoDB.Bson;
-using PostManagment.Entities;
+using Common.Entities;
 
 namespace PostManagment
 {

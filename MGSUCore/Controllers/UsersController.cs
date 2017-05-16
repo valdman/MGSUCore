@@ -8,13 +8,13 @@ using MGSUBackend.Models.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using UserManagment.Application;
-using UserManagment.Entities;
-using MGSUCore.Filters;
+using Common.Entities;
 using Microsoft.AspNetCore.Authorization;
+using MGSUCore.Filters;
 
 namespace MGSUCore.Controllers
 {
-    [CustomExceptionFilter]
+    [CustomExceptionFilterAttribute]
     [Route("[controller]")]
     public class UsersController : Controller
     {

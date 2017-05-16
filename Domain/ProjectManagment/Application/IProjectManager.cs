@@ -1,5 +1,5 @@
 ﻿using MongoDB.Bson;
-using ProjectManagment.Entities;
+using Common.Entities;
 
 namespace ProjectManagment.Application
 {

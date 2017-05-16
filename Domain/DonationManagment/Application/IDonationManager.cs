@@ -1,4 +1,4 @@
-﻿using DonationManagment.Entities;
+﻿using Common.Entities;
 using MongoDB.Bson;
 
 namespace DonationManagment.Application

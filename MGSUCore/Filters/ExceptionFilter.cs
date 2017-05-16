@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using MongoDB.Driver;
+using UserManagment;
 
 namespace MGSUCore.Filters
 {
@@ -8,7 +10,15 @@ namespace MGSUCore.Filters
         public override void OnException(ExceptionContext context)
         {
             var exception = context.Exception;
-            context.Result = new JsonResult(exception.Message);
+            if(exception.GetType() == typeof(PolicyException))
+            {
+                context.Result = new BadRequestObjectResult(exception.Message);
+            }
+            else if(exception.GetType() == typeof(MongoWriteException))
+            {
+                var mongoWriteEx = exception as MongoWriteException;
+                context.Result = new BadRequestObjectResult(mongoWriteEx.WriteError.Category.ToString());
+            }
         }
     }
 }

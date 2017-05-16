@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using FileManagment.Entities;
 using MongoDB.Bson;
-using PostManagment.Entities;
+using Common.Entities;
 
 namespace MGSUBackend.Models.Mappers
 {

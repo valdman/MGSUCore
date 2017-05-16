@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MongoDB.Bson;
-using PostManagment.Entities;
+using Common.Entities;
 
 namespace PostManagment
 {

@@ -1,8 +1,7 @@
 ﻿using System;
 using Common;
-using FileManagment.Entities;
 
-namespace UserManagment.Entities
+namespace Common.Entities
 {
     public class Contact : PersistentEntity
     {

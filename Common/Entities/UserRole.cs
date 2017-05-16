@@ -1,4 +1,4 @@
-﻿namespace UserManagment.Entities
+﻿namespace Common.Entities
 {
     public enum UserRole
     {

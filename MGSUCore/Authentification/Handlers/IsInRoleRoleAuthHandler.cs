@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MGSUBackend.Authentification;
 using Microsoft.AspNetCore.Authorization;
-using UserManagment.Entities;
+using Common.Entities;
 
 namespace MGSUCore.Authentification
 {

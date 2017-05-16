@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<connectionStrings>
-  <add
-    name="MongoConnectionString"
-    connectionString="mongodb://mgsu:mgsuForJambul@127.0.0.1:27017/mgsu"
-  />
-</connectionStrings>

@@ -12,18 +12,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using UserManagment.Application;
-using UserManagment.Entities;
+using Common.Entities;
+using MGSUCore.Filters;
 
 namespace MGSUCore.Controllers
 {
+    [CustomExceptionFilterAttribute]
     public class AuthentificationController : Controller
     {
-        private readonly ISessionManager _sessionManager;
         private readonly IUserManager _userManager;
 
-        public AuthentificationController(ISessionManager sessionManager, IUserManager userManager)
+        public AuthentificationController(IUserManager userManager)
         {
-            _sessionManager = sessionManager;
             _userManager = userManager;
         }
 
@@ -31,7 +31,7 @@ namespace MGSUCore.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
-            var intentedUser = _userManager.GetUserByPredicate(user => user.Email == credentials.Email).Single();
+            var intentedUser = _userManager.GetUserByPredicate(user => user.Email == credentials.Email).SingleOrDefault();
             if(intentedUser == null)
             {
                 return NotFound();

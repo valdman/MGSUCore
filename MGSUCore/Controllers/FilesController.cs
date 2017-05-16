@@ -4,17 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FileManagment;
-using FileManagment.Entities;
+using Common.Entities;
 using Journalist;
 using MGSUBackend.Models;
-using MGSUCore.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MGSUCore.Filters;
 
 namespace MGSUCore.Controllers
 {
-    [CustomExceptionFilter]
+    [CustomExceptionFilterAttribute]
     public class FilesController : Controller
     {
         private readonly IFileManager _fileManager;

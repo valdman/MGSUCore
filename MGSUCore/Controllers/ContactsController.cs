@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using MGSUBackend.Authentification;
 using Microsoft.AspNetCore.Mvc;
-using MGSUCore.Filters;
 using MongoDB.Bson;
 using UserManagment.Application;
-using UserManagment.Entities;
+using Common.Entities;
 using Microsoft.AspNetCore.Authorization;
+using MGSUCore.Filters;
 
 namespace MGSUCore.Controllers
 {
-    [CustomExceptionFilter]
+    [CustomExceptionFilterAttribute]
     [Route("[controller]")]
     public class ContactsController : Controller
     {

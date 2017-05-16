@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MongoDB.Bson;
-using UserManagment.Entities;
+using Common.Entities;
 
 namespace UserManagment.Application
 {

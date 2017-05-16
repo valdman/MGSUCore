@@ -1,7 +1,7 @@
 ﻿using Common;
 using MongoDB.Bson;
 
-namespace DonationManagment.Entities
+namespace Common.Entities
 {
     public class Donation : PersistentEntity
     {

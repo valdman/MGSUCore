@@ -1,8 +1,15 @@
-FROM microsoft/aspnetcore-build
-RUN mkdir /src
+FROM microsoft/aspnetcore-build 
+LABEL Name=mgsucore
+
 COPY . /src
+WORKDIR /src
+
+RUN ["dotnet", "restore"]
+RUN ["dotnet", "publish", "-o", "/app"]
+
 WORKDIR /app
-RUN ls
-RUN cd /src && dotnet restore MGSUCore.sln && dotnet publish MGSUCore.sln -o:/app
-EXPOSE 5000
-CMD ["dotnet", "MGSUCore.dll"]
+
+EXPOSE 5000/tcp
+ENV ASPNETCORE_URLS http://*:5000
+
+CMD ["dotnet", "run", "MGSUCore.dll"]

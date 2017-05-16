@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace FileManagment.Entities
+namespace Common.Entities
 {
     public class Image
     {

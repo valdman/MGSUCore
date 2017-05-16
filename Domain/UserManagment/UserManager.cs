@@ -3,7 +3,7 @@ using DataAccess.Application;
 using Journalist;
 using MongoDB.Bson;
 using UserManagment.Application;
-using UserManagment.Entities;
+using Common.Entities;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using Common;
 
 namespace UserManagment
 {
-    public class UserManager : IUserManager, IAuthorizer
+    public class UserManager : IUserManager
     {
         private readonly IRepository<User> _userRepository;
 
@@ -37,23 +37,13 @@ namespace UserManagment
         {
             Require.NotNull(userToCreate, nameof(userToCreate));
 
-            if (_userRepository.GetByPredicate(user => user.Email == userToCreate.Email).Any())
-            {
-                throw new PolicyException("User with this email already registered");
-            }
-
             return _userRepository.Create(userToCreate);
         }
 
         public void UpdateUser(User userToUpdate)
         {
             Require.NotNull(userToUpdate, nameof(userToUpdate));
-
-            if (_userRepository.GetByPredicate(user => user.Email == userToUpdate.Email && !user.Id.Equals(userToUpdate.Id)).Any())
-            {
-                throw new PolicyException("User with this email already exists");
-            }
-
+            
             _userRepository.Update(userToUpdate);
         }
 
@@ -62,26 +52,6 @@ namespace UserManagment
             Require.NotNull(userId, nameof(userId));
 
             _userRepository.Delete(userId);
-        }
-
-        public User FindAsync(string email, string plainPassword)
-        {
-            Require.NotEmpty(email, nameof(email));
-            Require.NotEmpty(plainPassword, nameof(plainPassword));
-
-            var hash = new Password(plainPassword).Hash;
-
-            return GetUserByPredicate(User => User.Email == email && User.Password.Hash == hash).Single();
-        }
-
-        public void SignInAsync(User user, bool isPersistent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SignOut()
-        {
-            throw new NotImplementedException();
         }
     }
 }

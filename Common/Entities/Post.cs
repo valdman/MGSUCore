@@ -1,8 +1,7 @@
 ﻿using Common;
-using FileManagment.Entities;
 using MongoDB.Bson;
 
-namespace PostManagment.Entities
+namespace Common.Entities
 {
     public class Post : PersistentEntity
     {

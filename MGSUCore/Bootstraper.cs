@@ -22,28 +22,28 @@ namespace MGSUCore
             _configuration = configuration;
         }
 
-        public void Configure()
+        public async void Configure()
         {
-            _services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
-			_services.AddSingleton<IUserManager, UserManager>();
-			_services.AddSingleton<IPostManager, PostManager>();
-			_services.AddSingleton<IContactManager, ContactManager>();
-			_services.AddSingleton<ISessionManager, SessionManager>();
-			_services.AddSingleton<IFileManager, FileManager>();
-			_services.AddSingleton<IImageResizer, ImageResizer>();
+            _services //DI Work
+            .AddSingleton(typeof(IRepository<>), typeof(Repository<>))
+			.AddSingleton<IUserManager, UserManager>()
+			.AddSingleton<IPostManager, PostManager>()
+			.AddSingleton<IContactManager, ContactManager>()
+			.AddSingleton<IFileManager, FileManager>()
+			.AddSingleton<IImageResizer, ImageResizer>()
 
             //Register auth middleware
-            _services.AddSingleton<IAuthorizationHandler, IsAuthentificatedAuthHandler>();
-            _services.AddSingleton<IAuthorizationHandler, IsInRoleRoleAuthHandler>();
+            .AddSingleton<IAuthorizationHandler, IsAuthentificatedAuthHandler>()
+            .AddSingleton<IAuthorizationHandler, IsInRoleRoleAuthHandler>();
 
             //Register Settings
             var test = _configuration.GetSection("Storage");
             _services.Configure<FileStorageSettings>(_configuration.GetSection("FileStorageSettings"));
+
+            var sessionProvider = new SessionProvider(_configuration["ConnectionStrings:Mongo"]);
             _services.AddSingleton<ISessionProvider, SessionProvider>(
-                (arg) => new SessionProvider(_configuration["ConnectionStrings:Mongo"]));
-                
-
-
+                (arg) => sessionProvider);
+            await DataConstraintsProvider.CreateConstraints(sessionProvider);
         }
     }
 }

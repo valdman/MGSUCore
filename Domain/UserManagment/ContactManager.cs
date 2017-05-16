@@ -5,7 +5,7 @@ using DataAccess.Application;
 using Journalist;
 using MongoDB.Bson;
 using UserManagment.Application;
-using UserManagment.Entities;
+using Common.Entities;
 
 namespace UserManagment
 {

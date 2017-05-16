@@ -1,5 +1,5 @@
 ﻿using MongoDB.Bson;
-using UserManagment.Entities;
+using Common.Entities;
 
 namespace MGSUBackend.Models.Mappers
 {

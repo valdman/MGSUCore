@@ -1,7 +1,7 @@
 ﻿using Common;
 using MongoDB.Bson;
 
-namespace UserManagment.Entities
+namespace Common.Entities
 {
     public class User : PersistentEntity
     {
