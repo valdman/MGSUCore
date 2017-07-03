@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using MGSUCore.Authentification;
+using ProjectManagment.Application;
+using ProjectManagment;
 
 namespace MGSUCore
 {
@@ -29,6 +31,7 @@ namespace MGSUCore
 			.AddSingleton<IUserManager, UserManager>()
 			.AddSingleton<IPostManager, PostManager>()
 			.AddSingleton<IContactManager, ContactManager>()
+            .AddSingleton<IProjectManager, ProjectManager>()
 			.AddSingleton<IFileManager, FileManager>()
 			.AddSingleton<IImageResizer, ImageResizer>()
 

@@ -1,23 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Common.Entities;
 using MGSUCore.Filters;
 using MGSUCore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using ProjectManagment.Application;
 
 namespace MGSUCore.Controllers
 {
-	[CustomExceptionFilterAttribute]
+    [CustomExceptionFilterAttribute]
 	[Route("[controller]")]
     public class ProjectsController : Controller
     {
+        private readonly IProjectManager _projectManager;
+
+        public ProjectsController(IProjectManager projectManager)
+        {
+            _projectManager = projectManager;
+        }
+
         // GET: api/values
         [HttpGet]
         public IActionResult GetAllProjects()
         {
-            throw new NotImplementedException();
+            return Ok(_projectManager.GetProjectByPredicate().Select(ProjectMapper.ProjectToProjectModel));
         }
 
         // GET api/values/5
@@ -32,31 +40,66 @@ namespace MGSUCore.Controllers
 			if (projectToReturn  == null)
 				return NotFound();
 
-			return Ok(ProjectMapper.PostToPostModel(projectToReturn));
+			return Ok(ProjectMapper.ProjectToProjectModel(projectToReturn));
         }
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]ProjectModel projectModel)
+        [Authorize("Admin")]
+        public IActionResult CreateProject([FromBody]ProjectModel projectModel)
         {
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var postToCreate = ProjectMapper.PostModelToPost(projectModel);
+            var postToCreate = ProjectMapper.ProjectModelToProject(projectModel);
 
 			return Ok(_projectManager.CreateProject(postToCreate).ToString());
         }
 
         // PUT values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [Authorize("Admin")]
+        public IActionResult UpdateProject(string id, [FromBody] ProjectModel projectModel)
         {
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+            var oldProject = _projectManager.GetProjectById(new ObjectId(id));
+
+			if (oldProject == null)
+				return NotFound();
+
+            oldProject.Name = projectModel.Name ?? oldProject.Name;
+			oldProject.Direction = projectModel.Direction ?? oldProject.Direction;
+            oldProject.ShortDescription = projectModel.ShortDescription ?? oldProject.ShortDescription;
+			oldProject.Content = projectModel.Content ?? oldProject.Content;
+            oldProject.Img = projectModel != null ?
+                new Image
+                {
+                    Original = new FileInfo(projectModel.Img.Original),
+                    Small = new FileInfo(projectModel.Img.Small),
+                    Role = projectModel.Img.Role
+                } : oldProject.Img;
+			oldProject.Need = projectModel.Need == 0 ? oldProject.Need : projectModel.Need;
+			oldProject.Given = projectModel.Given == 0 ? oldProject.Given : projectModel.Given;
+            oldProject.Public = projectModel.Public;
+
+            _projectManager.UpdateProject(oldProject);
+			return Ok();
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize("Admin")]
+        public IActionResult DeleteProject(string id)
         {
+            var oldProject = _projectManager.GetProjectById(new ObjectId(id));
+
+			if (oldProject == null)
+				return NotFound();
+
+            _projectManager.DeleteProject(new ObjectId(id));
+			return Ok();
         }
     }
 }

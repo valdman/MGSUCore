@@ -28,6 +28,7 @@
     <ProjectReference Include="..\Domain\UserManagment\UserManagment.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Domain\FileManagment\FileManagment.csproj" />
+    <ProjectReference Include="..\Domain\ProjectManagment\ProjectManagment.csproj" />
   </ItemGroup>
 
 </Project>

@@ -19,5 +19,13 @@ namespace Journalist
                 throw new ArgumentNullException($"String {name} can not be empty");
             }
         }
+
+		public static void Positive(object @object, string name)
+		{
+            if ((float)@object > 0)
+			{
+				throw new ArgumentNullException($"Parameter {name} can not be non-positive");
+			}
+		}
     }
 }

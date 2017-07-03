@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using MGSUBackend.Models;
 
 namespace MGSUCore.Models
 {
@@ -8,14 +9,26 @@ namespace MGSUCore.Models
         public string Id { get; set; }
 
         [Required]
-		public string Name { get; private set; }
+		public string Name { get; set; }
 
         [Required]
-		public string Direction { get; private set; }
+		public string Direction { get; set; }
 
         [Required]
-        public decimal Need { get; private set; }
+        public decimal Need { get; set; }
 
-		public decimal Given { get; private set; }
-    }
+		public decimal Given { get; set; }
+
+		[Required]
+		[MaxLength(60)]
+		public string ShortDescription { get; set; }
+
+		public string Content { get; set; }
+
+        public ImageModel Img { get; set; }
+
+		public bool Public { get; set; }
+
+
+	}
 }
