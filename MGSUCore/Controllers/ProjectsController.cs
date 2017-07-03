@@ -73,7 +73,7 @@ namespace MGSUCore.Controllers
 			oldProject.Direction = projectModel.Direction ?? oldProject.Direction;
             oldProject.ShortDescription = projectModel.ShortDescription ?? oldProject.ShortDescription;
 			oldProject.Content = projectModel.Content ?? oldProject.Content;
-            oldProject.Img = projectModel != null ?
+            oldProject.Img = projectModel.Img != null ?
                 new Image
                 {
                     Original = new FileInfo(projectModel.Img.Original),

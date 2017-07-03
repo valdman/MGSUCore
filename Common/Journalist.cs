@@ -22,7 +22,7 @@ namespace Journalist
 
 		public static void Positive(object @object, string name)
 		{
-            if ((float)@object > 0)
+            if (Math.Sign((decimal)@object) <= 0)
 			{
 				throw new ArgumentNullException($"Parameter {name} can not be non-positive");
 			}

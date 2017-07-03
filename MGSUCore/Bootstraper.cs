@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using MGSUCore.Authentification;
 using ProjectManagment.Application;
 using ProjectManagment;
+using DonationManagment.Application;
+using DonationManagment;
 
 namespace MGSUCore
 {
@@ -32,6 +34,7 @@ namespace MGSUCore
 			.AddSingleton<IPostManager, PostManager>()
 			.AddSingleton<IContactManager, ContactManager>()
             .AddSingleton<IProjectManager, ProjectManager>()
+            .AddSingleton<IDonationManager, DonationManager>()
 			.AddSingleton<IFileManager, FileManager>()
 			.AddSingleton<IImageResizer, ImageResizer>()
 

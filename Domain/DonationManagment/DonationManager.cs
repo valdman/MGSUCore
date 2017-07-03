@@ -24,6 +24,8 @@ namespace DonationManagment
 
             var id = _donationRepository.Create(donationToCreate);
 
+            
+
             if (donationToCreate.Confirmed)
             {
                 Debug.WriteLine("Autoconfirmed donation creation");
