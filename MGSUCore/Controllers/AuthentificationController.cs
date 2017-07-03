@@ -37,7 +37,9 @@ namespace MGSUCore.Controllers
                 return NotFound();
             }
 
-            if(!intentedUser.Password.Equals(new Password(credentials.Password)))
+            var intendedHash = new Password(credentials.Password).Hash;
+
+            if(intentedUser.Password.Hash != intendedHash)
             {
                 return Unauthorized();
             }
