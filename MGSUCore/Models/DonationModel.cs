@@ -20,5 +20,7 @@ namespace MGSUCore.Models
 		public bool Recursive { get; set; }
 
 		public bool Confirmed { get; set; }
+
+		public string CreatingTime { get; set; }
     }
 }

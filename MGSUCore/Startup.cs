@@ -12,19 +12,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Common.Entities;
+using Common;
+using Microsoft.Extensions.Options;
 
 namespace MGSUCore
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        private readonly DeploySettings _deploySettings;
+        public Startup(IHostingEnvironment env, IOptions<DeploySettings> deploySettings)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
+
+            _deploySettings = deploySettings.Value;
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -32,9 +38,29 @@ namespace MGSUCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add framework services.  
+            //services.AddApplicationInsightsTelemetry(Configuration);  
+
             // Add framework services.
             services.AddMvc();
-            services.AddCors();
+
+            services.AddCors(  
+            options => options.AddPolicy("AllowCors",  
+                builder => {  
+                    builder  
+                    .WithOrigins("http://localhost:3000") //AllowSpecificOrigins;  
+                    //.WithOrigins("http://localhost:4456", "http://localhost:4457") //AllowMultipleOrigins;  
+                        //.AllowAnyOrigin() //AllowAllOrigins;  
+                        //.WithMethods("GET") //AllowSpecificMethods;  
+                        //.WithMethods("GET", "PUT") //AllowSpecificMethods;  
+                        //.WithMethods("GET", "PUT", "POST") //AllowSpecificMethods;  
+                        .WithMethods("GET", "PUT", "POST", "DELETE") //AllowSpecificMethods;  
+                        //.AllowAnyMethod() //AllowAllMethods;  
+                        //.WithHeaders("Accept", "Content-type", "Origin", "X-Custom-Header"); //AllowSpecificHeaders;  
+                        .AllowAnyHeader() //AllowAllHeaders; 
+                        .AllowCredentials();
+                    })  
+            );
 
             services.AddAuthorization(options =>
             {
@@ -54,7 +80,7 @@ namespace MGSUCore
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
+        {       
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -68,12 +94,12 @@ namespace MGSUCore
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true
             });
-            
 
             //CORS
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+            app.UseCors("AllowCors");
 
             app.UseMvc();
+            
         }
     }
 }

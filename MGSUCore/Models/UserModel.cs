@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Common.Entities;
+using MongoDB.Bson;
 
 namespace MGSUBackend.Models
 {
@@ -12,5 +14,9 @@ namespace MGSUBackend.Models
 
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        public UserRole Role { get; set; }
+
+        public string CreatingTime { get; set; }
     }
 }

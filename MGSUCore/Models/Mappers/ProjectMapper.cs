@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Common.Entities;
 using MGSUBackend.Models;
 using MGSUCore.Models;
+using MongoDB.Bson;
 
 namespace MGSUCore.Controllers
 {
@@ -28,7 +30,8 @@ namespace MGSUCore.Controllers
                 },
                 Need = project.Need,
                 Given = project.Given,
-                Public = project.Public
+                Public = project.Public,
+                CreatingTime = project.CreatingTime.ToString()
             };
         }
 
@@ -52,7 +55,8 @@ namespace MGSUCore.Controllers
 					},
 				Need = projectModel.Need,
 				Given = projectModel.Given,
-				Public = projectModel.Public
+				Public = true,
+                CreatingTime = BsonDateTime.Create(projectModel.CreatingTime)
             };
         }
 

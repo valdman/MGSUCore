@@ -17,7 +17,6 @@ namespace MGSUBackend.Models.Mappers
                 Title = post.Title,
                 Category = post.Category,
                 Content = post.Content,
-                CreatingTime = post.CreatingTime.ToString(),
                 Date = post.Date?.AsString,
                 Description = post.Description,
                 Img = post.Img == null
@@ -27,7 +26,8 @@ namespace MGSUBackend.Models.Mappers
                         Original = post.Img.Original.ToString(),
                         Small = post.Img.Small.ToString(),
                         Role = post.Img.Role
-                    }
+                    },
+                CreatingTime = post.CreatingTime.ToString()
             };
         }
 
@@ -40,7 +40,6 @@ namespace MGSUBackend.Models.Mappers
                 Title = postModel.Title,
                 Category = postModel.Category,
                 Content = postModel.Content,
-                CreatingTime = BsonDateTime.Create(DateTime.UtcNow),
                 Date = postModel.Date == null ? null : BsonDateTime.Create(postModel.Date),
                 Description = postModel.Description,
                 Img = postModel.Img == null
@@ -50,7 +49,8 @@ namespace MGSUBackend.Models.Mappers
                         Original = new FileInfo(postModel.Img.Original),
                         Small = new FileInfo(postModel.Img.Small),
                         Role = postModel.Img.Role
-                    }
+                    },
+                CreatingTime = BsonDateTime.Create(postModel.CreatingTime)
             };
         }
     }

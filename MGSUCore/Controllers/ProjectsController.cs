@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Common.Entities;
 using MGSUCore.Filters;
@@ -25,7 +26,30 @@ namespace MGSUCore.Controllers
         [HttpGet]
         public IActionResult GetAllProjects()
         {
-            return Ok(_projectManager.GetProjectByPredicate().Select(ProjectMapper.ProjectToProjectModel));
+            if (!Request.Query.TryGetValue("direction", out Microsoft.Extensions.Primitives.StringValues value))
+            {
+                if(User.IsInRole("Admin"))
+                {
+                    return Ok(_projectManager.GetProjectByPredicate().
+                        Select(ProjectMapper.ProjectToProjectModel));
+                }
+                else
+                {
+                    return Ok(_projectManager.GetProjectByPredicate(project => project.Public).
+                        Select(ProjectMapper.ProjectToProjectModel));
+                }
+            }
+
+            if (value.Count > 1)
+            {
+                return BadRequest("Query bad");
+            }
+
+            var direction = value.Single();
+
+            return Ok(_projectManager.
+                        GetProjectByPredicate(project => project.Direction == direction).
+                        Select(ProjectMapper.ProjectToProjectModel));
         }
 
         // GET api/values/5

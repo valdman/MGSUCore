@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Entities;
+using MongoDB.Bson;
 
 namespace MGSUCore.Models.Mappers
 {
@@ -17,7 +18,8 @@ namespace MGSUCore.Models.Mappers
                 Value = donationModel.Value,
                 Date = donationModel.Date,
                 Recursive = donationModel.Recursive,
-                Confirmed = donationModel.Confirmed
+                Confirmed = donationModel.Confirmed,
+                CreatingTime = BsonDateTime.Create(donationModel.CreatingTime)
             };
         }
 
@@ -33,7 +35,8 @@ namespace MGSUCore.Models.Mappers
 				Value = donation.Value,
 				Date = donation.Date,
 				Recursive = donation.Recursive,
-				Confirmed = donation.Confirmed
+				Confirmed = donation.Confirmed,
+                CreatingTime = donation.CreatingTime.ToString()
 			};
 		}
     }

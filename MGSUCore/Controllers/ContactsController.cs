@@ -6,6 +6,7 @@ using UserManagment.Application;
 using Common.Entities;
 using Microsoft.AspNetCore.Authorization;
 using MGSUCore.Filters;
+using System.Linq;
 
 namespace MGSUCore.Controllers
 {
@@ -22,9 +23,22 @@ namespace MGSUCore.Controllers
 
         // GET: api/Contacts
         [HttpGet]
-        public IEnumerable<Contact> Get()
+        public IActionResult Get()
         {
-            return _contactManager.GetContactByPredicate();
+            if (!Request.Query.TryGetValue("team", out Microsoft.Extensions.Primitives.StringValues value))
+            {
+                return Ok(_contactManager.GetContactByPredicate());
+            }
+
+            if (value.Count > 1)
+            {
+                return BadRequest("Query bad");
+            }
+
+            var team = value.Single();
+
+            return
+                Ok(_contactManager.GetContactByPredicate(contact => contact.Team == team));
         }
 
         // GET: api/Contacts/5
@@ -51,7 +65,7 @@ namespace MGSUCore.Controllers
         }
 
         // PUT: api/Contacts/5
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize("Admin")]
         public IActionResult Put(string id, [FromBody] Contact contactToUpdate)
         {
@@ -75,7 +89,7 @@ namespace MGSUCore.Controllers
         }
 
         // DELETE: api/Contacts/5
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize("Admin")]
         public IActionResult Delete(string id)
         {

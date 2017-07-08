@@ -12,6 +12,7 @@ using ProjectManagment.Application;
 using ProjectManagment;
 using DonationManagment.Application;
 using DonationManagment;
+using Common;
 
 namespace MGSUCore
 {
@@ -43,8 +44,8 @@ namespace MGSUCore
             .AddSingleton<IAuthorizationHandler, IsInRoleRoleAuthHandler>();
 
             //Register Settings
-            var test = _configuration.GetSection("Storage");
             _services.Configure<FileStorageSettings>(_configuration.GetSection("FileStorageSettings"));
+            _services.Configure<DeploySettings>(_configuration.GetSection("DeploySettings"));
 
             var sessionProvider = new SessionProvider(_configuration["ConnectionStrings:Mongo"]);
             _services.AddSingleton<ISessionProvider, SessionProvider>(

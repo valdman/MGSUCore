@@ -82,7 +82,7 @@ namespace MGSUCore.Controllers
         }
 
         // PUT: api/Posts/5
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize("Admin")]
         public IActionResult Put(string id, [FromBody] PostModel postModel)
         {
@@ -97,7 +97,7 @@ namespace MGSUCore.Controllers
             oldPost.Title = postModel.Title ?? oldPost.Title;
             oldPost.Category = postModel.Category ?? oldPost.Category;
             oldPost.Content = postModel.Content ?? oldPost.Content;
-            oldPost.Date = postModel.Date == string.Empty ? oldPost.Date : BsonDateTime.Create(postModel.Date);
+            oldPost.Date = postModel.Date == string.Empty || postModel.Date == null ? oldPost.Date : BsonDateTime.Create(postModel.Date);
             oldPost.Description = postModel.Description ?? oldPost.Description;
 
             _postManager.UpdatePost(oldPost);
@@ -105,7 +105,7 @@ namespace MGSUCore.Controllers
         }
 
         // DELETE: api/Posts/5
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize("Admin")]
         public IActionResult Delete(string id)
         {

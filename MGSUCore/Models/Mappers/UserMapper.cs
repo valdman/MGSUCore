@@ -15,7 +15,8 @@ namespace MGSUBackend.Models.Mappers
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
-                Email = user.Email
+                Email = user.Email,
+                Role = user.Role
             };
         }
 

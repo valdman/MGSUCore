@@ -65,8 +65,8 @@ namespace MGSUCore.Controllers
 
             var createdImage = await _fileManager.UploadImageAsync(file);
             var imageModel = new ImageModel{
-                  Original = createdImage.Original.Name,
-                  Small = createdImage.Small.Name,
+                  Original = createdImage.Original.FullName,
+                  Small = createdImage.Small.FullName,
                   Role = createdImage.Role
                 };
             return Ok(imageModel);

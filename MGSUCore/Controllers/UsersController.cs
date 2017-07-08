@@ -77,7 +77,7 @@ namespace MGSUCore.Controllers
 
         // PUT: Users/5
         [Authorize("User")]
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Put(string id, [FromBody] UserModel userModel)
         {
             if (!ModelState.IsValid)
@@ -101,7 +101,7 @@ namespace MGSUCore.Controllers
 
         // DELETE: Users/5
         [Authorize("User")]
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
             if (User.GetId().ToString() != id)

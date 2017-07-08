@@ -28,7 +28,7 @@ namespace MGSUCore.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("user/login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
             var intentedUser = _userManager.GetUserByPredicate(user => user.Email == credentials.Email).SingleOrDefault();
@@ -55,11 +55,11 @@ namespace MGSUCore.Controllers
 
             HttpContext.Authentication.SignInAsync("WebCookieAuthMiddleware", claimsPrincipal).Wait();
 
-            return Ok();
+            return Ok(UserMapper.UserToUserModel(intentedUser));
         }
 
         [HttpPost]
-        [Route("logout")]
+        [Route("user/logout")]
         [Authorize("User")]
         public IActionResult Logout()
         {
@@ -68,7 +68,7 @@ namespace MGSUCore.Controllers
         }
 
         [HttpGet]
-        [Route("current")]
+        [Route("user/current")]
         [Authorize("User")]
         public IActionResult Current()
         {
