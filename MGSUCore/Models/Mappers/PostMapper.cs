@@ -27,7 +27,7 @@ namespace MGSUBackend.Models.Mappers
                         Small = post.Img.Small.ToString(),
                         Role = post.Img.Role
                     },
-                CreatingTime = post.CreatingTime.ToString()
+                CreatingDate = post.CreatingDate.ToString()
             };
         }
 
@@ -46,11 +46,10 @@ namespace MGSUBackend.Models.Mappers
                     ? null
                     : new Image
                     {
-                        Original = new FileInfo(postModel.Img.Original),
-                        Small = new FileInfo(postModel.Img.Small),
+                        Original = postModel.Img.Original,
+                        Small = postModel.Img.Small,
                         Role = postModel.Img.Role
-                    },
-                CreatingTime = BsonDateTime.Create(postModel.CreatingTime)
+                    }
             };
         }
     }

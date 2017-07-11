@@ -40,7 +40,10 @@ namespace MGSUCore.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = _userManager.GetUserById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var user = _userManager.GetUserById(objectId);
             if (user == null)
                 return NotFound();
 
@@ -83,12 +86,15 @@ namespace MGSUCore.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
             var userId = User.GetId();
 
             if (userId.ToString() != id)
                 return Unauthorized();
             
-            if (_userManager.GetUserById(new ObjectId(id)) == null)
+            if (_userManager.GetUserById(objectId) == null)
                 return NotFound();
 
             userModel.Id = userId.ToString();
@@ -109,10 +115,13 @@ namespace MGSUCore.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (_userManager.GetUserById(new ObjectId(id)) == null)
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            if (_userManager.GetUserById(objectId) == null)
                 return NotFound();
 
-            _userManager.DeleteUser(new ObjectId(id));
+            _userManager.DeleteUser(objectId);
 
             return Ok();
         }

@@ -7,6 +7,7 @@ using Common.Entities;
 using Microsoft.AspNetCore.Authorization;
 using MGSUCore.Filters;
 using System.Linq;
+using MGSUCore.Models.Mappers;
 
 namespace MGSUCore.Controllers
 {
@@ -37,31 +38,43 @@ namespace MGSUCore.Controllers
 
             var team = value.Single();
 
+            var contactsToReturn = _contactManager.GetContactByPredicate(contact => contact.Team == team);
+            
             return
-                Ok(_contactManager.GetContactByPredicate(contact => contact.Team == team));
+                Ok(contactsToReturn.Select(ContactMapper.ContactToContactModel));
         }
 
         // GET: api/Contacts/5
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            var contact = _contactManager.GetContactById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var contact = _contactManager.GetContactById(objectId);
 
             if (contact == null)
                 return NotFound();
 
-            return Ok(contact);
+            return Ok(ContactMapper.ContactToContactModel(contact));
         }
 
         // POST: api/Contacts
         [HttpPost]
         [Authorize("Admin")]
-        public IActionResult Post([FromBody] Contact contactToCreate)
+        public IActionResult Post([FromBody] Contact contactToCreate, string team)
         {
+            if(team != null)
+            {
+                var teamName = nameof(contactToCreate.Team);
+                contactToCreate.Team = team;
+                ModelState.ClearError(teamName);
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(_contactManager.CreateContact(contactToCreate));
+            return Ok(_contactManager.CreateContact(contactToCreate).ToString());
         }
 
         // PUT: api/Contacts/5
@@ -72,7 +85,10 @@ namespace MGSUCore.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var oldContact = _contactManager.GetContactById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldContact = _contactManager.GetContactById(objectId);
 
             if (oldContact == null)
                 return NotFound();
@@ -93,12 +109,15 @@ namespace MGSUCore.Controllers
         [Authorize("Admin")]
         public IActionResult Delete(string id)
         {
-            var oldContact = _contactManager.GetContactById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldContact = _contactManager.GetContactById(objectId);
 
             if (oldContact == null)
                 return NotFound();
 
-            _contactManager.DeleteContact(new ObjectId(id));
+            _contactManager.DeleteContact(objectId);
 
             return Ok();
         }

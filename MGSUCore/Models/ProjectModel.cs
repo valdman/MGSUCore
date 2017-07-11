@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using MGSUBackend.Models;
-using MongoDB.Bson;
+using MGSUCore.Controllers.Extentions;
+using BsonDateTime = MongoDB.Bson.BsonDateTime;
 
 namespace MGSUCore.Models
 {
@@ -30,6 +31,6 @@ namespace MGSUCore.Models
 
 		public bool Public { get; set; }
 
-		public string CreatingTime { get; set; }
+		public string CreatingDate { get; set; }
 	}
 }

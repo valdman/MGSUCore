@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson;
+using MGSUCore.Controllers.Extentions;
 
 namespace MGSUBackend.Models
 {
@@ -19,6 +19,6 @@ namespace MGSUBackend.Models
         public string Date { get; set; }
 
         [DataType(DataType.DateTime)]
-        public string CreatingTime { get; set; }
+        public string CreatingDate { get; set; }
     }
 }

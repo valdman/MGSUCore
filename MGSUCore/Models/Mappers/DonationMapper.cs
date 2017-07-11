@@ -18,8 +18,7 @@ namespace MGSUCore.Models.Mappers
                 Value = donationModel.Value,
                 Date = donationModel.Date,
                 Recursive = donationModel.Recursive,
-                Confirmed = donationModel.Confirmed,
-                CreatingTime = BsonDateTime.Create(donationModel.CreatingTime)
+                Confirmed = donationModel.Confirmed
             };
         }
 
@@ -36,7 +35,7 @@ namespace MGSUCore.Models.Mappers
 				Date = donation.Date,
 				Recursive = donation.Recursive,
 				Confirmed = donation.Confirmed,
-                CreatingTime = donation.CreatingTime.ToString()
+                CreatingDate = donation.CreatingDate.ToString()
 			};
 		}
     }

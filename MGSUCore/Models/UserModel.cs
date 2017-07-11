@@ -1,22 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Common.Entities;
-using MongoDB.Bson;
+using MGSUCore.Controllers.Extentions;
 
 namespace MGSUBackend.Models
 {
     public class UserModel
     {
+        [ObjectId]
         public string Id { get; set; }
 
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
 
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
 
         public UserRole Role { get; set; }
 
-        public string CreatingTime { get; set; }
+        public string CreatingDate { get; set; }
     }
 }

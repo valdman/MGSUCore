@@ -31,7 +31,7 @@ namespace MGSUCore.Controllers
                 Need = project.Need,
                 Given = project.Given,
                 Public = project.Public,
-                CreatingTime = project.CreatingTime.ToString()
+                CreatingDate = project.CreatingDate.ToString()
             };
         }
 
@@ -49,14 +49,13 @@ namespace MGSUCore.Controllers
 					? null
 					: new Image
 					{
-						Original = new FileInfo(projectModel.Img.Original),
-						Small = new FileInfo(projectModel.Img.Small),
+						Original = projectModel.Img.Original,
+						Small = projectModel.Img.Small,
 						Role = projectModel.Img.Role
 					},
 				Need = projectModel.Need,
 				Given = projectModel.Given,
-				Public = true,
-                CreatingTime = BsonDateTime.Create(projectModel.CreatingTime)
+				Public = true
             };
         }
 

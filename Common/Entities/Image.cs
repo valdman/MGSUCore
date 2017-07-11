@@ -7,14 +7,14 @@ namespace Common.Entities
     {
         public Image(){}
 
-        public Image(FileInfo bigPhotoUri, FileInfo smallPhotoUri)
+        public Image(string bigPhotoUri, string smallPhotoUri)
         {
             Original = bigPhotoUri;
             Small = smallPhotoUri;
         }
 
-        public FileInfo Original { get; set; }
-        public FileInfo Small { get; set; }
+        public string Original { get; set; }
+        public string Small { get; set; }
 
         public string Role { get; set; }
     }

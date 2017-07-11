@@ -26,22 +26,21 @@ namespace MGSUCore.Controllers
             _fileManager = fileManager;
         }
 
-        [HttpGet("{filename}")]
-        [Route("file/{filename}")]
-        public IActionResult GetFile([FromRoute]string fileName)
+        [HttpGet("file/{filename}")]
+        public IActionResult GetFile(string fileName)
         {
-            return GetAnyFile(() => _fileManager.GetFile(fileName));
+            var fileMimeType = MimeTypes.MimeTypeMap.GetMimeType(new FileInfo(fileName).Extension);
+            return GetAnyFile(() => _fileManager.GetFile(fileName), fileMimeType);
         }
 
-        [HttpGet("{imageName}")]
-        [Route("image/{imageName}")]
-        public IActionResult GetImage([FromRoute]string imageName)
+        [HttpGet("image/{imageName}")]
+        public IActionResult GetImage(string imageName)
         {
-            return GetAnyFile(() => _fileManager.GetImage(imageName));
+            var imageMimeType = MimeTypes.MimeTypeMap.GetMimeType(new FileInfo(imageName).Extension);
+            return GetAnyFile(() => _fileManager.GetImage(imageName), imageMimeType);
         }
 
-        [HttpPost]
-        [Route("file")]
+        [HttpPost("file")]
         [Authorize("Admin")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
@@ -54,8 +53,7 @@ namespace MGSUCore.Controllers
             return Ok(createdFileName);
         }
 
-        [HttpPost]
-        [Route("image")]
+        [HttpPost("image")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
 			if (file.Length <= 0)
@@ -65,14 +63,14 @@ namespace MGSUCore.Controllers
 
             var createdImage = await _fileManager.UploadImageAsync(file);
             var imageModel = new ImageModel{
-                  Original = createdImage.Original.FullName,
-                  Small = createdImage.Small.FullName,
+                  Original = createdImage.Original,
+                  Small = createdImage.Small,
                   Role = createdImage.Role
                 };
             return Ok(imageModel);
         }
 
-        private IActionResult GetAnyFile(Func<Stream> getStream)
+        private IActionResult GetAnyFile(Func<Stream> getStream, string mimeType)
         {
             Stream stream;
             try
@@ -84,7 +82,8 @@ namespace MGSUCore.Controllers
                 return NotFound();
             }
 
-            var response = new FileStreamResult(stream, "application/octet-stream");
+            
+            var response = new FileStreamResult(stream, mimeType);
             return response;
         }
     }

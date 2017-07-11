@@ -9,7 +9,7 @@ namespace Common
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
 
-        public BsonDateTime CreatingTime { get; set; }
+        public BsonDateTime CreatingDate { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

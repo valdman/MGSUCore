@@ -39,7 +39,7 @@ namespace FileManagment
 
             var smallImageInfo = _imageResizer.ResizeImageByLengthOfLongestSide(bigImageInfo);
 
-            return new Image(bigImageInfo, smallImageInfo);
+            return new Image("image/" + bigImageInfo.Name, "image/" + smallImageInfo.Name);
         }
 
 		private Stream GetAnyFile(string folderPath, string fileName)

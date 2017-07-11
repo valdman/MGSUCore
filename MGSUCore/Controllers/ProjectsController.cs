@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Common.Entities;
+using MGSUCore.Controllers.Extentions;
 using MGSUCore.Filters;
 using MGSUCore.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +13,6 @@ using ProjectManagment.Application;
 
 namespace MGSUCore.Controllers
 {
-    [CustomExceptionFilterAttribute]
 	[Route("[controller]")]
     public class ProjectsController : Controller
     {
@@ -26,17 +27,18 @@ namespace MGSUCore.Controllers
         [HttpGet]
         public IActionResult GetAllProjects()
         {
+            IEnumerable<Project> projectsToReturn;
             if (!Request.Query.TryGetValue("direction", out Microsoft.Extensions.Primitives.StringValues value))
             {
                 if(User.IsInRole("Admin"))
                 {
-                    return Ok(_projectManager.GetProjectByPredicate().
-                        Select(ProjectMapper.ProjectToProjectModel));
+                    projectsToReturn = _projectManager.GetProjectByPredicate();
+                    return Ok(projectsToReturn.Select(ProjectMapper.ProjectToProjectModel));
                 }
                 else
                 {
-                    return Ok(_projectManager.GetProjectByPredicate(project => project.Public).
-                        Select(ProjectMapper.ProjectToProjectModel));
+                    projectsToReturn = _projectManager.GetProjectByPredicate(project => project.Public);
+                    return Ok(projectsToReturn.Select(ProjectMapper.ProjectToProjectModel));
                 }
             }
 
@@ -46,10 +48,10 @@ namespace MGSUCore.Controllers
             }
 
             var direction = value.Single();
-
-            return Ok(_projectManager.
-                        GetProjectByPredicate(project => project.Direction == direction).
-                        Select(ProjectMapper.ProjectToProjectModel));
+            
+            projectsToReturn = _projectManager.
+                        GetProjectByPredicate(project => project.Direction == direction);
+            return Ok(projectsToReturn.Select(ProjectMapper.ProjectToProjectModel));
         }
 
         // GET api/values/5
@@ -58,8 +60,11 @@ namespace MGSUCore.Controllers
         {
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
+            
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
 
-            var projectToReturn = _projectManager.GetProjectById(new ObjectId(id));
+            var projectToReturn = _projectManager.GetProjectById(objectId);
 
 			if (projectToReturn  == null)
 				return NotFound();
@@ -88,7 +93,10 @@ namespace MGSUCore.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-            var oldProject = _projectManager.GetProjectById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldProject = _projectManager.GetProjectById(objectId);
 
 			if (oldProject == null)
 				return NotFound();
@@ -100,8 +108,8 @@ namespace MGSUCore.Controllers
             oldProject.Img = projectModel.Img != null ?
                 new Image
                 {
-                    Original = new FileInfo(projectModel.Img.Original),
-                    Small = new FileInfo(projectModel.Img.Small),
+                    Original = projectModel.Img.Original,
+                    Small = projectModel.Img.Small,
                     Role = projectModel.Img.Role
                 } : oldProject.Img;
 			oldProject.Need = projectModel.Need == 0 ? oldProject.Need : projectModel.Need;
@@ -117,12 +125,15 @@ namespace MGSUCore.Controllers
         [Authorize("Admin")]
         public IActionResult DeleteProject(string id)
         {
-            var oldProject = _projectManager.GetProjectById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+            
+            var oldProject = _projectManager.GetProjectById(objectId);
 
 			if (oldProject == null)
 				return NotFound();
 
-            _projectManager.DeleteProject(new ObjectId(id));
+            _projectManager.DeleteProject(objectId);
 			return Ok();
         }
     }

@@ -53,7 +53,10 @@ namespace MGSUCore.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var postToReturn = _postManager.GetPostById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var postToReturn = _postManager.GetPostById(objectId);
 
             if (postToReturn == null)
                 return NotFound();
@@ -88,8 +91,11 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
 
-            var oldPost = _postManager.GetPostById(new ObjectId(id));
+            var oldPost = _postManager.GetPostById(objectId);
 
             if (oldPost == null)
                 return NotFound();
@@ -109,12 +115,15 @@ namespace MGSUCore.Controllers
         [Authorize("Admin")]
         public IActionResult Delete(string id)
         {
-            var oldPost = _postManager.GetPostById(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldPost = _postManager.GetPostById(objectId);
 
             if (oldPost == null)
                 return NotFound();
 
-            _postManager.DeletePost(new ObjectId(id));
+            _postManager.DeletePost(objectId);
             return Ok();
         }
     }

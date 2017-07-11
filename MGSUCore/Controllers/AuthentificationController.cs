@@ -27,8 +27,7 @@ namespace MGSUCore.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
-        [Route("user/login")]
+        [HttpPost("user/login")]
         public IActionResult Login([FromBody] Credentials credentials)
         {
             var intentedUser = _userManager.GetUserByPredicate(user => user.Email == credentials.Email).SingleOrDefault();
@@ -58,8 +57,7 @@ namespace MGSUCore.Controllers
             return Ok(UserMapper.UserToUserModel(intentedUser));
         }
 
-        [HttpPost]
-        [Route("user/logout")]
+        [HttpPost("user/logout")]
         [Authorize("User")]
         public IActionResult Logout()
         {
@@ -67,8 +65,7 @@ namespace MGSUCore.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("user/current")]
+        [HttpGet("user/current")]
         [Authorize("User")]
         public IActionResult Current()
         {

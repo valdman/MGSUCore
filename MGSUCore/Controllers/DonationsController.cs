@@ -39,7 +39,10 @@ namespace MGSUCore.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var donationToReturn = _donationManager.GetDonation(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var donationToReturn = _donationManager.GetDonation(objectId);
 
             if (donationToReturn == null)
                 return NotFound();
@@ -66,7 +69,10 @@ namespace MGSUCore.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var oldDonation = _donationManager.GetDonation(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldDonation = _donationManager.GetDonation(objectId);
 
             if (oldDonation == null)
                 return NotFound();
@@ -86,12 +92,15 @@ namespace MGSUCore.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            var oldDonation = _donationManager.GetDonation(new ObjectId(id));
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldDonation = _donationManager.GetDonation(objectId);
 
             if (oldDonation == null)
                 return NotFound();
 
-            _donationManager.DeleteDonation(new ObjectId(id));
+            _donationManager.DeleteDonation(objectId);
             return Ok();
         }
     }

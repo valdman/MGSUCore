@@ -1,15 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using MongoDB.Bson;
+using MGSUCore.Controllers.Extentions;
+using BsonDateTime = MongoDB.Bson.BsonDateTime;
 
 namespace MGSUCore.Models
 {
     public class DonationModel
     {
         [Required]
+		[ObjectId]
         public string UserId { get; set; }
 
 		[Required]
+		[ObjectId]		
 		public string ProjectId { get; set; }
 
 		[Required]
@@ -21,6 +24,6 @@ namespace MGSUCore.Models
 
 		public bool Confirmed { get; set; }
 
-		public string CreatingTime { get; set; }
+		public string CreatingDate { get; set; }
     }
 }
