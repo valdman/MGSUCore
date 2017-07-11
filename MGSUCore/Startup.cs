@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Common.Entities;
 using Common;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace MGSUCore
 {
@@ -97,6 +98,11 @@ namespace MGSUCore
 
             //CORS
             app.UseCors("AllowCors");
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             app.UseMvc();
             
