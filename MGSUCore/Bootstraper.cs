@@ -50,7 +50,7 @@ namespace MGSUCore
             var sessionProvider = new SessionProvider(_configuration["ConnectionStrings:Mongo"]);
             _services.AddSingleton<ISessionProvider, SessionProvider>(
                 (arg) => sessionProvider);
-            await DataConstraintsProvider.CreateConstraints(sessionProvider);
+            //await DataConstraintsProvider.CreateConstraints(sessionProvider);
         }
     }
 }

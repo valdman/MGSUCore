@@ -85,7 +85,7 @@ namespace MGSUCore.Controllers
             oldDonation.Confirmed = donationModel.Confirmed;
 
             _donationManager.UpdateDonation(oldDonation);
-            return Ok();
+            return Ok(id);
         }
 
         // DELETE api/values/5

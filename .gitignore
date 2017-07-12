@@ -217,3 +217,6 @@ FakesAssemblies/
 _Pvt_Extensions
 
 \.vscode/
+
+MGSUCore/appsettings\.Development\.json
+MGSUCore/appsettings\.Production\.json

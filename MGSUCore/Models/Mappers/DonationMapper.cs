@@ -35,7 +35,7 @@ namespace MGSUCore.Models.Mappers
 				Date = donation.Date,
 				Recursive = donation.Recursive,
 				Confirmed = donation.Confirmed,
-                CreatingDate = donation.CreatingDate.ToString()
+                CreatingDate = donation.CreatingDate?.ToString()
 			};
 		}
     }

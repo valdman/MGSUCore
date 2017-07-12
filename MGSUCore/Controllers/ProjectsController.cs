@@ -117,7 +117,7 @@ namespace MGSUCore.Controllers
             oldProject.Public = projectModel.Public;
 
             _projectManager.UpdateProject(oldProject);
-			return Ok();
+			return Ok(id);
         }
 
         // DELETE api/values/5

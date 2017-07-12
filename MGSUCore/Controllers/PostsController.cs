@@ -107,7 +107,7 @@ namespace MGSUCore.Controllers
             oldPost.Description = postModel.Description ?? oldPost.Description;
 
             _postManager.UpdatePost(oldPost);
-            return Ok();
+            return Ok(id);
         }
 
         // DELETE: api/Posts/5

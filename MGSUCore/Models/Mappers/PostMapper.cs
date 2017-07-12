@@ -17,7 +17,7 @@ namespace MGSUBackend.Models.Mappers
                 Title = post.Title,
                 Category = post.Category,
                 Content = post.Content,
-                Date = post.Date?.AsString,
+                Date = post.Date?.ToString(),
                 Description = post.Description,
                 Img = post.Img == null
                     ? null
@@ -27,7 +27,7 @@ namespace MGSUBackend.Models.Mappers
                         Small = post.Img.Small.ToString(),
                         Role = post.Img.Role
                     },
-                CreatingDate = post.CreatingDate.ToString()
+                CreatingDate = post.CreatingDate?.ToString()
             };
         }
 

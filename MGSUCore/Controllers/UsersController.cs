@@ -102,7 +102,7 @@ namespace MGSUCore.Controllers
             var userToUpdateNew = UserMapper.UserModelToUser(userModel);
             _userManager.UpdateUser(userToUpdateNew);
 
-            return Ok();
+            return Ok(id);
         }
 
         // DELETE: Users/5

@@ -101,7 +101,7 @@ namespace MGSUCore.Controllers
             oldContact.Team = contactToUpdate.Team ?? oldContact.Team;
 
             _contactManager.UpdateContact(oldContact);
-            return Ok();
+            return Ok(id);
         }
 
         // DELETE: api/Contacts/5
