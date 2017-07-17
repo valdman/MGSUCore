@@ -1,24 +1,26 @@
-﻿using System;
 using System.ComponentModel.DataAnnotations;
+using MGSUBackend.Models;
 using MGSUCore.Controllers.Extentions;
-using BsonDateTime = MongoDB.Bson.BsonDateTime;
+using MongoDB.Bson;
 
 namespace MGSUCore.Models
 {
-    public class DonationModel
+    public class ExpandedDonationModel
     {
-        [Required]
-		[ObjectId]
-        public string UserId { get; set; }
-
 		[Required]
-		[ObjectId]		
-		public string ProjectId { get; set; }
+		[ObjectId]
+		public string Id { get; set; }
+
+        [Required]
+        public UserModel User { get; set; }
+
+		[Required]	
+		public ProjectModel Project { get; set; }
 
 		[Required]
 		public decimal Value { get; set; }
 
-		public BsonDateTime Date { get; set; }
+		public string Date { get; set; }
 
 		public bool Recursive { get; set; }
 

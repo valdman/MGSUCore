@@ -6,6 +6,8 @@ using Common.Entities;
 using Journalist;
 using MongoDB.Bson;
 using ProjectManagment.Application;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace DonationManagment
 {
@@ -75,6 +77,11 @@ namespace DonationManagment
             Require.NotNull(donationToDeleteId, nameof(donationToDeleteId));
 
             _donationRepository.Delete(donationToDeleteId);
+        }
+
+        public IEnumerable<Donation> GetDonationsByPredicate(Expression<Func<Donation, bool>> predicate = null)
+        {
+            return _donationRepository.GetByPredicate(predicate);
         }
 
         private readonly IRepository<Donation> _donationRepository;

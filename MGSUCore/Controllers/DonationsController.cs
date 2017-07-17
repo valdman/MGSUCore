@@ -7,6 +7,11 @@ using MongoDB.Bson;
 using MGSUCore.Models;
 using MGSUCore.Models.Mappers;
 using MGSUCore.Filters;
+using System.Collections.Generic;
+using System.Linq;
+using ProjectManagment.Application;
+using UserManagment.Application;
+using MGSUBackend.Models.Mappers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,17 +24,50 @@ namespace MGSUCore.Controllers
     public class DonationsController : Controller
     {
         private readonly IDonationManager _donationManager;
+        private readonly IProjectManager _projectManager;
+        private readonly IUserManager _userManager;
 
-        public DonationsController(IDonationManager donationManager)
+        public DonationsController(IDonationManager donationManager, IProjectManager projectManager, IUserManager userManager)
         {
             _donationManager = donationManager;
+            _projectManager = projectManager;
+            _userManager = userManager;
         }
 
         // GET: api/values
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetAllDonations()
         {
-            throw new NotImplementedException();
+            IEnumerable<Donation> donationsToReturn;
+            if(User.IsInRole("Admin"))
+            {
+                donationsToReturn = _donationManager.GetDonationsByPredicate();
+            }
+            else
+            {
+                donationsToReturn = _donationManager.GetDonationsByPredicate(donation => donation.Confirmed);
+            }
+
+            var expandedDonationModels = new List<ExpandedDonationModel>();
+            foreach (var donation in donationsToReturn)
+            {
+                expandedDonationModels.Add(new ExpandedDonationModel
+                {
+                    Project = ProjectMapper.ProjectToProjectModel(
+                                    _projectManager.GetProjectById(donation.ProjectId)),
+                    User = UserMapper.UserToUserModel(
+                                    _userManager.GetUserById(donation.UserId)),
+                    Value = donation.Value,
+                    Date = donation.Date?.ToString(),
+                    Confirmed = donation.Confirmed,
+                    Recursive = donation.Recursive,
+                    CreatingDate = donation.CreatingDate?.ToString(),
+                    Id = donation.Id.ToString()
+                });
+            }
+
+            return Ok(expandedDonationModels);
         }
 
         // GET api/values/5
@@ -52,7 +90,7 @@ namespace MGSUCore.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult CreateDonation([FromBody]DonationModel donationModel)
+        public IActionResult CreateDonation([FromBody]SaveDonationModel donationModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -64,7 +102,7 @@ namespace MGSUCore.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Put(string id, [FromBody]DonationModel donationModel)
+        public IActionResult Put(string id, [FromBody]SaveDonationModel donationModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -80,7 +118,7 @@ namespace MGSUCore.Controllers
             oldDonation.UserId = donationModel.UserId == null ? new ObjectId(donationModel.UserId) : oldDonation.UserId;
             oldDonation.ProjectId = donationModel.ProjectId == null ? new ObjectId(donationModel.ProjectId) : oldDonation.ProjectId;
             oldDonation.Value = donationModel.Value == 0 ? oldDonation.Value : donationModel.Value;
-            oldDonation.Date = donationModel.Date ?? oldDonation.Date;
+            oldDonation.Date = donationModel.Date == null ? null : oldDonation.Date;
             oldDonation.Recursive = donationModel.Recursive;
             oldDonation.Confirmed = donationModel.Confirmed;
 

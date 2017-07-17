@@ -6,7 +6,7 @@ namespace MGSUCore.Models.Mappers
 {
     public static class DonationMapper
     {
-        public static Donation DonationModelToDonation(DonationModel donationModel)
+        public static Donation DonationModelToDonation(SaveDonationModel donationModel)
         {
             if(donationModel == null)
                 return null;
@@ -16,23 +16,22 @@ namespace MGSUCore.Models.Mappers
                 UserId = new MongoDB.Bson.ObjectId(donationModel.UserId),
                 ProjectId = new MongoDB.Bson.ObjectId(donationModel.ProjectId),
                 Value = donationModel.Value,
-                Date = donationModel.Date,
                 Recursive = donationModel.Recursive,
                 Confirmed = donationModel.Confirmed
             };
         }
 
-        public static DonationModel DonationToDonationModel(Donation donation)
+        public static SaveDonationModel DonationToDonationModel(Donation donation)
 		{
 			if (donation == null)
 				return null;
             
-			return new DonationModel
+			return new SaveDonationModel
 			{
                 UserId = donation.UserId.ToString(),
                 ProjectId = donation.ProjectId.ToString(),
 				Value = donation.Value,
-				Date = donation.Date,
+				Date = donation.Date.ToString(),
 				Recursive = donation.Recursive,
 				Confirmed = donation.Confirmed,
                 CreatingDate = donation.CreatingDate?.ToString()
