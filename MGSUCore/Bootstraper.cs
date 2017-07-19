@@ -44,8 +44,8 @@ namespace MGSUCore
             .AddSingleton<IAuthorizationHandler, IsInRoleRoleAuthHandler>();
 
             //Register Settings
-            _services.Configure<FileStorageSettings>(_configuration.GetSection("FileStorageSettings"));
-            _services.Configure<DeploySettings>(_configuration.GetSection("DeploySettings"));
+            _services.Configure<DeploySettings>(options => _configuration.GetSection("DeploySettings").Bind(options));
+            _services.Configure<FileStorageSettings>(options => _configuration.GetSection("FileStorageSettings").Bind(options));
 
             var sessionProvider = new SessionProvider(_configuration["ConnectionStrings:Mongo"]);
             _services.AddSingleton<ISessionProvider, SessionProvider>(

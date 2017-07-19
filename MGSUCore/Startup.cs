@@ -25,7 +25,7 @@ namespace MGSUCore
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+              //.AddJsonFile("appsettings.json", optional: fale, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
@@ -48,8 +48,10 @@ namespace MGSUCore
             services.AddCors(  
             options => options.AddPolicy("AllowCors",  
                 builder => {  
-                    builder  
-                    .WithOrigins("http://localhost:3000") //AllowSpecificOrigins;  
+                    builder 
+                    .WithOrigins("http://185.189.13.148:4000")
+                    //.WithOrigins(_deploySettings.FrontendAddress) //AllowSpecificOrigins;  
+
                     //.WithOrigins("http://localhost:4456", "http://localhost:4457") //AllowMultipleOrigins;  
                         //.AllowAnyOrigin() //AllowAllOrigins;  
                         //.WithMethods("GET") //AllowSpecificMethods;  
@@ -58,7 +60,7 @@ namespace MGSUCore
                         .WithMethods("GET", "PUT", "POST", "DELETE") //AllowSpecificMethods;  
                         //.AllowAnyMethod() //AllowAllMethods;  
                         //.WithHeaders("Accept", "Content-type", "Origin", "X-Custom-Header"); //AllowSpecificHeaders;  
-                        .AllowAnyHeader() //AllowAllHeaders; 
+                        .AllowAnyHeader()
                         .AllowCredentials();
                     })  
             );
