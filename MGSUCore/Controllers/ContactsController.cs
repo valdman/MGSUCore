@@ -119,7 +119,7 @@ namespace MGSUCore.Controllers
 
             _contactManager.DeleteContact(objectId);
 
-            return Ok();
+            return Ok(id);
         }
     }
 }

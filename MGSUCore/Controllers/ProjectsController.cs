@@ -134,7 +134,7 @@ namespace MGSUCore.Controllers
 				return NotFound();
 
             _projectManager.DeleteProject(objectId);
-			return Ok();
+			return Ok(id);
         }
     }
 }

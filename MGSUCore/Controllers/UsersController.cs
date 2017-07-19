@@ -123,7 +123,7 @@ namespace MGSUCore.Controllers
 
             _userManager.DeleteUser(objectId);
 
-            return Ok();
+            return Ok(id);
         }
     }
 }

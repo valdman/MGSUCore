@@ -124,7 +124,7 @@ namespace MGSUCore.Controllers
                 return NotFound();
 
             _postManager.DeletePost(objectId);
-            return Ok();
+            return Ok(id);
         }
     }
 }

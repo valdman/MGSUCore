@@ -12,6 +12,7 @@ using System.Linq;
 using ProjectManagment.Application;
 using UserManagment.Application;
 using MGSUBackend.Models.Mappers;
+using Common;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,6 +33,43 @@ namespace MGSUCore.Controllers
             _donationManager = donationManager;
             _projectManager = projectManager;
             _userManager = userManager;
+        }
+
+        [HttpPost("registration")]
+        public IActionResult ComboDonation([FromBody]DonationWithRegistrationModel comboModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var userToCreate = new User
+            {
+                FirstName = comboModel.FirstName,
+                LastName = comboModel.LastName,
+                MiddleName = comboModel.MiddleName,
+                Email = comboModel.Email,
+                IsConfirmed = comboModel.Confirmed,
+                //простите меня
+                Password = new Password
+                (
+                    //crutches.js
+                    Guid.NewGuid().ToString("n").Substring(0, 10)
+                ),
+                Role = UserRole.User
+            };
+
+            var newuserId = _userManager.CreateUser(userToCreate);
+
+            var donationToCreate = new SaveDonationModel
+            {
+                UserId = newuserId.ToString(),
+                ProjectId = comboModel.ProjectId,
+                Value = comboModel.Value,
+                Date = comboModel.Date,
+                Recursive = comboModel.Recursive,
+                Confirmed = comboModel.Confirmed
+            };
+
+            return CreateDonation(donationToCreate);
         }
 
         // GET: api/values
@@ -139,7 +177,7 @@ namespace MGSUCore.Controllers
                 return NotFound();
 
             _donationManager.DeleteDonation(objectId);
-            return Ok();
+            return Ok(id);
         }
     }
 }
