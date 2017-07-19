@@ -8,7 +8,7 @@ namespace MGSUCore
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseUrls("http://*:5000")
+                .UseUrls("http://127.0.0.1:5001")
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
