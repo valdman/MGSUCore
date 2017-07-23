@@ -103,7 +103,7 @@ namespace MGSUCore.Controllers
             oldPost.Title = postModel.Title ?? oldPost.Title;
             oldPost.Category = postModel.Category ?? oldPost.Category;
             oldPost.Content = postModel.Content ?? oldPost.Content;
-            oldPost.Date = postModel.Date == string.Empty || postModel.Date == null ? oldPost.Date : BsonDateTime.Create(postModel.Date);
+            oldPost.Date = postModel.Date;
             oldPost.Description = postModel.Description ?? oldPost.Description;
 
             _postManager.UpdatePost(oldPost);

@@ -31,6 +31,6 @@ namespace MGSUCore.Models
 
 		public bool Public { get; set; }
 
-		public string CreatingDate { get; set; }
+		public DateTime CreatingDate { get; set; }
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using MGSUBackend.Models;
 
 namespace MGSUCore.Models
@@ -12,6 +13,6 @@ namespace MGSUCore.Models
         public string Description { get; set; }
         public ImageModel Img { get; set; }
 
-        public string CreatingDate {get; set;}
+        public DateTime CreatingDate {get; set;}
     }
 }

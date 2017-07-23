@@ -40,7 +40,7 @@ namespace DataAccess
         {
             Require.NotNull(@object, nameof(@object));
 
-            @object.CreatingDate = BsonDateTime.Create(DateTimeOffset.Now);
+            @object.CreatingDate = DateTime.Now;
 
             _collection.InsertOne(@object);
 

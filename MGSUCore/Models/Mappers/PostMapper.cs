@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DateTime = System.DateTime;
 using System.IO;
 using MongoDB.Bson;
 using Common.Entities;
@@ -17,7 +17,7 @@ namespace MGSUBackend.Models.Mappers
                 Title = post.Title,
                 Category = post.Category,
                 Content = post.Content,
-                Date = post.Date?.ToString(),
+                Date = post.Date,
                 Description = post.Description,
                 Img = post.Img == null
                     ? null
@@ -27,7 +27,7 @@ namespace MGSUBackend.Models.Mappers
                         Small = post.Img.Small.ToString(),
                         Role = post.Img.Role
                     },
-                CreatingDate = post.CreatingDate?.ToString()
+                CreatingDate = post.CreatingDate
             };
         }
 
@@ -40,7 +40,7 @@ namespace MGSUBackend.Models.Mappers
                 Title = postModel.Title,
                 Category = postModel.Category,
                 Content = postModel.Content,
-                Date = postModel.Date == null ? null : BsonDateTime.Create(postModel.Date),
+                Date = postModel.Date,
                 Description = postModel.Description,
                 Img = postModel.Img == null
                     ? null

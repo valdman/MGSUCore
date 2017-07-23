@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System;
+using Common;
 using MongoDB.Bson;
 
 namespace Common.Entities
@@ -10,6 +11,6 @@ namespace Common.Entities
         public string Content { get; set; }
         public Image Img { get; set; }
         public string Category { get; set; }
-        public BsonDateTime Date { get; set; }
+        public DateTime Date { get; set; }
     }
 }

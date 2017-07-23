@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Common
@@ -9,7 +10,7 @@ namespace Common
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
 
-        public BsonDateTime CreatingDate { get; set; }
+        public DateTime CreatingDate { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

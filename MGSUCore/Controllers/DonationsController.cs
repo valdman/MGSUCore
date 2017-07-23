@@ -97,10 +97,10 @@ namespace MGSUCore.Controllers
                     User = UserMapper.UserToUserModel(
                                     _userManager.GetUserById(donation.UserId)),
                     Value = donation.Value,
-                    Date = donation.Date?.ToString(),
+                    Date = donation.Date,
                     Confirmed = donation.Confirmed,
                     Recursive = donation.Recursive,
-                    CreatingDate = donation.CreatingDate?.ToString(),
+                    CreatingDate = donation.CreatingDate,
                     Id = donation.Id.ToString()
                 });
             }
@@ -156,7 +156,7 @@ namespace MGSUCore.Controllers
             oldDonation.UserId = donationModel.UserId == null ? new ObjectId(donationModel.UserId) : oldDonation.UserId;
             oldDonation.ProjectId = donationModel.ProjectId == null ? new ObjectId(donationModel.ProjectId) : oldDonation.ProjectId;
             oldDonation.Value = donationModel.Value == 0 ? oldDonation.Value : donationModel.Value;
-            oldDonation.Date = donationModel.Date == null ? null : oldDonation.Date;
+            oldDonation.Date = donationModel.Date;
             oldDonation.Recursive = donationModel.Recursive;
             oldDonation.Confirmed = donationModel.Confirmed;
 

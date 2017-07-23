@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using MGSUCore.Controllers.Extentions;
 using MongoDB.Bson;
@@ -29,7 +30,7 @@ namespace MGSUCore.Models
         public bool Recursive { get; set; }
 
         [Required]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         [Required]
         public bool Confirmed { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Common.Entities;
 using MGSUCore.Controllers.Extentions;
 
@@ -18,6 +19,6 @@ namespace MGSUBackend.Models
 
         public UserRole Role { get; set; }
 
-        public string CreatingDate { get; set; }
+        public DateTime CreatingDate { get; set; }
     }
 }

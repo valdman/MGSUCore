@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using MGSUCore.Controllers.Extentions;
 
 namespace MGSUBackend.Models
@@ -16,9 +17,9 @@ namespace MGSUBackend.Models
         public string Category { get; set; }
 
         [DataType(DataType.DateTime)]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         [DataType(DataType.DateTime)]
-        public string CreatingDate { get; set; }
+        public DateTime CreatingDate { get; set; }
     }
 }

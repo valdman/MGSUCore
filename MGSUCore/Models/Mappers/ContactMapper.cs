@@ -25,7 +25,7 @@ namespace MGSUCore.Models.Mappers
                         Small = contact.Img.Small.ToString(),
                         Role = contact.Img.Role
                     },
-                CreatingDate = contact.CreatingDate?.ToString()
+                CreatingDate = contact.CreatingDate
             };
         }
 

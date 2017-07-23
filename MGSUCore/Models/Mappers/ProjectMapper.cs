@@ -31,7 +31,7 @@ namespace MGSUCore.Controllers
                 Need = project.Need,
                 Given = project.Given,
                 Public = project.Public,
-                CreatingDate = project.CreatingDate?.ToString()
+                CreatingDate = project.CreatingDate
             };
         }
 

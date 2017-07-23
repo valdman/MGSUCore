@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System;
+using Common;
 using MongoDB.Bson;
 
 namespace Common.Entities
@@ -11,7 +12,7 @@ namespace Common.Entities
 
         public decimal Value { get; set; }
 
-        public BsonDateTime Date { get; set; }
+        public DateTime Date { get; set; }
 
         public bool Recursive { get; set; }
 

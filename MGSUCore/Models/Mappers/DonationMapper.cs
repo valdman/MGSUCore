@@ -31,10 +31,10 @@ namespace MGSUCore.Models.Mappers
                 UserId = donation.UserId.ToString(),
                 ProjectId = donation.ProjectId.ToString(),
 				Value = donation.Value,
-				Date = donation.Date?.ToString(),
+				Date = donation.Date,
 				Recursive = donation.Recursive,
 				Confirmed = donation.Confirmed,
-                CreatingDate = donation.CreatingDate?.ToString()
+                CreatingDate = donation.CreatingDate
 			};
 		}
     }

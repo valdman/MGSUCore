@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using MGSUBackend.Models;
 using MGSUCore.Controllers.Extentions;
@@ -20,12 +21,12 @@ namespace MGSUCore.Models
 		[Required]
 		public decimal Value { get; set; }
 
-		public string Date { get; set; }
+		public DateTime Date { get; set; }
 
 		public bool Recursive { get; set; }
 
 		public bool Confirmed { get; set; }
 
-		public string CreatingDate { get; set; }
+		public DateTime CreatingDate { get; set; }
     }
 }
