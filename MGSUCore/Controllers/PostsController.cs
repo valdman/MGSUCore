@@ -10,6 +10,8 @@ using MongoDB.Bson;
 using PostManagment;
 using Common.Entities;
 using MGSUCore.Filters;
+using Newtonsoft.Json;
+using MGSUCore.Models.Convertors;
 
 namespace MGSUCore.Controllers
 {
@@ -52,7 +54,7 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+            
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
 
@@ -91,7 +93,8 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            
+
+                
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
 

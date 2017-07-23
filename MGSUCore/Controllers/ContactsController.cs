@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using MGSUCore.Filters;
 using System.Linq;
 using MGSUCore.Models.Mappers;
+using Newtonsoft.Json;
+using MGSUCore.Models.Convertors;
+using MGSUCore.Models;
 
 namespace MGSUCore.Controllers
 {
@@ -49,8 +52,9 @@ namespace MGSUCore.Controllers
         public IActionResult Get(string id)
         {
             if(!ObjectId.TryParse(id, out var objectId))
+ 
                 return BadRequest("'Id' parameter is ivalid ObjectId");
-
+ 
             var contact = _contactManager.GetContactById(objectId);
 
             if (contact == null)
@@ -84,8 +88,9 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+                
             if(!ObjectId.TryParse(id, out var objectId))
+ 
                 return BadRequest("'Id' parameter is ivalid ObjectId");
 
             var oldContact = _contactManager.GetContactById(objectId);

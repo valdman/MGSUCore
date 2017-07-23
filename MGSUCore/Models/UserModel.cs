@@ -2,13 +2,17 @@
 using System.ComponentModel.DataAnnotations;
 using Common.Entities;
 using MGSUCore.Controllers.Extentions;
+using MGSUCore.Models.Convertors;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace MGSUBackend.Models
 {
     public class UserModel
     {
         [ObjectId]
-        public string Id { get; set; }
+        [JsonConverter(typeof(ObjectIdConverter))]
+        public ObjectId Id { get; set; }
 
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

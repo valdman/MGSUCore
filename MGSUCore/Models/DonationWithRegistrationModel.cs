@@ -1,15 +1,19 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using MGSUCore.Controllers.Extentions;
+using MGSUCore.Models.Convertors;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace MGSUCore.Models
 {
     public class DonationWithRegistrationModel
     {
+        
         [Required]
         [ObjectId]
-        public string ProjectId { get;  set; }
+        [JsonConverter(typeof(ObjectIdConverter))]
+        public ObjectId ProjectId { get;  set; }
 
         [Required]
         public string FirstName { get; set; }

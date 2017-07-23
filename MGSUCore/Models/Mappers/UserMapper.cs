@@ -11,7 +11,7 @@ namespace MGSUBackend.Models.Mappers
 
             return new UserModel
             {
-                Id = user.Id.ToString(),
+                Id = user.Id,
                 FirstName = user.FirstName,
                 MiddleName = user.MiddleName,
                 LastName = user.LastName,
@@ -26,7 +26,7 @@ namespace MGSUBackend.Models.Mappers
 
             return new User
             {
-                Id = new ObjectId(userModel.Id),
+                Id = userModel.Id,
                 FirstName = userModel.FirstName,
                 MiddleName = userModel.MiddleName,
                 LastName = userModel.LastName,

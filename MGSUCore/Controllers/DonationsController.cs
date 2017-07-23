@@ -13,6 +13,8 @@ using ProjectManagment.Application;
 using UserManagment.Application;
 using MGSUBackend.Models.Mappers;
 using Common;
+using Newtonsoft.Json;
+using MGSUCore.Models.Convertors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -61,7 +63,7 @@ namespace MGSUCore.Controllers
 
             var donationToCreate = new SaveDonationModel
             {
-                UserId = newuserId.ToString(),
+                UserId = newuserId,
                 ProjectId = comboModel.ProjectId,
                 Value = comboModel.Value,
                 Date = comboModel.Date,
@@ -101,7 +103,7 @@ namespace MGSUCore.Controllers
                     Confirmed = donation.Confirmed,
                     Recursive = donation.Recursive,
                     CreatingDate = donation.CreatingDate,
-                    Id = donation.Id.ToString()
+                    Id = donation.Id
                 });
             }
 
@@ -114,7 +116,7 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+                
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
 
@@ -144,7 +146,7 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+            
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
 
@@ -153,8 +155,8 @@ namespace MGSUCore.Controllers
             if (oldDonation == null)
                 return NotFound();
 
-            oldDonation.UserId = donationModel.UserId == null ? new ObjectId(donationModel.UserId) : oldDonation.UserId;
-            oldDonation.ProjectId = donationModel.ProjectId == null ? new ObjectId(donationModel.ProjectId) : oldDonation.ProjectId;
+            oldDonation.UserId = donationModel.UserId == ObjectId.Empty ? oldDonation.UserId : donationModel.UserId;
+            oldDonation.ProjectId = donationModel.ProjectId == ObjectId.Empty ? oldDonation.ProjectId : donationModel.ProjectId;
             oldDonation.Value = donationModel.Value == 0 ? oldDonation.Value : donationModel.Value;
             oldDonation.Date = donationModel.Date;
             oldDonation.Recursive = donationModel.Recursive;

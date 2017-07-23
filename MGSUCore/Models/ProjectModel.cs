@@ -2,13 +2,17 @@
 using System.ComponentModel.DataAnnotations;
 using MGSUBackend.Models;
 using MGSUCore.Controllers.Extentions;
+using MGSUCore.Models.Convertors;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 using BsonDateTime = MongoDB.Bson.BsonDateTime;
 
 namespace MGSUCore.Models
 {
     public class ProjectModel
     {
-        public string Id { get; set; }
+		[JsonConverter(typeof(ObjectIdConverter))]
+        public ObjectId Id { get; set; }
 
         [Required]
 		public string Name { get; set; }

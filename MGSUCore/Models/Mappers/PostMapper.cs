@@ -13,7 +13,7 @@ namespace MGSUBackend.Models.Mappers
 
             return new PostModel
             {
-                Id = post.Id.ToString(),
+                Id = post.Id,
                 Title = post.Title,
                 Category = post.Category,
                 Content = post.Content,
@@ -23,8 +23,8 @@ namespace MGSUBackend.Models.Mappers
                     ? null
                     : new ImageModel
                     {
-                        Original = post.Img.Original.ToString(),
-                        Small = post.Img.Small.ToString(),
+                        Original = post.Img.Original,
+                        Small = post.Img.Small,
                         Role = post.Img.Role
                     },
                 CreatingDate = post.CreatingDate

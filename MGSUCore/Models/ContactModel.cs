@@ -1,11 +1,15 @@
 using System;
 using MGSUBackend.Models;
+using MGSUCore.Models.Convertors;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace MGSUCore.Models
 {
     public class ContactModel
-    {
-        public string Id {get; set;}
+    {    
+        [JsonConverter(typeof(ObjectIdConverter))]
+        public ObjectId Id {get; set;}
         public string Team { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

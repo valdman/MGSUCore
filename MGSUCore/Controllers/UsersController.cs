@@ -11,6 +11,8 @@ using UserManagment.Application;
 using Common.Entities;
 using Microsoft.AspNetCore.Authorization;
 using MGSUCore.Filters;
+using Newtonsoft.Json;
+using MGSUCore.Models.Convertors;
 
 namespace MGSUCore.Controllers
 {
@@ -39,7 +41,7 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+            
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
 
@@ -91,13 +93,13 @@ namespace MGSUCore.Controllers
 
             var userId = User.GetId();
 
-            if (userId.ToString() != id)
+            if (userId != objectId)
                 return Unauthorized();
             
             if (_userManager.GetUserById(objectId) == null)
                 return NotFound();
 
-            userModel.Id = userId.ToString();
+            userModel.Id = userId;
 
             var userToUpdateNew = UserMapper.UserModelToUser(userModel);
             _userManager.UpdateUser(userToUpdateNew);
@@ -110,13 +112,14 @@ namespace MGSUCore.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            if (User.GetId().ToString() != id)
-                return Unauthorized();
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            if (User.GetId() != objectId)
+                return Unauthorized();
+                
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             if (_userManager.GetUserById(objectId) == null)
                 return NotFound();

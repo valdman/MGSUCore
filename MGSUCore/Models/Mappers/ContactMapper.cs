@@ -11,7 +11,7 @@ namespace MGSUCore.Models.Mappers
 
             return new ContactModel
             {
-                Id = contact.Id.ToString(),
+                Id = contact.Id,
                 FirstName = contact.FirstName,
                 LastName = contact.LastName,
                 MiddleName = contact.MiddleName,
@@ -21,8 +21,8 @@ namespace MGSUCore.Models.Mappers
                     ? null
                     : new ImageModel
                     {
-                        Original = contact.Img.Original.ToString(),
-                        Small = contact.Img.Small.ToString(),
+                        Original = contact.Img.Original,
+                        Small = contact.Img.Small,
                         Role = contact.Img.Role
                     },
                 CreatingDate = contact.CreatingDate

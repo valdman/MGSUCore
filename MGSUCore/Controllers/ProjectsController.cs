@@ -6,9 +6,11 @@ using Common.Entities;
 using MGSUCore.Controllers.Extentions;
 using MGSUCore.Filters;
 using MGSUCore.Models;
+using MGSUCore.Models.Convertors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 using ProjectManagment.Application;
 
 namespace MGSUCore.Controllers
@@ -60,7 +62,7 @@ namespace MGSUCore.Controllers
         {
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
-            
+
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
 
@@ -124,10 +126,10 @@ namespace MGSUCore.Controllers
         [HttpDelete("{id}")]
         [Authorize("Admin")]
         public IActionResult DeleteProject(string id)
-        {
+        {   
             if(!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("'Id' parameter is ivalid ObjectId");
-            
+
             var oldProject = _projectManager.GetProjectById(objectId);
 
 			if (oldProject == null)

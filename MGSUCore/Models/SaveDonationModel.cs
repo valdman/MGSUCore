@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using MGSUCore.Controllers.Extentions;
+using MGSUCore.Models.Convertors;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 using BsonDateTime = MongoDB.Bson.BsonDateTime;
 
 namespace MGSUCore.Models
@@ -9,11 +12,13 @@ namespace MGSUCore.Models
     {
         [Required]
 		[ObjectId]
-        public string UserId { get; set; }
+		[JsonConverter(typeof(ObjectIdConverter))]
+        public ObjectId UserId { get; set; }
 
 		[Required]
 		[ObjectId]		
-		public string ProjectId { get; set; }
+		[JsonConverter(typeof(ObjectIdConverter))]
+		public ObjectId ProjectId { get; set; }
 
 		[Required]
 		public decimal Value { get; set; }

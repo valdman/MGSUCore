@@ -2,7 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using MGSUBackend.Models;
 using MGSUCore.Controllers.Extentions;
+using MGSUCore.Models.Convertors;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace MGSUCore.Models
 {
@@ -10,7 +12,8 @@ namespace MGSUCore.Models
     {
 		[Required]
 		[ObjectId]
-		public string Id { get; set; }
+		[JsonConverter(typeof(ObjectIdConverter))]
+		public ObjectId Id { get; set; }
 
         [Required]
         public UserModel User { get; set; }

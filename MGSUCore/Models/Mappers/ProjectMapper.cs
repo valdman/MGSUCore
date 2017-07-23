@@ -15,7 +15,7 @@ namespace MGSUCore.Controllers
 
             return new ProjectModel
             {
-                Id = project.Id.ToString(),
+                Id = project.Id,
                 Name = project.Name,
                 Direction = project.Direction,
                 ShortDescription = project.ShortDescription,
@@ -24,8 +24,8 @@ namespace MGSUCore.Controllers
 					? null
 					: new ImageModel
                 {
-                    Original = project.Img.Original.ToString(),
-                    Small = project.Img.Small.ToString(),
+                    Original = project.Img.Original,
+                    Small = project.Img.Small,
                     Role = project.Img.Role
                 },
                 Need = project.Need,

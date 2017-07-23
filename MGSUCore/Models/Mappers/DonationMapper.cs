@@ -13,8 +13,8 @@ namespace MGSUCore.Models.Mappers
             
             return new Donation
             {
-                UserId = new MongoDB.Bson.ObjectId(donationModel.UserId),
-                ProjectId = new MongoDB.Bson.ObjectId(donationModel.ProjectId),
+                UserId = donationModel.UserId,
+                ProjectId = donationModel.ProjectId,
                 Value = donationModel.Value,
                 Recursive = donationModel.Recursive,
                 Confirmed = donationModel.Confirmed
@@ -28,8 +28,8 @@ namespace MGSUCore.Models.Mappers
             
 			return new SaveDonationModel
 			{
-                UserId = donation.UserId.ToString(),
-                ProjectId = donation.ProjectId.ToString(),
+                UserId = donation.UserId,
+                ProjectId = donation.ProjectId,
 				Value = donation.Value,
 				Date = donation.Date,
 				Recursive = donation.Recursive,
