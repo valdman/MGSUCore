@@ -21,7 +21,7 @@ namespace MGSUBackend.Models
         public string Category { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime CreatingDate { get; set; }

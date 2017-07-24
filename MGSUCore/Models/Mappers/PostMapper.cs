@@ -1,7 +1,8 @@
-﻿using DateTime = System.DateTime;
+﻿using DateTimeOffset = System.DateTimeOffset;
 using System.IO;
 using MongoDB.Bson;
 using Common.Entities;
+using MGSUCore.Models;
 
 namespace MGSUBackend.Models.Mappers
 {
@@ -50,6 +51,27 @@ namespace MGSUBackend.Models.Mappers
                         Small = postModel.Img.Small,
                         Role = postModel.Img.Role
                     }
+            };
+        }
+
+        public static PartnerModel PostToPartnerModel(Post post)
+        {
+            if(post == null)
+            {
+                return null;
+            }
+
+            return new PartnerModel
+            {
+                Title = post.Title,
+                Img = post.Img == null ? null :
+                    new ImageModel
+                    {
+                        Original = post.Img.Original,
+                        Small = post.Img.Small,
+                        Role = post.Img.Role
+                    },
+                CreatingDate = post.CreatingDate
             };
         }
     }

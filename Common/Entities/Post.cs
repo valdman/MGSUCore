@@ -11,6 +11,6 @@ namespace Common.Entities
         public string Content { get; set; }
         public Image Img { get; set; }
         public string Category { get; set; }
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
     }
 }

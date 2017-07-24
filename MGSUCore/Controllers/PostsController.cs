@@ -20,6 +20,7 @@ namespace MGSUCore.Controllers
     public class PostsController : Controller
     {
         private readonly IPostManager _postManager;
+        private const string partnersCategoryName = "partners";
 
         public PostsController(IPostManager postManager)
         {
@@ -64,6 +65,13 @@ namespace MGSUCore.Controllers
                 return NotFound();
 
             return Ok(PostMapper.PostToPostModel(postToReturn));
+        }
+
+        [HttpGet("~/partners")]
+        public IActionResult GetPartners()
+        {
+            return
+                Ok(_postManager.GetPostsByCategory(partnersCategoryName).Select(PostMapper.PostToPartnerModel));
         }
 
         // POST: api/Posts

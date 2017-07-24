@@ -106,7 +106,7 @@ namespace FileManagment
 			var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
 			var newFileName = fileNameWithoutExtension
 			    + "_"
-				+ DateTime.Now.ToString("s").Replace(":", string.Empty)
+				+ DateTimeOffset.Now.ToString("s").Replace(":", string.Empty)
 				+ Path.GetExtension(fileName);
 			return newFileName;
 		}

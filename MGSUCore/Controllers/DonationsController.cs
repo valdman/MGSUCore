@@ -38,7 +38,7 @@ namespace MGSUCore.Controllers
         }
 
         [HttpPost("registration")]
-        public IActionResult ComboDonation([FromBody]DonationWithRegistrationModel comboModel)
+        public IActionResult ComboDonation(DonationWithRegistrationModel comboModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
