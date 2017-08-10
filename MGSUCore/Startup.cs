@@ -50,6 +50,7 @@ namespace MGSUCore
                 builder => {  
                     builder 
                     .WithOrigins("http://185.189.13.148:4000")
+                    .WithOrigins("http://localhost:3000")
                     //.WithOrigins(_deploySettings.FrontendAddress) //AllowSpecificOrigins;  
 
                     //.WithOrigins("http://localhost:4456", "http://localhost:4457") //AllowMultipleOrigins;  
