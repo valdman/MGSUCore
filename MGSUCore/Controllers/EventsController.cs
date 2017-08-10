@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
+using MGSUBackend.Authentification;
 using MGSUBackend.Models.Mappers;
 using MGSUCore.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostManagment;
+using UserManagment.Application;
 
 namespace MGSUCore.Controllers
 {
@@ -12,11 +15,13 @@ namespace MGSUCore.Controllers
     public class EventsController : Controller
     {
         private readonly IPostManager _postManager;
+        private readonly IAttendanceManager _attendanceManager;
         private const string eventsCategoryName = "events";
 
-        public EventsController(IPostManager postManager)
+        public EventsController(IPostManager postManager, IAttendanceManager attendanceManager)
         {
             _postManager = postManager;
+            _attendanceManager = attendanceManager;
         }
         
         [HttpGet]
@@ -28,6 +33,7 @@ namespace MGSUCore.Controllers
         }
 
         [HttpGet("{year}/{month}")]
+        [Authorize("User")]
         public IActionResult GetEventsByYearAndMonth(int year, int month)
         {
             if (!ModelState.IsValid)
@@ -36,7 +42,11 @@ namespace MGSUCore.Controllers
             var beginOfMonth = new DateTimeOffset(year, month, 1, 0, 0, 0, TimeZoneInfo.Local.BaseUtcOffset);
             var beginOfNextMonth = beginOfMonth.AddMonths(1);
 
-            var postsToReturn = _postManager.GetPostsByPredicate(
+            var allAttendancesOfUser = _attendanceManager.GetAllIdsOfUserEvents(User.GetId());
+
+            var eventsForUser = allAttendancesOfUser.Select(attendance => _postManager.GetPostById(attendance.EventId));
+
+            var postsToReturn = eventsForUser.Where(
                     post => post.Category == eventsCategoryName && 
                             post.Date >= beginOfMonth &&
                             post.Date < beginOfNextMonth);
@@ -44,6 +54,11 @@ namespace MGSUCore.Controllers
             return Ok(postsToReturn.Select(PostMapper.PostToPostModel));
         }
 
-        //[HttpPost("attend")]
+        [HttpPost("attend")]
+        [Authorize("User")]
+        public IActionResult AttendUserToEvend()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
