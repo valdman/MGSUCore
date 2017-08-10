@@ -50,5 +50,27 @@ namespace MGSUCore.Models.Mappers
                     }
             };
         }
+
+        public static Contact ContactModelToContact(ContactSavingModel contactModel)
+        {
+            if (contactModel == null) return null;
+
+            return new Contact
+            {
+                FirstName = contactModel.FirstName,
+                LastName = contactModel.LastName,
+                MiddleName = contactModel.MiddleName,
+                Description = contactModel.Description,
+                Team = contactModel.Team,
+                Img = contactModel.Img == null
+                    ? null
+                    : new Image
+                    {
+                        Original = contactModel.Img.Original,
+                        Small = contactModel.Img.Small,
+                        Role = contactModel.Img.Role
+                    }
+            };
+        }
     }
 }

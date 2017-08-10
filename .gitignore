@@ -222,4 +222,4 @@ _Pvt_Extensions
 
 MGSUCore/appsettings\.Development\.json
 MGSUCore/appsettings\.Production\.json
-.vscode/settings.json
+**/settings.json

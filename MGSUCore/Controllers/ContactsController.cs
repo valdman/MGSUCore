@@ -31,7 +31,7 @@ namespace MGSUCore.Controllers
         {
             if (!Request.Query.TryGetValue("team", out Microsoft.Extensions.Primitives.StringValues value))
             {
-                return Ok(_contactManager.GetContactByPredicate());
+                return Ok(_contactManager.GetContactByPredicate().Select(ContactMapper.ContactToContactModel));
             }
 
             if (value.Count > 1)
@@ -66,17 +66,19 @@ namespace MGSUCore.Controllers
         // POST: api/Contacts
         [HttpPost]
         [Authorize("Admin")]
-        public IActionResult Post([FromBody] Contact contactToCreate, string team)
+        public IActionResult Post([FromBody] ContactSavingModel contactToCreateModel, string team)
         {
             if(team != null)
             {
-                var teamName = nameof(contactToCreate.Team);
-                contactToCreate.Team = team;
+                var teamName = nameof(contactToCreateModel.Team);
+                contactToCreateModel.Team = team;
                 ModelState.ClearError(teamName);
             }
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var contactToCreate = ContactMapper.ContactModelToContact(contactToCreateModel);
 
             return Ok(_contactManager.CreateContact(contactToCreate).ToString());
         }
@@ -84,7 +86,7 @@ namespace MGSUCore.Controllers
         // PUT: api/Contacts/5
         [HttpPut("{id}")]
         [Authorize("Admin")]
-        public IActionResult Put(string id, [FromBody] Contact contactToUpdate)
+        public IActionResult Put(string id, [FromBody] ContactSavingModel contactToUpdate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -102,7 +104,10 @@ namespace MGSUCore.Controllers
             oldContact.FirstName = contactToUpdate.FirstName ?? oldContact.FirstName;
             oldContact.LastName = contactToUpdate.LastName ?? oldContact.LastName;
             oldContact.MiddleName = contactToUpdate.MiddleName ?? oldContact.MiddleName;
-            oldContact.Img = contactToUpdate.Img ?? oldContact.Img;
+            oldContact.Img = contactToUpdate.Img == null ? oldContact.Img : new Image{
+                Original = contactToUpdate.Img.Original,
+                Small = contactToUpdate.Img.Small,
+                Role = contactToUpdate.Img.Role};
             oldContact.Team = contactToUpdate.Team ?? oldContact.Team;
 
             _contactManager.UpdateContact(oldContact);

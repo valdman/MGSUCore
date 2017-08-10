@@ -1,5 +1,34 @@
 {
   "files.associations": {
     "dockerfile.*": "dockerfile"
+  },
+  "deploy": {
+    "packages": [
+      {
+        "name": "MGSU Core",
+        "description": "Backend of MGSU website",
+        "files": [
+          "kestrel/**/*.dll",
+          "kestrel/**/*.pdb",
+          "kestrel/**/*.json"
+        ],
+        "exclude": [
+          "kestrel/appsettings.*.json"
+        ],
+        "deployOnSave": false
+      }
+    ],
+    "targets": [
+      {
+        "promptForPassword": true,
+        "type": "sftp",
+        "name": "MGSU SFTP",
+        "description": "SFTP Production folder for MGSU Core",
+        "dir": ".",
+        "host": "185.189.13.148",
+        "port": 22,
+        "user": "admin"
+      }
+    ]
   }
 }
