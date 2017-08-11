@@ -30,6 +30,7 @@
     <ProjectReference Include="..\Domain\FileManagment\FileManagment.csproj" />
     <ProjectReference Include="..\Domain\ProjectManagment\ProjectManagment.csproj" />
     <ProjectReference Include="..\Domain\DonationManagment\DonationManagment.csproj" />
+    <ProjectReference Include="..\Domain\EventManagment\EventManagment.csproj" />
   </ItemGroup>
 
 </Project>

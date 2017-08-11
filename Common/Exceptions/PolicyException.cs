@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UserManagment
+namespace Common.Exceptions
 {
     public class PolicyException : Exception
     {

@@ -13,6 +13,7 @@ using ProjectManagment;
 using DonationManagment.Application;
 using DonationManagment;
 using Common;
+using EventManagment;
 
 namespace MGSUCore
 {
@@ -38,6 +39,8 @@ namespace MGSUCore
             .AddSingleton<IDonationManager, DonationManager>()
 			.AddSingleton<IFileManager, FileManager>()
 			.AddSingleton<IImageResizer, ImageResizer>()
+            .AddSingleton<IAttendanceManager, AttendanceManager>()
+            .AddSingleton<IEventManager, EventManager>()
 
             //Register auth middleware
             .AddSingleton<IAuthorizationHandler, IsAuthentificatedAuthHandler>()

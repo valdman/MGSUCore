@@ -1,10 +1,15 @@
 using System;
 using System.Linq;
+using Common.Entities;
+using EventManagment;
 using MGSUBackend.Authentification;
 using MGSUBackend.Models.Mappers;
 using MGSUCore.Filters;
+using MGSUCore.Models;
+using MGSUCore.Models.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using PostManagment;
 using UserManagment.Application;
 
@@ -14,22 +19,13 @@ namespace MGSUCore.Controllers
     [Route("[controller]")]
     public class EventsController : Controller
     {
-        private readonly IPostManager _postManager;
         private readonly IAttendanceManager _attendanceManager;
-        private const string eventsCategoryName = "events";
+        private readonly IEventManager _eventmanager;
 
-        public EventsController(IPostManager postManager, IAttendanceManager attendanceManager)
+        public EventsController(IEventManager eventManager, IAttendanceManager attendanceManager)
         {
-            _postManager = postManager;
+            _eventmanager = eventManager;
             _attendanceManager = attendanceManager;
-        }
-        
-        [HttpGet]
-        public IActionResult GetAllEvents()
-        {
-            return
-                Ok(_postManager.GetPostsByCategory(eventsCategoryName)
-                                .Select(PostMapper.PostToPostModel));
         }
 
         [HttpGet("{year}/{month}")]
@@ -38,27 +34,136 @@ namespace MGSUCore.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
+            if(month > 12)
+                return BadRequest("Month is between 1 and 12 inclusive");
 
             var beginOfMonth = new DateTimeOffset(year, month, 1, 0, 0, 0, TimeZoneInfo.Local.BaseUtcOffset);
             var beginOfNextMonth = beginOfMonth.AddMonths(1);
 
             var allAttendancesOfUser = _attendanceManager.GetAllIdsOfUserEvents(User.GetId());
 
-            var eventsForUser = allAttendancesOfUser.Select(attendance => _postManager.GetPostById(attendance.EventId));
+            var eventsForUser = allAttendancesOfUser.Select(attendance => _eventmanager.GetEventById(attendance.EventId));
 
-            var postsToReturn = eventsForUser.Where(
-                    post => post.Category == eventsCategoryName && 
-                            post.Date >= beginOfMonth &&
+            var eventsToReturn = eventsForUser.Where(
+                    post => post.Date >= beginOfMonth &&
                             post.Date < beginOfNextMonth);
 
-            return Ok(postsToReturn.Select(PostMapper.PostToPostModel));
+            return Ok(eventsToReturn.Select(EventMapper.EventToEventModel));
         }
 
-        [HttpPost("attend")]
+        [HttpPost("attend/{eventIdString}")]
         [Authorize("User")]
-        public IActionResult AttendUserToEvend()
+        public IActionResult AttendUserToEvend(string eventIdString, [FromBody]int newAttendanceString)
         {
-            throw new NotImplementedException();
+            var userId = User.GetId();
+
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if(!ObjectId.TryParse(eventIdString, out var eventId))
+                return BadRequest("'EventId' parameter is ivalid ObjectId");
+
+            var eventToAttend = _eventmanager.GetEventById(eventId);
+            
+            if(eventToAttend == null)
+                return NotFound();
+
+            var currentAttendanceType = _attendanceManager.GetAttendanceType(userId, eventId);
+
+            var newAttendanceType = (AttendanceType)newAttendanceString;
+
+            if(currentAttendanceType == (AttendanceType)newAttendanceType)
+            {
+                return Ok("Attendace type not modified");
+            }
+
+            _attendanceManager.ChangeAttendanceType(userId, eventId, newAttendanceType);
+            
+            return Ok("Attendace type changed");
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return
+                Ok(_eventmanager.GetEventsByPredicate(@event => @event.Date > DateTimeOffset.Now)
+                                                                .Select(EventMapper.EventToEventModel));
+
+        }
+
+        // GET: events/5
+        [HttpGet("{id}")]
+        public IActionResult Get(string id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var eventToReturn = _eventmanager.GetEventById(objectId);
+
+            if (eventToReturn == null)
+                return NotFound();
+
+            return Ok(EventMapper.EventToEventModel(eventToReturn));
+        }
+
+        // POST: events
+        [HttpPost]
+        [Authorize("Admin")]
+        public IActionResult Post([FromBody] EventSavingModel eventSavingModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var eventToCreate = EventMapper.EventModelToEvent(eventSavingModel);
+
+            return Ok(_eventmanager.CreateEvent(eventToCreate).ToString());
+        }
+
+        // PUT: events/5
+        [HttpPut("{id}")]
+        [Authorize("Admin")]
+        public IActionResult Put(string id, [FromBody] EventSavingModel eventSavingModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+                
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldEvent = _eventmanager.GetEventById(objectId);
+
+            if (oldEvent == null)
+                return NotFound();
+
+            oldEvent.Title = eventSavingModel.Title ?? oldEvent.Title;
+            oldEvent.Content = eventSavingModel.Content ?? oldEvent.Content;
+            oldEvent.Date = eventSavingModel.Date;
+            oldEvent.Description = eventSavingModel.Description ?? oldEvent.Description;
+
+            _eventmanager.UpdateEvent(oldEvent);
+            return Ok(id);
+        }
+
+        // DELETE: events/5
+        [HttpDelete("{id}")]
+        [Authorize("Admin")]
+        public IActionResult Delete(string id)
+        {
+            if(!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("'Id' parameter is ivalid ObjectId");
+
+            var oldEvent = _eventmanager.GetEventById(objectId);
+
+            if (oldEvent == null)
+                return NotFound();
+
+            _eventmanager.DeleteEvent(objectId);
+            return Ok(id);
         }
     }
 }

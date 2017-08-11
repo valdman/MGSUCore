@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MongoDB.Driver;
-using UserManagment;
+using Common.Exceptions;
 
 namespace MGSUCore.Filters
 {
