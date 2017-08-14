@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RIDER_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../Common" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../DataAccess" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Domain/DonationManagment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Domain/FileManagment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Domain/PostManagment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Domain/ProjectManagment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Domain/UserManagment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../MGSUCore" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Common/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Common/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../DataAccess/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../DataAccess/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/DonationManagment/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/DonationManagment/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/FileManagment/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/FileManagment/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/PostManagment/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/PostManagment/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/ProjectManagment/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/ProjectManagment/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/UserManagment/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/UserManagment/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../MGSUCore/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../MGSUCore/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../packages" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
