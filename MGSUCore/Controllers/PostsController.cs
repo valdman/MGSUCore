@@ -116,6 +116,7 @@ namespace MGSUCore.Controllers
             oldPost.Content = postModel.Content ?? oldPost.Content;
             oldPost.Date = postModel.Date;
             oldPost.Description = postModel.Description ?? oldPost.Description;
+            oldPost.Img = postModel.Img != null ? new Image(postModel.Img.Original, postModel.Img.Small) : oldPost.Img;
 
             _postManager.UpdatePost(oldPost);
             return Ok(id);
