@@ -2,11 +2,10 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MGSUBackend.Authentification;
-using Microsoft.AspNetCore.Authorization;
 using Common.Entities;
+using Microsoft.AspNetCore.Authorization;
 
-namespace MGSUCore.Authentification
+namespace MGSUCore.Authentification.Handlers
 {
     public class IsInRoleRoleAuthHandler : AuthorizationHandler<IsInRole>
     {

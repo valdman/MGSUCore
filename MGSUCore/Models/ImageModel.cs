@@ -1,4 +1,4 @@
-﻿namespace MGSUBackend.Models
+﻿namespace MGSUCore.Models
 {
     public class ImageModel
     {

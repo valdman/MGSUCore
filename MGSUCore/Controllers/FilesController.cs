@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Common;
 using FileManagment;
 using Common.Entities;
-using Journalist;
-using MGSUBackend.Models;
+using MGSUCore.Controllers.Extentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MGSUCore.Filters;
+using MGSUCore.Models;
 
 namespace MGSUCore.Controllers
 {
@@ -29,14 +30,14 @@ namespace MGSUCore.Controllers
         [HttpGet("file/{filename}")]
         public IActionResult GetFile(string fileName)
         {
-            var fileMimeType = MimeTypes.MimeTypeMap.GetMimeType(new FileInfo(fileName).Extension);
+            var fileMimeType = MimeTypeMap.GetMimeType(new FileInfo(fileName).Extension);
             return GetAnyFile(() => _fileManager.GetFile(fileName), fileMimeType);
         }
 
         [HttpGet("image/{imageName}")]
         public IActionResult GetImage(string imageName)
         {
-            var imageMimeType = MimeTypes.MimeTypeMap.GetMimeType(new FileInfo(imageName).Extension);
+            var imageMimeType = MimeTypeMap.GetMimeType(new FileInfo(imageName).Extension);
             return GetAnyFile(() => _fileManager.GetImage(imageName), imageMimeType);
         }
 

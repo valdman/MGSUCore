@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Common;
 using DataAccess.Application;
-using Journalist;
 using MongoDB.Bson;
 using UserManagment.Application;
 using Common.Entities;

@@ -1,7 +1,6 @@
-﻿using MongoDB.Bson;
-using Common.Entities;
+﻿using Common.Entities;
 
-namespace MGSUBackend.Models.Mappers
+namespace MGSUCore.Models.Mappers
 {
     public static class UserMapper
     {

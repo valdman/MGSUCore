@@ -1,11 +1,10 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MGSUBackend.Authentification;
 using Microsoft.AspNetCore.Authorization;
 using MongoDB.Bson;
 
-namespace MGSUCore.Authentification
+namespace MGSUCore.Authentification.Handlers
 {
 
     public class IsAuthentificatedAuthHandler : AuthorizationHandler<IsAuthentificated>

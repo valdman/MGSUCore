@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MGSUBackend.Authentification;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using UserManagment.Application;

@@ -2,16 +2,13 @@ using System;
 using System.Linq;
 using Common.Entities;
 using EventManagment;
-using MGSUBackend.Authentification;
-using MGSUBackend.Models.Mappers;
+using MGSUCore.Authentification;
 using MGSUCore.Filters;
 using MGSUCore.Models;
 using MGSUCore.Models.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using PostManagment;
-using UserManagment.Application;
 
 namespace MGSUCore.Controllers
 {

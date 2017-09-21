@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Common.Entities;
 using MongoDB.Bson;
 
-namespace UserManagment.Application
+namespace EventManagment
 {
     public interface IAttendanceManager
     {

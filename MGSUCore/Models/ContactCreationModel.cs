@@ -1,5 +1,3 @@
-using MGSUBackend.Models;
-
 namespace MGSUCore.Models
 {
     public class ContactSavingModel

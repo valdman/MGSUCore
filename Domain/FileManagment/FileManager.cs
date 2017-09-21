@@ -4,7 +4,6 @@ using System.Linq;
 using ImageSharp;
 using System.Threading.Tasks;
 using Image = Common.Entities.Image;
-using Journalist;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Common.Entities;
 
-namespace MGSUBackend.Models
+namespace MGSUCore.Models
 {
     public class UserRegistrationModel
     {

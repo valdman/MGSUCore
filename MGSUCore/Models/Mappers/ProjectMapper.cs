@@ -1,11 +1,6 @@
-﻿using System;
-using System.IO;
-using Common.Entities;
-using MGSUBackend.Models;
-using MGSUCore.Models;
-using MongoDB.Bson;
+﻿using Common.Entities;
 
-namespace MGSUCore.Controllers
+namespace MGSUCore.Models.Mappers
 {
     public static class ProjectMapper
     {

@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Entities;
-using DataAccess.Application;
-using Journalist;
-using MongoDB.Bson;
-using UserManagment.Application;
 using Common;
+using Common.Entities;
 using Common.Exceptions;
+using DataAccess.Application;
+using MongoDB.Bson;
 
-namespace UserManagment
+namespace EventManagment
 {
     public class AttendanceManager : IAttendanceManager
     {

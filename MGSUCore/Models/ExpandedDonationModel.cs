@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using MGSUBackend.Models;
 using MGSUCore.Controllers.Extentions;
 using MGSUCore.Models.Convertors;
 using MongoDB.Bson;

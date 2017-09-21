@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using MGSUBackend.Authentification;
-using MGSUBackend.Models;
-using MGSUBackend.Models.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using UserManagment.Application;
 using Common.Entities;
+using MGSUCore.Authentification;
 using Microsoft.AspNetCore.Authorization;
 using MGSUCore.Filters;
+using MGSUCore.Models;
 using Newtonsoft.Json;
 using MGSUCore.Models.Convertors;
+using MGSUCore.Models.Mappers;
 
 namespace MGSUCore.Controllers
 {

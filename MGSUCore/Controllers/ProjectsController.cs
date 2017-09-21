@@ -7,6 +7,7 @@ using MGSUCore.Controllers.Extentions;
 using MGSUCore.Filters;
 using MGSUCore.Models;
 using MGSUCore.Models.Convertors;
+using MGSUCore.Models.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;

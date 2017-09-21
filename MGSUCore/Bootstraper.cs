@@ -14,6 +14,7 @@ using DonationManagment.Application;
 using DonationManagment;
 using Common;
 using EventManagment;
+using MGSUCore.Authentification.Handlers;
 
 namespace MGSUCore
 {

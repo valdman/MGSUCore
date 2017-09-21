@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MGSUBackend.Models
+namespace MGSUCore.Models
 {
     public class Credentials
     {

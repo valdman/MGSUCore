@@ -5,8 +5,8 @@ using Common.Entities;
 using MongoDB.Bson;
 using ProjectManagment.Application;
 using DataAccess.Application;
-using Journalist;
 using System.Linq;
+using Common;
 
 namespace ProjectManagment
 {

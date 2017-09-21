@@ -5,15 +5,15 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using Common;
-using MGSUBackend.Authentification;
-using MGSUBackend.Models;
-using MGSUBackend.Models.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using UserManagment.Application;
 using Common.Entities;
+using MGSUCore.Authentification;
 using MGSUCore.Filters;
+using MGSUCore.Models;
+using MGSUCore.Models.Mappers;
 
 namespace MGSUCore.Controllers
 {

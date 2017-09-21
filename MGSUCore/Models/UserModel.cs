@@ -6,7 +6,7 @@ using MGSUCore.Models.Convertors;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 
-namespace MGSUBackend.Models
+namespace MGSUCore.Models
 {
     public class UserModel
     {

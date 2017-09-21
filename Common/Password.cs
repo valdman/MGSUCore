@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using Journalist;
 
 namespace Common
 {

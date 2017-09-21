@@ -1,5 +1,4 @@
 ﻿using System;
-using MGSUBackend.Authentification;
 using MGSUCore.Authentification;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

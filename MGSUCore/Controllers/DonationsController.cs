@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectManagment.Application;
 using UserManagment.Application;
-using MGSUBackend.Models.Mappers;
 using Common;
 using Newtonsoft.Json;
 using MGSUCore.Models.Convertors;

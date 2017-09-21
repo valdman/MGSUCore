@@ -1,10 +1,6 @@
-﻿using DateTimeOffset = System.DateTimeOffset;
-using System.IO;
-using MongoDB.Bson;
-using Common.Entities;
-using MGSUCore.Models;
+﻿using Common.Entities;
 
-namespace MGSUBackend.Models.Mappers
+namespace MGSUCore.Models.Mappers
 {
     public static class PostMapper
     {

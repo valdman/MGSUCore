@@ -1,5 +1,5 @@
-﻿using DataAccess.Application;
-using Journalist;
+﻿using Common;
+using DataAccess.Application;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Configuration;
 

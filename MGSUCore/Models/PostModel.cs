@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using MGSUCore.Controllers.Extentions;
 using MGSUCore.Models.Convertors;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 
-namespace MGSUBackend.Models
+namespace MGSUCore.Models
 {
     public class PostModel
     {

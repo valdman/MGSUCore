@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Journalist
+namespace Common
 {
     public static class Require
     {

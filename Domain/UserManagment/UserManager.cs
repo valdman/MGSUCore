@@ -1,6 +1,5 @@
 ﻿using System;
 using DataAccess.Application;
-using Journalist;
 using MongoDB.Bson;
 using UserManagment.Application;
 using Common.Entities;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MimeTypes
+namespace MGSUCore.Controllers.Extentions
 {
     public static class MimeTypeMap
     {

@@ -1,10 +1,7 @@
-﻿using System;
-using MGSUCore.Authentification;
+﻿using Common.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Common.Entities;
 
-namespace MGSUBackend.Authentification
+namespace MGSUCore.Authentification
 {
     
     public class IsInRole : IAuthorizationRequirement

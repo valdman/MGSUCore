@@ -3,11 +3,11 @@ using System.Diagnostics;
 using DataAccess.Application;
 using DonationManagment.Application;
 using Common.Entities;
-using Journalist;
 using MongoDB.Bson;
 using ProjectManagment.Application;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Common;
 
 namespace DonationManagment
 {

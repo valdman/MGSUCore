@@ -1,5 +1,4 @@
 using System;
-using MGSUBackend.Models;
 using MGSUCore.Models.Convertors;
 using MongoDB.Bson;
 using Newtonsoft.Json;

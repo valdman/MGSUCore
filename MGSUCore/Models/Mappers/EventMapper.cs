@@ -1,5 +1,4 @@
 using Common.Entities;
-using MGSUBackend.Models;
 
 namespace MGSUCore.Models.Mappers
 {

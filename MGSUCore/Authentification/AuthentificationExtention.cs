@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
-using MGSUCore.Authentification;
 using MongoDB.Bson;
-using Common.Entities;
 
-namespace MGSUBackend.Authentification
+namespace MGSUCore.Authentification
 {
     public static class AuthorizationExtensions
     {
