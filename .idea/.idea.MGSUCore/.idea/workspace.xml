@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="be880aa3-8026-4bf8-adab-be3a6a28151c" name="Default" comment="" />
+    <list default="true" id="be880aa3-8026-4bf8-adab-be3a6a28151c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.MGSUCore/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.MGSUCore/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.MGSUCore/riderModule.iml" afterPath="$PROJECT_DIR$/.idea/.idea.MGSUCore/riderModule.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Common/Entities/User.cs" afterPath="$PROJECT_DIR$/Common/Entities/User.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore.sln" afterPath="$PROJECT_DIR$/MGSUCore.sln" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore/Controllers/PostsController.cs" afterPath="$PROJECT_DIR$/MGSUCore/Controllers/PostsController.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore/Controllers/UsersController.cs" afterPath="$PROJECT_DIR$/MGSUCore/Controllers/UsersController.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore/MGSUCore.csproj" afterPath="$PROJECT_DIR$/MGSUCore/MGSUCore.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore/Models/Mappers/UserMapper.cs" afterPath="$PROJECT_DIR$/MGSUCore/Models/Mappers/UserMapper.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore/Models/UserModel.cs" afterPath="$PROJECT_DIR$/MGSUCore/Models/UserModel.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore/Models/UserRegistrationModel.cs" afterPath="$PROJECT_DIR$/MGSUCore/Models/UserRegistrationModel.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MGSUCore/Startup.cs" afterPath="$PROJECT_DIR$/MGSUCore/Startup.cs" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -388,12 +400,12 @@
       <workItem from="1502658472864" duration="241000" />
       <workItem from="1503329923156" duration="6087000" />
       <workItem from="1505148123469" duration="6789000" />
-      <workItem from="1506005289672" duration="887000" />
+      <workItem from="1506005289672" duration="747000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14004000" />
+    <option name="totallyTimeSpent" value="13864000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
