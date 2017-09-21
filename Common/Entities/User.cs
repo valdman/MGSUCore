@@ -20,5 +20,6 @@ namespace Common.Entities
         public bool IsConfirmed { get; set; }
 
         public string EmailConfirmationToken { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Common.Entities;
 
 namespace MGSUBackend.Models
 {
@@ -23,5 +24,7 @@ namespace MGSUBackend.Models
 
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
+
+        public UserProfile UserProfile { get; set; }
     }
 }

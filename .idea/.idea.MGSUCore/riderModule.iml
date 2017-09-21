@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../Common" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../DataAccess" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Domain/DonationManagment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Domain/EventManagment" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Domain/FileManagment" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Domain/PostManagment" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Domain/ProjectManagment" isTestSource="false" />
@@ -16,6 +17,8 @@
       <excludeFolder url="file://$MODULE_DIR$/../../DataAccess/obj" />
       <excludeFolder url="file://$MODULE_DIR$/../../Domain/DonationManagment/bin" />
       <excludeFolder url="file://$MODULE_DIR$/../../Domain/DonationManagment/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/EventManagment/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Domain/EventManagment/obj" />
       <excludeFolder url="file://$MODULE_DIR$/../../Domain/FileManagment/bin" />
       <excludeFolder url="file://$MODULE_DIR$/../../Domain/FileManagment/obj" />
       <excludeFolder url="file://$MODULE_DIR$/../../Domain/PostManagment/bin" />

@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="wwwroot\**" />
     <Content Remove="wwwroot\**" />
@@ -24,13 +22,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Domain\EventManagment\EventManagment.csproj">
+      <Project>{B6D27F52-7D71-4B4D-B183-41DCF4E93CED}</Project>
+      <Name>EventManagment</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain\PostManagment\PostManagment.csproj" />
     <ProjectReference Include="..\Domain\UserManagment\UserManagment.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Domain\FileManagment\FileManagment.csproj" />
     <ProjectReference Include="..\Domain\ProjectManagment\ProjectManagment.csproj" />
     <ProjectReference Include="..\Domain\DonationManagment\DonationManagment.csproj" />
-    <ProjectReference Include="..\Domain\EventManagment\EventManagment.csproj" />
   </ItemGroup>
-
 </Project>

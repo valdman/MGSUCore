@@ -72,7 +72,8 @@ namespace MGSUCore.Controllers
                 IsConfirmed = false,
                 Phone = userModel.Phone,
                 Password = new Password(userModel.Password),
-                Role = UserRole.User
+                Role = UserRole.User,
+                UserProfile = userModel.UserProfile
             };
 
             var id = _userManager.CreateUser(userToCreate);

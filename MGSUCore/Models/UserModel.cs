@@ -24,5 +24,7 @@ namespace MGSUBackend.Models
         public UserRole Role { get; set; }
 
         public DateTime CreatingDate { get; set; }
+
+        public UserProfile UserProfile { get; set; }
     }
 }
